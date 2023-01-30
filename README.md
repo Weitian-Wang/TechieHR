@@ -28,7 +28,7 @@ $ git clone https://github.com/Weitian-Wang/TechieHR.git
 $ cd TechieHR
 ```
 
-### 4. Build the docker containers using docker-compose.
+### 4. Build the docker containers using docker-compose. You may need root permission to run docker.
 
 ```shell
 $ docker compose up
