@@ -2,7 +2,7 @@
 
 ## Deployment
 
-### 1. Check the environments. Make sure git, docker and docker-compose are installed.
+### 1. Check the environments. Make sure git, docker and docker compose plugin are installed.
 
 ```shell
 $ git -v
@@ -13,7 +13,7 @@ $ docker -v
 ```
 
 ```shell
-$ docker-compose -v
+$ docker compose version
 ```
 
 ### 2. Clone the git repository of TechieHR.
@@ -31,7 +31,7 @@ $ cd TechieHR
 ### 4. Build the docker containers using docker-compose.
 
 ```shell
-$ docker-compose up
+$ docker compose up
 ```
 
 ### 5. TechieHR is now accessible on http://localhost:3000.
