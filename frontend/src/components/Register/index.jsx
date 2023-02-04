@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
-const Signup = () => {
+const Register = () => {
 	const [data, setData] = useState({
 		firstName: "",
 		lastName: "",
@@ -20,7 +20,7 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:8080/api/users";
+			const url = "http://localhost:8080/api/register";
 			const { data: res } = await axios.post(url, data);
 			navigate("/login");
 			console.log(res.message);
@@ -96,4 +96,4 @@ const Signup = () => {
 	);
 };
 
-export default Signup;
+export default Register;

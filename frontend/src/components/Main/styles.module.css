@@ -1,14 +1,42 @@
+:root {
+	--app-container: #f3f6fd;
+	--main-color: #1f1c2e;
+	--secondary-color: #4A4A4A;
+	--link-color: #1f1c2e;
+	--link-color-hover: #c3cff4;
+	--link-color-active: #fff;
+	--link-color-active-bg: #1f1c2e;
+	--projects-section: #fff;
+	--message-box-hover: #fafcff;
+	--message-box-border: #e9ebf0;
+	--more-list-bg: #fff;
+	--more-list-bg-hover:  #f6fbff;
+	--more-list-shadow: rgba(209, 209, 209, 0.4);
+	--button-bg: #1f1c24;
+	--search-area-bg: #fff;
+	--star: #1ff1c2e;
+	--message-btn: #fff;
+}
+
+.main_container {
+	font-family: 'DM Sans', sans-serif;
+	/* overflow: hidden; */
+	/* display: flex; */
+	/* justify-content: space-evenly; */
+	background-color: var(--app-container);
+}
+  
 .navbar {
 	width: 100%;
 	height: 70px;
-	background-color: #3bb19b;
+	background-color: var(--app-container);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
 
 .navbar h1 {
-	color: white;
+	color: black;
 	font-size: 25px;
 	margin-left: 20px;
 }
@@ -24,4 +52,13 @@
 	font-size: 14px;
 	cursor: pointer;
 	margin-right: 20px;
+}
+
+.white_btn:hover {
+	color: white;
+	background-color: var(--button-bg);
+}
+
+.dashboard_container {
+	color: var(--app-container);
 }
