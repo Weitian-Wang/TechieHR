@@ -1,4 +1,5 @@
 import styles from "./styles.module.css";
+import Dashboard from "../Dashboard/dashboard"
 
 const Main = () => {
 	const handleLogout = () => {
@@ -12,12 +13,15 @@ const Main = () => {
 		<div className={styles.main_container}>
 			<nav className={styles.navbar}>
 				<h1>TechieHR</h1>
-				<button className={styles.white_btn} onClick={handleLogout}>
+				<button className={styles.profile_btn} onClick={handleLogout}>
 					{/* put user avatar in button */}
-					Log out or something
+					WW
 				</button>
 			</nav>
-			<div className={styles.dashboard}></div>
+			<div className={styles.dashboard_container}>
+				<Dashboard className={styles.interview_dash} text={"Interviews"} date={true}/>
+				<Dashboard className={styles.problem_dash} text={"Questions"}/>
+			</div>
 		</div>
 	);
 };
