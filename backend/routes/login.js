@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { User } = require("../models/user");
+const { redisClient } = require("../cache");
 const bcrypt = require("bcrypt");
 const joi = require("joi");
 
@@ -21,8 +22,11 @@ router.post("/", async (req, res) => {
 			return res.status(401).send({ message: "Invalid Email or Password" });
 
 		const token = user.generateAuthToken();
-		res.status(200).send({ data: token, message: "logged in successfully" });
+		await redisClient.set(user.email, token);
+		await redisClient.expire(user.email, process.env.TIMEOUT);
+		res.status(200).send({ token: token, email: user.email, message: "Logged in Successfully" });
 	} catch (error) {
+		console.log(error);
 		res.status(500).send({ message: "Internal Server Error" });
 	}
 });

@@ -19,8 +19,9 @@ const Register = () => {
 	};
 
 	const setCheckbox = () => {
-		setData({ ...data, enterprise: !data.enterprise});
+		setData({ ...data, enterprise: !data.enterprise });
 	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
@@ -90,16 +91,14 @@ const Register = () => {
 							className={styles.input}
 						/>
 						<div className={styles.check_box_container} onClick={setCheckbox}>
-							<input 
+							<input
 								type="checkbox"
-								name="is_enterprise"
 								checked={data.enterprise}
-								onChange={handleChange}
 								className={styles.check_box}
 							/>
 							<label 
 								className={styles.label}>
-									Enterprise user?
+									Enterprise User?
 							</label>
 						</div>
 						{error && <div className={styles.error_msg}>{error}</div>}

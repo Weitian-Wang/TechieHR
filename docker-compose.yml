@@ -4,6 +4,11 @@ services:
     image: "mongo"
     volumes:
       - data:/data/db
+  redis:
+    image: "redis"
+    restart: unless-stopped
+    volumes:
+      - cache:/data
   backend:
     build: ./backend
     ports:
@@ -14,6 +19,7 @@ services:
       - /app/node_modules
     depends_on:
       - mongodb
+      - redis
   frontend:
     build: ./frontend
     ports:
@@ -27,4 +33,5 @@ services:
 
 volumes:
   data:
+  cache:
   logs:
