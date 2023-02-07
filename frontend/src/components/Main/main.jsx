@@ -11,6 +11,7 @@ const Main = () => {
 
 	return (
 		<div className={styles.main_container}>
+			{/* header */}
 			<nav className={styles.navbar}>
 				<h1>TechieHR</h1>
 				<button className={styles.profile_btn} onClick={handleLogout}>

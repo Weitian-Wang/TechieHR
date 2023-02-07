@@ -95,3 +95,49 @@
 	color: white;
 	margin: 10px;
 }
+
+.check_box_container {
+	margin: 5px 0 5px 0;
+	display: flex;
+	align-items: center;
+}
+/* 
+.check_box {
+	width: 20px;
+	height: 20px; 
+	accent-color: var(--theme-green);
+	
+} */
+
+
+.check_box {
+	/* ...existing styles */
+	display: grid;
+	place-content: center;
+	appearance: none;
+	width: 1.15em;
+	height: 1.15em;
+	border: 0.15em solid currentColor;
+	border-radius: 0.1em;
+	transform: translateY(-0.075em);
+}
+
+.label {
+	margin: 10px;
+	font-weight: bold;
+	font-size: 14px;
+	user-select: none;
+}
+
+.check_box::before {
+	content: "";
+	width: 0.65em;
+	height: 0.65em;
+	transform: scale(0);
+	transition: 100ms transform ease-in-out;
+	box-shadow: inset 1em 1em var(--theme-green);
+  }
+  
+.check_box:checked::before {
+transform: scale(1);
+}

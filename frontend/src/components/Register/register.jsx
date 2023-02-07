@@ -9,6 +9,7 @@ const Register = () => {
 		lastName: "",
 		email: "",
 		password: "",
+		enterprise: false 
 	});
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
@@ -17,6 +18,9 @@ const Register = () => {
 		setData({ ...data, [input.name]: input.value });
 	};
 
+	const setCheckbox = () => {
+		setData({ ...data, enterprise: !data.enterprise});
+	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
@@ -85,6 +89,19 @@ const Register = () => {
 							required
 							className={styles.input}
 						/>
+						<div className={styles.check_box_container} onClick={setCheckbox}>
+							<input 
+								type="checkbox"
+								name="is_enterprise"
+								checked={data.enterprise}
+								onChange={handleChange}
+								className={styles.check_box}
+							/>
+							<label 
+								className={styles.label}>
+									Enterprise user?
+							</label>
+						</div>
 						{error && <div className={styles.error_msg}>{error}</div>}
 						<button type="submit" className={styles.green_btn}>
 							Sign Up

@@ -31,15 +31,18 @@ const Dashboard = (props) => {
                     <h2>{props.text}</h2>
                     {
                     props.date?
-                    <div>
+                    <h2>
                         {
                         `${mapping[mm]} ${dd} ${yyyy}`
                         }
-                    </div>:<></>
+                    </h2>:<></>
                     }   
                 </div>
                 {/* statistics */}
-                <div className={styles.stats}></div>
+                <div className={styles.stats}>
+                    <span>Assigned 13</span>
+                    <span>Upcoming Today 3</span>
+                </div>
                 {/* list of items */}
                 <div>
 				{interviews.map((interview) => 
