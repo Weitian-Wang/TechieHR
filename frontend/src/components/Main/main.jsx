@@ -32,12 +32,12 @@ const Main = () => {
 					request
 				</button>
 
-				<button className={`profile_btn ${profile_btn_active?'':'btn_active'}`} onClick={expand_profile_options}>
+				<button className={`profile_btn ${profile_btn_active?'btn_active':''}`} onClick={expand_profile_options}>
 					{/* put user avatar in button */}
 					WW
 				</button>
 			</nav>
-			<div className={`${profile_btn_active?'settings_hidden':'settings_display'}`}>
+			<div className={`${profile_btn_active?'settings_display':'settings_hidden'}`}>
 				<button className={styles.btn} onClick={handleLogout}>⏻</button>
 			</div>
 			<div className={styles.dashboard_container}>
