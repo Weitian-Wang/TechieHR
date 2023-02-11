@@ -19,6 +19,7 @@ const Register = () => {
 	};
 
 	const setCheckbox = () => {
+
 		setData({ ...data, enterprise: !data.enterprise });
 	};
 
@@ -93,6 +94,8 @@ const Register = () => {
 						<div className={styles.check_box_container} onClick={setCheckbox}>
 							<input
 								type="checkbox"
+								name="enterprise"
+								onChange={() => {}}
 								checked={data.enterprise}
 								className={styles.check_box}
 							/>

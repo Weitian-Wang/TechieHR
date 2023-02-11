@@ -23,25 +23,41 @@
 	margin-left: 25px;
 }
 
-.profile_btn {
+.btn {
 	border: none;
 	outline: none;
-	padding: 12px 0;
+	/* padding: 12px 0; */
 	background-color: white;
 	border-radius: 50%;
 	width: 50px;
 	height: 50px;
+	margin-right: 15px;
 	font-weight: bold;
-	font-size: 20px;
-	cursor: pointer;
-	margin-right: 25px;
+	font-size: 30px;
+	text-align: center;
 	box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 10%),
-	0px 3px 4px 0px rgb(0 0 0 / 10%), 0px 1px 8px 0px rgb(0 0 0 / 10%);;
+	0px 3px 4px 0px rgb(0 0 0 / 10%), 0px 1px 8px 0px rgb(0 0 0 / 10%);
 }
 
-.profile_btn:hover {
-	color: white;
-	background-color: var(--secondary-color);
+
+.btn:hover{
+	color: var(--link-color-active);
+	background-color: var(--link-color-hover);
+}
+
+.btn:active{
+	color: var(--link-color-active);
+	background-color: var(--link-color-active-bg);
+}
+
+.profile_btn:hover{
+	color: var(--link-color-active);
+	background-color: var(--link-color-hover);
+}
+
+.profile_btn:active {
+	color: var(--link-color-active);
+	background-color: var(--link-color-active-bg);
 }
 
 .dashboard_container {
@@ -49,7 +65,7 @@
 	flex-direction: row;
 	height: calc(88vh - 16px);
 	padding-bottom: 16px;
-	margin: 0 25px 0px 25px;
+	margin: 0 25px 0 25px;
 }
 
 .interview_dash{
