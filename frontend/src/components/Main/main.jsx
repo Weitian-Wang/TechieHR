@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import Dashboard from "../Dashboard/dashboard";
 /* Example of token validation*/
 import { validateToken } from "../../utils";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 
 const Main = () => {
 	const handleLogout = () => {
@@ -15,34 +15,188 @@ const Main = () => {
 		await validateToken(); 
 	};
 
+	const dummy_interviews = [
+		{
+			id: 1,
+			name: "Richard",
+			email: "weitiaw1@uci.edu",
+			// time format from backend to be decided
+			create_time: "02/14/2023",
+			scheduled_time: "02/16/2023",
+			length: 60
+		},
+		{
+			id: 2,
+			name: "Lanny",
+			email: "lannyw@uci.edu",
+			// time format from backend to be decided
+			create_time: "02/14/2023",
+			scheduled_time: "02/16/2023",
+			length: 80
+		},
+		{
+			id: 3,
+			name: "Richard",
+			email: "weitiaw1@uci.edu",
+			// time format from backend to be decided
+			create_time: "02/12/2023",
+			scheduled_time: "02/13/2023",
+			length: 120
+		},
+		{
+			id: 4,
+			name: "Richard",
+			email: "weitiaw1@uci.edu",
+			// time format from backend to be decided
+			create_time: "02/12/2023",
+			scheduled_time: "02/26/2023",
+			length: 80
+		},
+		{
+			id: 5,
+			name: "Richard",
+			email: "weitiaw1@uci.edu",
+			// time format from backend to be decided
+			create_time: "02/12/2023",
+			scheduled_time: "02/13/2023",
+			length: 120
+		},
+		{
+			id: 6,
+			name: "Richard",
+			email: "weitiaw1@uci.edu",
+			// time format from backend to be decided
+			create_time: "02/15/2023",
+			scheduled_time: "02/20/2023",
+			length: 120
+		},
+		{
+			id: 7,
+			name: "Richard",
+			email: "weitiaw1@uci.edu",
+			// time format from backend to be decided
+			create_time: "02/15/2023",
+			scheduled_time: "02/20/2023",
+			length: 120
+		}
+	]
+
+	const dummy_questions = [
+		{
+			id: 1,
+			name: "Median of Two Sorted Array"
+		},
+		{
+			id: 2,
+			name: "Two Sum"
+		},
+		{
+			id: 3,
+			name: "Palindromic Substrings"
+		},
+		{
+			id: 4,
+			name: "Coin Change"
+		},
+		{
+			id: 5,
+			name: "Coin Change II"
+		},
+		{
+			id: 6,
+			name: "Longest Common Sequence"
+		},
+		{
+			id: 7,
+			name: "Edit Distance"
+		},
+	]
+
+	const [interviews, set_interviews] = useState(dummy_interviews)
+	const [questions, set_questions] = useState(dummy_questions)
+
 	const [profile_btn_active, set_profile_btn] = useState(false);
+    const [question_btn_active, set_question_btn] = useState(false)
+	const [interview_btn_active, set_interview_btn] = useState(false)
+	const [mode_btn_active, set_mode_btn] = useState(false)
+
+	const add_interview_btn = () => {
+		if(interview_btn_active || question_btn_active){
+			if(interview_btn_active){
+				set_interview_btn(!interview_btn_active)
+			}
+			else{
+				set_question_btn(!question_btn_active)
+			}
+		}
+		set_interview_btn(!interview_btn_active)
+	}
+
+	const add_question_btn = () => {
+		if(interview_btn_active || question_btn_active){
+			if(interview_btn_active){
+				set_interview_btn(!interview_btn_active)
+			}
+			else{
+				set_question_btn(!question_btn_active)
+			}
+		}
+		set_question_btn(!question_btn_active)
+	}
+
+	const switch_mode = () =>{
+		document.documentElement.classList.toggle('dark');
+		set_mode_btn(!mode_btn_active);
+	};
 
 	const expand_profile_options = () => {
 		set_profile_btn(!profile_btn_active)
 	}
+
 	
 	return (
 		<div className={styles.main_container}>
 			{/* header */}
 			<nav className={styles.navbar}>
-				<h1>TechieHR</h1>
-
-				{/* Example of token validation*/}
-				<button onClick={handleRequest}>
-					request
-				</button>
-
-				<button className={`profile_btn ${profile_btn_active?'btn_active':''}`} onClick={expand_profile_options}>
-					{/* put user avatar in button */}
-					WW
-				</button>
+				<div className={styles.header_cluster1}>
+					<h1>TechieHR</h1>
+					<div className={styles.search_wrapper}>
+						<input className={styles.search_input} type="text" placeholder="Search"/>
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="feather feather-search" viewBox="0 0 24 24">
+						<defs></defs>
+						<circle cx="11" cy="11" r="8"></circle>
+						<path d="M21 21l-4.35-4.35"></path>
+						</svg>
+					</div>
+				</div>
+				<div className={styles.header_cluster2}>
+					<div className={`${profile_btn_active?'settings_display':'settings_hidden'}`}>
+						<button className='btn' onClick={handleLogout}>⏻</button>
+						<button className={`btn ${mode_btn_active?'active':''}`} onClick={switch_mode}>🌙</button>
+						<button className='btn'>⚙️</button>
+					</div>
+					<button className={`profile_btn ${profile_btn_active?'active':''}`} onClick={expand_profile_options}>
+						{/* put user avatar in button */}
+						WW
+					</button>
+				</div>
 			</nav>
-			<div className={`${profile_btn_active?'settings_display':'settings_hidden'}`}>
-				<button className={styles.btn} onClick={handleLogout}>⏻</button>
-			</div>
 			<div className={styles.dashboard_container}>
-				<Dashboard className={styles.interview_dash} text={"Interviews"} date={true}/>
-				<Dashboard className={styles.problem_dash} text={"Questions"}/>
+				<Dashboard 
+					className={styles.interview_dash} 
+					text={"Interviews"} 
+					type={"interview_dash"} 
+					button_status={interview_btn_active} 
+					onClick={add_interview_btn}
+					list={interviews}
+				/>
+				<Dashboard 
+					className={styles.problem_dash}
+					text={"Questions"} type={"question_dash"}
+					button_status={question_btn_active}
+					onClick={add_question_btn}
+					list={questions}
+				/>
 			</div>
 		</div>
 	);

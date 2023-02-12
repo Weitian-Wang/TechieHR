@@ -14,7 +14,25 @@
     color: var(--main-color);
 }
 
+.left_cluster{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.right_cluster{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .stats {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.list_frame{
+    overflow: scroll;
+    margin-top: 1em;
 }

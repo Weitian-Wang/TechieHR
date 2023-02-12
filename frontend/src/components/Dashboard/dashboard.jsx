@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import styles from "./styles.module.css"
 import Interview from '../Interview/interview'
+import Question from '../Question/question'
 
 const Dashboard = (props) => {
     var today = new Date();
@@ -9,45 +9,46 @@ const Dashboard = (props) => {
     var yyyy = today.getFullYear();
     const mapping = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sept','10':'Oct','11':'Nov','12':'Dec'}
 
-    const dummy_interviews = [
-        {
-            id: 1000,
-            interviewer_id: 1,
-            interviewee_id: 2
-        },
-        {
-            id: 1001,
-            interviewer_id: 11,
-            interviewee_id: 12
-        }
-    ]
-    // list of interviews, fetched from backend on loading
-	const [interviews, setInterviews] = useState(dummy_interviews)
-
 	return (
 			<div className={props.className}>
                 {/* header */}
                 <div className={styles.dash_header}>
-                    <h2>{props.text}</h2>
-                    {
-                    props.date?
-                    <h2>
-                        {
-                        `${mapping[mm]} ${dd} ${yyyy}`
-                        }
-                    </h2>:<></>
-                    }   
+                    <div className={styles.left_cluster}>
+                        <div>
+                            <h2>{props.text}</h2>
+                            {props.type==="interview_dash"?<span>Scheduled 13</span>:<></>}
+                        </div>
+                    </div>
+                        <div>
+                            {
+                            props.type==="interview_dash"?
+                            // interview dash board
+                            <>
+                            <div className={styles.right_cluster}>
+                                <h2>
+                                    {
+                                    `${mapping[mm]} ${dd} ${yyyy}`
+                                    }
+                                </h2>
+                                <button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>
+                            </div>
+                            <span>Upcoming Today 3</span></>:
+                            <button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>
+                            }
+                        </div>
                 </div>
                 {/* statistics */}
                 <div className={styles.stats}>
-                    <span>Assigned 13</span>
-                    <span>Upcoming Today 3</span>
                 </div>
                 {/* list of items */}
-                <div>
-				{interviews.map((interview) => 
-                    <Interview key={interview.id} props={interview}/>
-                )}
+                <div className={styles.list_frame}>
+                {
+                    props.type==="interview_dash"?
+                    props.list.map((item) => 
+                    <Interview key={item.id} props={item}/>):
+                    props.list.map((item) =>
+                    <Question key={item.id} props={item}/>)
+                }
                 </div>
 			</div>
 	);
