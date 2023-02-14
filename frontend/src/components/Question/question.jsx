@@ -3,8 +3,10 @@ import styles from './styles.module.css'
 const Question = ({props}) => {
 	return (
         <div className={styles.question}>
-           <h3>{props.id}</h3>
-           <button className={styles.btn}/>
+           <div className={styles.question_name}>{props.name}</div>
+           <div className={styles.action_group}>
+                <button className={styles.btn}>✏️</button>
+           </div>
         </div>
     )
 }

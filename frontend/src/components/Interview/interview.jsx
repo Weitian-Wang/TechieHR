@@ -27,8 +27,8 @@ const Interview = ({props}) => {
                 <p className={styles.create_time}> {props.email} </p>
             </div>
             <div className={styles.action_group}>
-                <button className={styles.btn1}>···</button>
                 <button className={styles.btn2}>Join</button>
+                <button className={styles.btn1}>···</button>
             </div>
         </div>
     )
