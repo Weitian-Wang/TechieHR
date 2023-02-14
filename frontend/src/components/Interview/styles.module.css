@@ -9,7 +9,6 @@ p {
     padding: 0 0 0 1em;
     margin: 1em 0.6em 1em 0;
     position: relative;
-    background-color: var(--theme-green);
     justify-content: space-between;
     /* align-items: center; */
 }
