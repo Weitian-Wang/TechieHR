@@ -19,26 +19,24 @@ const Dashboard = (props) => {
                             {props.type==="interview_dash"?<span>Scheduled 13</span>:<></>}
                         </div>
                     </div>
-                        <div>
+                    <div>
+                    {
+                    props.type==="interview_dash"?
+                    // interview dash board
+                    <>
+                    <div className={styles.right_cluster}>
+                        <h2>
                             {
-                            props.type==="interview_dash"?
-                            // interview dash board
-                            <>
-                            <div className={styles.right_cluster}>
-                                <h2>
-                                    {
-                                    `${mapping[mm]} ${dd} ${yyyy}`
-                                    }
-                                </h2>
-                                <button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>
-                            </div>
-                            <span>Upcoming Today 3</span></>:
-                            <button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>
+                            `${mapping[mm]} ${dd} ${yyyy}`
                             }
-                        </div>
-                </div>
-                {/* statistics */}
-                <div className={styles.stats}>
+                        </h2>
+                        {/* <button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button> */}
+                    </div>
+                    <span>Upcoming Today 3</span></>:<></>
+                    // <button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>
+                    }
+                    </div>
+                    <button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>
                 </div>
                 {/* list of items */}
                 <div className={styles.list_frame}>

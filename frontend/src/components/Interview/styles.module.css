@@ -1,10 +1,79 @@
-.interview {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 10px 10px 0;
+p {
+    color: black;
 }
 
-.btn {
+.interview_box {
+    display: flex;
+    overflow: hidden;
+    border-radius: 10px;
+    padding: 0 0 0 1em;
+    margin: 1em 0.6em 1em 0;
+    position: relative;
+    background-color: var(--theme-green);
+    justify-content: space-between;
+    /* align-items: center; */
+}
+
+
+.name {
+    font-size: 16px;
+    font-weight: 700;
+    /* margin: 0.8em 0 0.5em 0; */
+}
+
+.interview_name {
+    font-size: 14px;
+    opacity: 0.7;
+    /* margin: 0 0 0 0; */
+}
+
+.create_time {
+    color: #4A4A4A;
+    opacity: 0.7;
+    font-size: 14px;
+    /* margin: 0 0 0 0; */
+}
+
+.action_group {
+    display: flex;
+    flex-direction: column;
     width: 5em;
-    margin-right: 1em;
+    align-items: center;
+}
+
+.btn1 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    padding: 1em;
+    height: 50%;
+    width: 100%;
+    border-radius: 0 10px 0 0;
+    border-radius: 10px;
+    background-color: transparent;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn2 {
+    font-size: 1em;
+    color: black;
+    text-align: center;
+    padding: 1em;
+    height: 50%;
+    width: 100%;
+    border-radius: 0 0 10px 0;
+    border-radius: 10px;
+    background-color: transparent;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn1:hover{
+    background-color: var(--link-color-hover);
+}
+
+.btn2:hover{
+    background-color: var(--link-color-hover);
 }

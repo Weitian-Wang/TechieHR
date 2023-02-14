@@ -18,65 +18,72 @@ const Main = () => {
 	const dummy_interviews = [
 		{
 			id: 1,
+			interview_name: "Initial Round",
 			name: "Richard",
 			email: "weitiaw1@uci.edu",
 			// time format from backend to be decided
 			create_time: "02/14/2023",
-			scheduled_time: "02/16/2023",
+			scheduled_time: "02/16/2023 08:00",
 			length: 60
 		},
 		{
 			id: 2,
+			interview_name: "Technical Round",
 			name: "Lanny",
 			email: "lannyw@uci.edu",
 			// time format from backend to be decided
 			create_time: "02/14/2023",
-			scheduled_time: "02/16/2023",
+			scheduled_time: "02/16/2023 08:00",
 			length: 80
 		},
 		{
 			id: 3,
+			interview_name: "Coding Round",
 			name: "Richard",
 			email: "weitiaw1@uci.edu",
 			// time format from backend to be decided
 			create_time: "02/12/2023",
-			scheduled_time: "02/13/2023",
+			scheduled_time: "02/13/2023 08:00",
 			length: 120
 		},
 		{
 			id: 4,
+			interview_name: "Behavior Interview",
 			name: "Richard",
 			email: "weitiaw1@uci.edu",
 			// time format from backend to be decided
 			create_time: "02/12/2023",
-			scheduled_time: "02/26/2023",
+			scheduled_time: "02/26/2023 12:00",
 			length: 80
 		},
 		{
 			id: 5,
+			interview_name: "HR Interview",
 			name: "Richard",
 			email: "weitiaw1@uci.edu",
 			// time format from backend to be decided
 			create_time: "02/12/2023",
-			scheduled_time: "02/13/2023",
+			scheduled_time: "02/13/2023 15:00",
 			length: 120
 		},
 		{
 			id: 6,
+			interview_name: "Final Round",
 			name: "Richard",
 			email: "weitiaw1@uci.edu",
 			// time format from backend to be decided
 			create_time: "02/15/2023",
-			scheduled_time: "02/20/2023",
+			scheduled_time: "02/20/2023 16:00",
 			length: 120
 		},
 		{
 			id: 7,
+			interview_name: "Second Round",
 			name: "Richard",
 			email: "weitiaw1@uci.edu",
 			// time format from backend to be decided
 			create_time: "02/15/2023",
-			scheduled_time: "02/20/2023",
+			scheduled_time: "02/20/2023 21:00",
 			length: 120
 		}
 	]

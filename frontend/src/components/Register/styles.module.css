@@ -1,7 +1,7 @@
 .signup_container {
 	width: 100%;
 	min-height: 100vh;
-	background-color: #f5f5f5;
+	background-color: var(--app-container);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -61,7 +61,7 @@
 	width: 370px;
 	padding: 15px;
 	border-radius: 10px;
-	background-color: #edf5f3;
+	background-color: #edf3f5;
 	margin: 5px 0;
 	font-size: 14px;
 }
@@ -71,7 +71,7 @@
 	padding: 15px;
 	margin: 5px 0;
 	font-size: 14px;
-	background-color: #f34646;
+	background-color: var(--error-red);
 	color: white;
 	border-radius: 5px;
 	text-align: center;
@@ -91,7 +91,7 @@
 }
 
 .green_btn {
-	background-color: #3bb19b;
+	background-color: var(--theme-green);
 	color: white;
 	margin: 10px;
 }
