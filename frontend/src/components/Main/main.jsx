@@ -121,32 +121,7 @@ const Main = () => {
 
 	const [interviews, set_interviews] = useState(dummy_interviews)
 	const [questions, set_questions] = useState(dummy_questions)
-	// copy of interview list and question list for searching
-	const [display_interviews, set_display_interviews] = useState(interviews)
-	const [display_questions, set_display_questions] = useState(questions)
-
-	// debounce ?
-	const handleChange = (e) => {
-		search(e.target.value);
-	}
-
-	const search = (value) => {
-		if(value.length != 0){
-			set_display_interviews(interviews.filter(interview => {
-				return interview.interview_name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-				||	interview.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-				||	interview.email.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-			}));
-			set_display_questions(questions.filter(question => { 
-				return question.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-			}));
-		}
-		else{
-			set_display_interviews(interviews);
-			set_display_questions(questions);
-		}
-	}
-
+	
 	// variable for button status
 	const [profile_btn_active, set_profile_btn] = useState(false);
     const [question_btn_active, set_question_btn] = useState(false)
@@ -193,14 +168,6 @@ const Main = () => {
 			<nav className={styles.navbar}>
 				<div className={styles.header_cluster1}>
 					<h1>TechieHR</h1>
-					<div className={styles.search_wrapper}>
-						<input className={styles.search_input} type="text" placeholder="Search" onChange={handleChange}/>
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="feather feather-search" viewBox="0 0 24 24">
-						<defs></defs>
-						<circle cx="11" cy="11" r="8"></circle>
-						<path d="M21 21l-4.35-4.35"></path>
-						</svg>
-					</div>
 				</div>
 				<div className={styles.header_cluster2}>
 					<div className={`${profile_btn_active?'settings_display':'settings_hidden'}`}>
@@ -221,14 +188,14 @@ const Main = () => {
 					type={"interview_dash"} 
 					button_status={interview_btn_active} 
 					onClick={add_interview_btn}
-					list={display_interviews}
+					list={interviews}
 				/>
 				<Dashboard 
 					className={styles.problem_dash}
 					text={"Questions"} type={"question_dash"}
 					button_status={question_btn_active}
 					onClick={add_question_btn}
-					list={display_questions}
+					list={questions}
 				/>
 			</div>
 		</div>

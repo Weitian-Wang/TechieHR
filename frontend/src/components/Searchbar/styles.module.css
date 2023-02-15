@@ -1,0 +1,30 @@
+
+.search_wrapper {
+	border-radius: 20px;
+	padding-right: 1em;
+	height: 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 40%;
+	color: var(--light-font);
+	background-color: var(--search-area-bg);
+	background-color: var(--app-container);
+	overflow: hidden;
+}
+
+.search_input {
+	border: none;
+	outline: none;
+	padding: 0 1em;
+	width: 100%;
+	font-size: 1em;
+	background-color: var(--search-area-bg);
+    background-color: var(--app-container);
+	color: var(--main-color);
+}
+
+.search_input:placeholder {
+	color: var(--main-color);
+	opacity: 0.6; 
+}
