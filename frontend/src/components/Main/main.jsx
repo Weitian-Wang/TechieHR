@@ -1,18 +1,14 @@
 import styles from "./styles.module.css";
 import Dashboard from "../Dashboard/dashboard";
+import QuestionMain from "../Question_Main/question_main"
 /* Example of token validation*/
-import { validateToken } from "../../utils";
-import { useReducer, useState } from "react";
+import axios from "axios";
+import { useRef, useReducer, useState } from "react";
 
 const Main = () => {
 	const handleLogout = () => {
 		localStorage.removeItem("token");
 		window.location.reload();
-	};
-
-	/* Example of token validation*/
-	const handleRequest = async () => { 
-		await validateToken(); 
 	};
 
 	const dummy_interviews = [
@@ -127,6 +123,54 @@ const Main = () => {
     const [question_btn_active, set_question_btn] = useState(false)
 	const [interview_btn_active, set_interview_btn] = useState(false)
 	const [mode_btn_active, set_mode_btn] = useState(false)
+	const [prompt_msg, set_prompt_msg] = useState("")
+	const promptRef = useRef(null); 
+
+	// isSuccess === true prompt success message
+	// else prompt error message
+	// setTimeout funky behavior, needs debounce?
+	const prompt = (msg, isSuccess) => {
+		set_prompt_msg(msg);
+		if(isSuccess){
+			promptRef.current.className = styles.success_msg;
+			setTimeout(() => {promptRef.current.className = styles.hide_success_msg}, 3500);
+		}
+		else{
+			promptRef.current.className = styles.error_msg;
+			setTimeout(() => {promptRef.current.className = styles.hide_error_msg}, 3500);
+		}
+	}
+	
+	// encapsulated post function
+	// url = "/api/register"
+	// data dictionary {id:val, name:val}
+	const post = async (api_url, data) => {
+		try {
+			const url = "http://localhost:8080" + api_url;
+			const { data: res } = await axios.post(
+				url, 
+				data, 
+				{  
+					headers: {
+					'Authorization': `${localStorage.getItem('token')}` 
+					}
+				}
+			);
+			prompt(res.message, true);
+			return res.data
+		} catch (error) {
+			if (
+				error.response &&
+				error.response.status >= 400 &&
+				error.response.status <= 500
+			) {
+				prompt(error.response.message, false);
+			}
+			else{
+				prompt("APP Internal Error", false);
+			}
+		}
+	};
 
 	const add_interview_btn = () => {
 		if(interview_btn_active || question_btn_active){
@@ -161,7 +205,6 @@ const Main = () => {
 		set_profile_btn(!profile_btn_active)
 	}
 
-	
 	return (
 		<div className={styles.main_container}>
 			{/* header */}
@@ -169,6 +212,8 @@ const Main = () => {
 				<div className={styles.header_cluster1}>
 					<h1>TechieHR</h1>
 				</div>
+				{/* error or success prompt */}
+				<div ref={promptRef}>{prompt_msg}</div>
 				<div className={styles.header_cluster2}>
 					<div className={`${profile_btn_active?'settings_display':'settings_hidden'}`}>
 						<button className='btn' onClick={handleLogout}>⏻</button>
@@ -177,12 +222,12 @@ const Main = () => {
 					</div>
 					<button className={`profile_btn ${profile_btn_active?'active':''}`} onClick={expand_profile_options}>
 						{/* put user avatar in button */}
-						WW
+						{localStorage.getItem("email")[0].toLocaleUpperCase()}
 					</button>
 				</div>
 			</nav>
-			<div className={styles.dashboard_container}>
-				<Dashboard 
+			<div className={styles.content_container}>
+				{/* <Dashboard 
 					className={styles.interview_dash} 
 					text={"Interviews"} 
 					type={"interview_dash"} 
@@ -196,7 +241,8 @@ const Main = () => {
 					button_status={question_btn_active}
 					onClick={add_question_btn}
 					list={questions}
-				/>
+				/> */}
+				<QuestionMain/>
 			</div>
 		</div>
 	);

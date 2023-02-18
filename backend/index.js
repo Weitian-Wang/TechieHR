@@ -7,6 +7,7 @@ const app = express();
 const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
 const authRoutes = require("./routes/auth")
+const questionListRoutes = require("./routes/question_list")
 
 // database connection
 const connectDB = require("./db");
@@ -24,6 +25,11 @@ app.use(cors());
 app.use("/api/register", registerRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/auth", authRoutes);
+
+// interview
+
+// question
+app.use("/api/question/list", questionListRoutes)
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
