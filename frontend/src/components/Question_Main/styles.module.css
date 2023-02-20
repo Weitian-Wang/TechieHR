@@ -1,83 +1,126 @@
-p {
-    color: black;
-}
-
 .question_container {
     display: flex;
+    flex: 3;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 32px;
     background-color: var(--projects-section);
     position: relative;
     justify-content: space-between;
     height: 90%;
-	margin: 12px 12px 0 0;
+    width: 100%;
+	margin: 12px 0 0 0;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	box-shadow: var(--box-shadow);
-	padding: 1.5em 1.5em 0 1.5em;
-    /* align-items: center; */
+	padding: 1.5em 1.5em 1em 1.5em;
 }
 
-
-.name {
-    font-size: 16px;
-    font-weight: 700;
-    /* margin: 0.8em 0 0.5em 0; */
-}
-
-.interview_name {
-    font-size: 14px;
-    opacity: 0.7;
-    /* margin: 0 0 0 0; */
-}
-
-.create_time {
-    color: #4A4A4A;
-    opacity: 0.7;
-    font-size: 14px;
-    /* margin: 0 0 0 0; */
-}
-
-.action_group {
+.description {
+    flex: 2;
+    height: 100%;
     display: flex;
+    padding: 0 1em 0 0;
     flex-direction: column;
-    width: 5em;
-    align-items: center;
+    justify-content: space-between;
+    border-right: 1px solid var(--message-box-border);
+    overflow: visible;
+    resize: horizontal;
 }
 
-.btn1 {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: black;
-    text-align: center;
-    padding: 1em;
-    height: 50%;
+.markdown {
+    flex: 2;
+    overflow: scroll;
+    border-bottom: 1px solid var(--message-box-border);
+}
+
+.markdown p {
+    color: var(--main-color);
+}
+
+.action_group1 {
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0 5px 0;
+    justify-content: space-around;
+}
+
+.input_holder {
+    flex: 1;
+}
+
+.question_md_input{
+    font-size: 18px;
+    height: 100%;
     width: 100%;
-    border-radius: 0 10px 0 0;
-    border-radius: 10px;
     background-color: transparent;
+    color: var(--main-color);
+    overflow: scroll;
+    resize: none;
+    outline: none;
     border: none;
-    transition: 0.2s;
+    border-top: 1px solid var(--message-box-border);
 }
 
-.btn2 {
-    font-size: 1em;
-    color: black;
+.grader_code {
+    flex: 2;
+    padding: 0 1em 0 1em;
+}
+
+.case_and_result {
+    flex: 1;
+    padding: 0 0 0 1em;
+    border-left: 1px solid var(--message-box-border);
+}
+
+.btn {
+    width: 33%;
+	height: 30px;
+	font-size: 25px;
+    font-weight: 700;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 4px;
+	background-color: var(--projects-section);
+	border: none;
+	color: var(--main-color);
+	transition: 0.2s;
+}
+
+.btn.active {
+	background-color: var(--link-color-active-bg);
+	color: var(--link-color-active);
+}
+
+.btn:not(.active):hover {
+	background-color: var(--link-color-hover);
+	color: var(--link-color-active);
+}
+
+
+.round_btn {
+	border: none;
+	outline: none;
+	border-radius: 50%;
+	color: var(--main-color);
+	width: 50px;
+	height: 50px;
+	margin-right: 15px;
+	font-weight: bold;
     text-align: center;
-    padding: 1em;
-    height: 50%;
-    width: 100%;
-    border-radius: 0 0 10px 0;
-    border-radius: 10px;
-    background-color: transparent;
-    border: none;
-    transition: 0.2s;
+    line-height: 50px;
+	font-size: 30px;
+	transition: 0.2s;
+	box-shadow: var(--box-shadow);
 }
 
-.btn1:hover{
-    background-color: var(--link-color-hover);
+.round_btn.active {
+	color: var(--link-color-active);
+	background-color: var(--link-color-active-bg);
 }
 
-.btn2:hover{
-    background-color: var(--link-color-hover);
+.round_btn:not(.active):hover{
+	color: var(--link-color-active);
+	background-color: var(--link-color-hover);
 }

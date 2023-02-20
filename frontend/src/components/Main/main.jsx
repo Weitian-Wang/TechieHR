@@ -233,23 +233,25 @@ const Main = () => {
 				</div>
 			</nav>
 			{ !interviewStatus.inInterview ? 
-			<div className={styles.dashboard_container}>
-				<Dashboard 
-					className={styles.interview_dash} 
-					text={"Interviews"} 
-					type={"interview_dash"} 
-					button_status={interview_btn_active} 
-					onClick={add_interview_btn}
-					list={interviews}
-				/>
-				<Dashboard 
-					className={styles.problem_dash}
-					text={"Questions"} type={"question_dash"}
-					button_status={question_btn_active}
-					onClick={add_question_btn}
-					list={questions}
-				/>
-			</div> :
+			// <div className={styles.content_container}>
+			// 	<Dashboard 
+			// 		className={styles.interview_dash} 
+			// 		text={"Interviews"} 
+			// 		type={"interview_dash"} 
+			// 		button_status={interview_btn_active} 
+			// 		onClick={add_interview_btn}
+			// 		list={interviews}
+			// 	/>
+			// 	<Dashboard 
+			// 		className={styles.problem_dash}
+			// 		text={"Questions"} type={"question_dash"}
+			// 		button_status={question_btn_active}
+			// 		onClick={add_question_btn}
+			// 		list={questions}
+			// 	/>
+			// </div> 
+			<div className={styles.content_container}><QuestionMain/>
+			:
 			<div className={styles.interview_interface}>
 				<div reserveFor="codingComponent">
 
