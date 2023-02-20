@@ -30,12 +30,80 @@
 	align-items: center;
 }
 
+.error_msg {
+	width: 25vw;
+	padding: 15px;
+	font-size: 1em;
+	position: absolute;
+	left: calc(50% - 12.5vw);
+	background-color: var(--error-red);
+	color: white;
+	border-radius: 5px;
+	text-align: center;
+	animation: popup 0.2s;
+}
+
+.success_msg {
+	width: 25vw;
+	padding: 15px;
+	position: absolute;
+	left: calc(50% - 12.5vw);
+	font-size: 1em;
+	background-color: var(--success-green);
+	color: black;
+	border-radius: 5px;
+	text-align: center;
+	animation: popup 0.2s;
+}
+
+.hide_success_msg{
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s 0.3s, opacity 0.3s linear;
+	width: 25vw;
+	padding: 15px;
+	position: absolute;
+	left: calc(50% - 12.5vw);
+	font-size: 1em;
+	background-color: var(--success-green);
+	color: black;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.hide_error_msg{
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s 0.3s, opacity 0.3s linear;
+	width: 25vw;
+	padding: 15px;
+	font-size: 1em;
+	position: absolute;
+	left: calc(50% - 12.5vw);
+	background-color: var(--error-red);
+	color: white;
+	border-radius: 5px;
+	text-align: center;
+}
+
+@keyframes popup {
+	0%{
+	transform: scale(1);
+	}
+	50%{
+	transform: scale(1.1);
+	}
+	100%{
+	transform: scale(1);
+	}
+}
+
 .header_cluster2 {
 	display: flex;
 	flex-direction: row;
 }
 
-.dashboard_container {
+.content_container {
 	display: flex;
 	flex-direction: row;
 	height: calc(88vh - 16px);
@@ -67,36 +135,4 @@
 	flex-direction: column;
 	box-shadow: var(--box-shadow);
 	padding: 1.5em 1.5em 0 1.5em;
-}
-
-
-.search_wrapper {
-	border-radius: 20px;
-	background-color: var(--search-area-bg);
-	padding-right: 1em;
-	height: 40px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 26vw;
-	color: var(--light-font);
-	box-shadow: var(--box-shadow);
-	/* box-shadow: 0 2px 6px 0 rgba(136, 148, 171, 0.2), 0 24px 20px -24px rgba(71, 82, 107, 0.1); */
-	overflow: hidden;
-	margin-left: 5vw;
-}
-
-.search_input {
-	border: none;
-	outline: none;
-	padding: 0 1em;
-	width: 100%;
-	font-size: 1em;
-	background-color: var(--search-area-bg);
-	color: var(--main-color);
-}
-
-.search_input:placeholder {
-	color: var(--main-color);
-	opacity: 0.6; 
 }

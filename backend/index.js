@@ -42,6 +42,8 @@ io.on("connection", (socket) => {
 })
 
 server.listen(80, () => console.log("Listening on port 80..."));
+const authRoutes = require("./routes/auth")
+const questionListRoutes = require("./routes/question_list")
 
 // database connection
 const connectDB = require("./services/db");
@@ -59,6 +61,11 @@ app.use(cors());
 app.use("/api/register", registerRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/auth", authRoutes);
+
+// interview
+
+// question
+app.use("/api/question/list", questionListRoutes)
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
