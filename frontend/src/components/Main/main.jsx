@@ -250,7 +250,7 @@ const Main = () => {
 			// 		list={questions}
 			// 	/>
 			// </div> 
-			<div className={styles.content_container}><QuestionMain/>
+			<div className={styles.content_container}><QuestionMain/></div>
 			:
 			<div className={styles.interview_interface}>
 				<div reserveFor="codingComponent">
