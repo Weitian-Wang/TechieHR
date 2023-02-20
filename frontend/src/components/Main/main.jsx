@@ -214,7 +214,7 @@ const Main = () => {
 	return (
 		<div className={styles.main_container}>
 			{/* header */}
-			<div className={styles.navbar}>
+			<nav className={styles.navbar}>
 				<div className={styles.header_cluster1}>
 					<h1>TechieHR</h1>
 				</div>
@@ -231,7 +231,7 @@ const Main = () => {
 						{localStorage.getItem("email")[0].toLocaleUpperCase()}
 					</button>
 				</div>
-			</div>
+			</nav>
 			{ !interviewStatus.inInterview ? 
 			<div className={styles.dashboard_container}>
 				<Dashboard 

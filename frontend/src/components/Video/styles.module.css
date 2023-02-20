@@ -1,4 +1,5 @@
 .video_container {
+    position: relative;
     float: right;
 }
 

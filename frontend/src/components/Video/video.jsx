@@ -21,7 +21,7 @@ const Video = () => {
 	const [ callAccepted, setCallAccepted ] = useState(false)
 	const [ callEnded, setCallEnded ] = useState(true)
 
-	const [ localVideoSmall, setLocalVideoSmall] = useState(true)
+	const [ localVideoSmall, setLocalVideoSmall] = useState(false)
 
 	const localVideo = useRef()
 	const callerVideo = useRef()
