@@ -42,7 +42,6 @@ io.on("connection", (socket) => {
 })
 
 server.listen(80, () => console.log("Listening on port 80..."));
-const authRoutes = require("./routes/auth")
 const questionListRoutes = require("./routes/question_list")
 
 // database connection

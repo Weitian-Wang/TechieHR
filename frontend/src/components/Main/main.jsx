@@ -247,7 +247,7 @@ const Main = () => {
 					text={"Questions"} type={"question_dash"}
 					button_status={question_btn_active}
 					onClick={add_question_btn}
-					list={display_questions}
+					list={questions}
 				/>
 			</div> :
 			<div reserveFor="interviewInterface">
