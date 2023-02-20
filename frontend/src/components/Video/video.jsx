@@ -21,6 +21,8 @@ const Video = () => {
 	const [ callAccepted, setCallAccepted ] = useState(false)
 	const [ callEnded, setCallEnded ] = useState(true)
 
+	const [ localVideoSmall, setLocalVideoSmall] = useState(true)
+
 	const localVideo = useRef()
 	const callerVideo = useRef()
 	const connection = useRef()
@@ -110,14 +112,14 @@ const Video = () => {
 	}
 
     return (
-        <div className="video-container">
-				<div className="video">
-					{stream && <video playsInline muted ref={localVideo} autoPlay style={{ width: "300px" }} />}
+        <div className={styles.video_container}>
+				<div className={callAccepted && localVideoSmall ? styles.small_video : styles.large_video}>
+					{stream && <video playsInline muted ref={localVideo} autoPlay className={styles.local_video} />}
 				</div>
-				<div className="video">
-					{callAccepted && !callEnded && <video playsInline ref={callerVideo} autoPlay style={{ width: "300px"}} />}
-				</div>
-				{userType === "interviewer" && !callAccepted && callEnded && <button onClick={call}>Start Video</button>}
+				{callAccepted && !callEnded && <div className={localVideoSmall ? styles.large_video : styles.small_video}>
+					<video playsInline ref={callerVideo} autoPlay />
+				</div>}
+				{userType === "interviewer" && !callAccepted && callEnded && <button onClick={call}>Join Video</button>}
 				{userType === "interviewee" && receivingCall && !callAccepted && <button onClick={accept}>Answer Video</button>}
 				{(receivingCall || sendingCall || !callEnded) && <button onClick={end}>End Video</button>}
 				<p>{socketId}</p>

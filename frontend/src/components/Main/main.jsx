@@ -118,7 +118,7 @@ const Main = () => {
 	]
 
 	const [interviewStatus, setInterviewStatus] = useState({
-		inInterview: true
+		inInterview: false
 	});
 
 	const [interviews, set_interviews] = useState(dummy_interviews)
@@ -214,7 +214,7 @@ const Main = () => {
 	return (
 		<div className={styles.main_container}>
 			{/* header */}
-			<nav className={styles.navbar}>
+			<div className={styles.navbar}>
 				<div className={styles.header_cluster1}>
 					<h1>TechieHR</h1>
 				</div>
@@ -231,7 +231,7 @@ const Main = () => {
 						{localStorage.getItem("email")[0].toLocaleUpperCase()}
 					</button>
 				</div>
-			</nav>
+			</div>
 			{ !interviewStatus.inInterview ? 
 			<div className={styles.dashboard_container}>
 				<Dashboard 
@@ -250,7 +250,7 @@ const Main = () => {
 					list={questions}
 				/>
 			</div> :
-			<div reserveFor="interviewInterface">
+			<div className={styles.interview_interface}>
 				<div reserveFor="codingComponent">
 
 				</div>

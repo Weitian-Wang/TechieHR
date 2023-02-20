@@ -1,0 +1,22 @@
+.video_container {
+    float: right;
+}
+
+.large_video {
+    position: relative;
+    top: 0;
+    right: 0;
+}
+
+.small_video {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.local_video {
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(180deg); /* Firefox */
+}

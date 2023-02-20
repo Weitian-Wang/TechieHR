@@ -9,6 +9,7 @@
 }
   
 .navbar {
+	position: relative;
 	width: 100%;
 	padding-top: 1vh;
 	height: 11vh;
@@ -135,4 +136,8 @@
 	flex-direction: column;
 	box-shadow: var(--box-shadow);
 	padding: 1.5em 1.5em 0 1.5em;
+}
+
+.interview_interface {
+	position: relative;
 }

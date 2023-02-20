@@ -20,7 +20,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-	console.log(`${socket.id} connected`)
+	console.log(`WebSocket ${socket.id} connected`)
 
 	socket.emit("socketId", socket.id)
 
@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
 	})
 
 	socket.on("disconnect", () => {
-		console.log(`${socket.id} disconnected`)
+		console.log(`WebSocket ${socket.id} disconnected`)
 	})
 })
 
