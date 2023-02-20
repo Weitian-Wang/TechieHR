@@ -1,8 +1,9 @@
 import styles from "./styles.module.css";
 import Dashboard from "../Dashboard/dashboard";
+import Video from "../Video/video";
 /* Example of token validation*/
 import { validateToken } from "../../utils";
-import { useReducer, useState } from "react";
+import { useState } from "react";
 
 const Main = () => {
 	const handleLogout = () => {
@@ -119,6 +120,10 @@ const Main = () => {
 		},
 	]
 
+	const [interviewStatus, setInterviewStatus] = useState({
+		inInterview: true
+	});
+
 	const [interviews, set_interviews] = useState(dummy_interviews)
 	const [questions, set_questions] = useState(dummy_questions)
 	// copy of interview list and question list for searching
@@ -131,7 +136,7 @@ const Main = () => {
 	}
 
 	const search = (value) => {
-		if(value.length != 0){
+		if(value.length !== 0){
 			set_display_interviews(interviews.filter(interview => {
 				return interview.interview_name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
 				||	interview.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
@@ -193,6 +198,7 @@ const Main = () => {
 			<nav className={styles.navbar}>
 				<div className={styles.header_cluster1}>
 					<h1>TechieHR</h1>
+					{ !interviewStatus.inInterview && 
 					<div className={styles.search_wrapper}>
 						<input className={styles.search_input} type="text" placeholder="Search" onChange={handleChange}/>
 						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="feather feather-search" viewBox="0 0 24 24">
@@ -201,6 +207,7 @@ const Main = () => {
 						<path d="M21 21l-4.35-4.35"></path>
 						</svg>
 					</div>
+					}
 				</div>
 				<div className={styles.header_cluster2}>
 					<div className={`${profile_btn_active?'settings_display':'settings_hidden'}`}>
@@ -214,6 +221,7 @@ const Main = () => {
 					</button>
 				</div>
 			</nav>
+			{ !interviewStatus.inInterview ? 
 			<div className={styles.dashboard_container}>
 				<Dashboard 
 					className={styles.interview_dash} 
@@ -230,7 +238,19 @@ const Main = () => {
 					onClick={add_question_btn}
 					list={display_questions}
 				/>
+			</div> :
+			<div reserveFor="interviewInterface">
+				<div reserveFor="codingComponent">
+
+				</div>
+				<Video>
+
+				</Video>
+				<div reserveFor="chatBoxComponent">
+
+				</div>
 			</div>
+			}
 		</div>
 	);
 };

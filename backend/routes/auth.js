@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { redisClient } = require("../cache");
+const { redisClient } = require("../services/cache");
 const jwt = require("jsonwebtoken");
 
 router.post("/", async (req, res) => {

@@ -18,6 +18,8 @@ const Login = () => {
 			const { data: res } = await axios.post(url, data);
 			localStorage.setItem("token", res.token);
 			localStorage.setItem("email", res.email);
+			if (res.enterprise) localStorage.setItem("userType", "interviewer");
+			else localStorage.setItem("userType", "interviewee");
 			window.location = "/";
 		} catch (error) {
 			if (

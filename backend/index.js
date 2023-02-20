@@ -6,14 +6,49 @@ const app = express();
 
 const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
-const authRoutes = require("./routes/auth")
+const authRoutes = require("./routes/auth");
+
+// socket connection
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+const server = createServer(app);
+const io = new Server(server, {
+	cors: {
+		origin: "http://localhost:3000",
+		methods: [ "GET", "POST" ]
+	}
+});
+
+io.on("connection", (socket) => {
+	console.log(`${socket.id} connected`)
+
+	socket.emit("socketId", socket.id)
+
+	socket.on("call", (data) => {
+		io.to(data.to).emit("call", { signal: data.signalData, from: data.from })
+	})
+
+	socket.on("accept", (data) => {
+		io.to(data.to).emit("callAccepted", data.signal)
+	})
+
+	socket.on("end", (id) => {
+		io.to(id).emit("callEnded")
+	})
+
+	socket.on("disconnect", () => {
+		console.log(`${socket.id} disconnected`)
+	})
+})
+
+server.listen(80, () => console.log("Listening on port 80..."));
 
 // database connection
-const connectDB = require("./db");
+const connectDB = require("./services/db");
 connectDB();
 
 // redis connection
-const { connectRedis } = require("./cache");
+const { connectRedis } = require("./services/cache");
 connectRedis();
 
 // middlewares

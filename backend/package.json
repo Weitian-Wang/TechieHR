@@ -20,6 +20,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.0",
     "nodemon": "^2.0.20",
-    "redis": "^4.6.4"
+    "redis": "^4.6.4",
+    "socket.io": "^4.6.0"
   }
 }
