@@ -118,7 +118,7 @@ const Main = () => {
 	]
 
 	const [interviewStatus, setInterviewStatus] = useState({
-		inInterview: true
+		inInterview: false
 	});
 
 	// may move to dashboard component later

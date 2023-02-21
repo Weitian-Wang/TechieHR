@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = function() {
     // decode token, check role and get _id for queries
     // trust token
-    const token = jwt.sign({_id: this._id, role: this.role, timestamp: Date.now()}, process.env.JWTPRIVATEKEY);
+    const token = jwt.sign({_id: this._id, email: this.email, role: this.role}, process.env.JWTPRIVATEKEY);
     return token;
 };
 

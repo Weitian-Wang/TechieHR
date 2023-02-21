@@ -68,8 +68,8 @@ app.use("/api/auth", authRoutes);
 // interview
 
 // question
-app.use("/api/question/list", questionListRoutes)
-app.use("/api/question/create", questionCreateRoutes)
+app.use("/api/question/list", questionListRoutes);
+app.use("/api/question/create", questionCreateRoutes);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
