@@ -138,6 +138,12 @@
 }
 
 .interview_interface {
-	position: relative;
+	display: flex;
+	justify-content: space-between;
 	padding: 1.5em 1.5em 1em 1.5em;
+}
+
+.conferencing_interface {
+	display: flex;
+	flex-direction: column;
 }

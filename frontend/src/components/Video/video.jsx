@@ -20,11 +20,12 @@ const Video = () => {
 	const [ callerSignal, setCallerSignal ] = useState()
 	const [ callAccepted, setCallAccepted ] = useState(false)
 	const [ callEnded, setCallEnded ] = useState(true)
-
-	const [ localVideoSmall, setLocalVideoSmall] = useState(false)
+	const [ localAudio, setLocalAudio ] = useState(true)
+	const [ localAudioTrack, setLocalAudioTrack ] = useState()
+	const [ localVideoSmall, setLocalVideoSmall ] = useState(false)
 
 	const localVideo = useRef()
-	const callerVideo = useRef()
+	const remoteVideo = useRef()
 	const connection = useRef()
 
 	useEffect(() => {
@@ -68,7 +69,7 @@ const Video = () => {
 			})
 		})
 		peer.on("stream", (stream) => {
-			callerVideo.current.srcObject = stream
+			remoteVideo.current.srcObject = stream
 		})
 		socket.on("callAccepted", (signal) => {
 			setCallAccepted(true)
@@ -93,7 +94,7 @@ const Video = () => {
 			socket.emit("accept", { signal: data, to: userCalling })
 		})
 		peer.on("stream", (stream) => {
-			callerVideo.current.srcObject = stream
+			remoteVideo.current.srcObject = stream
 		})
 
 		peer.signal(callerSignal)
@@ -111,19 +112,30 @@ const Video = () => {
 		socket.disconnect()
 	}
 
+	const toggleLocalAudio = () => {
+		setLocalAudio(!localAudio)
+	}
+
     return (
         <div className={styles.video_container}>
-				<div className={callAccepted && localVideoSmall ? styles.small_video : styles.large_video}>
-					{stream && <video playsInline muted ref={localVideo} autoPlay className={styles.local_video} />}
-				</div>
-				{callAccepted && !callEnded && <div className={localVideoSmall ? styles.large_video : styles.small_video}>
-					<video playsInline ref={callerVideo} autoPlay />
+			{stream && <div className={styles.large_video}>
+				{localVideoSmall && callAccepted && !callEnded
+					? <video playsInline ref={remoteVideo} autoPlay className={styles.remote_video} />
+					: <video playsInline muted ref={localVideo} autoPlay className={styles.local_video} />}
+				{callAccepted && !callEnded && <div className={styles.small_video} onClick={() => setLocalVideoSmall(!localVideoSmall)}>
+					{localVideoSmall
+						? <video playsInline muted ref={localVideo} autoPlay className={styles.local_video} />
+						: <video playsInline ref={remoteVideo} autoPlay className={styles.remote_video} />}
 				</div>}
+			</div>}
+			<div className={styles.video_buttons}>
 				{userType === "interviewer" && !callAccepted && callEnded && <button onClick={call}>Join Video</button>}
 				{userType === "interviewee" && receivingCall && !callAccepted && <button onClick={accept}>Answer Video</button>}
 				{(receivingCall || sendingCall || !callEnded) && <button onClick={end}>End Video</button>}
-				<p>{socketId}</p>
-				{userType === "interviewer" && <input value={userToCall} onChange={(e) => setUserToCall(e.target.value)}></input>}
+				{callAccepted && !callEnded && <button onClick={toggleLocalAudio}>{localAudio ? "Close Audio" : "Open Audio"}</button>}
+			</div>
+			<p>{socketId}</p>
+			{userType === "interviewer" && <input value={userToCall} onChange={(e) => setUserToCall(e.target.value)}></input>}
 		</div>
     )
 }
