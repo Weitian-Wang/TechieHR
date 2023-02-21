@@ -118,7 +118,7 @@ const Main = () => {
 	]
 
 	const [interviewStatus, setInterviewStatus] = useState({
-		inInterview: false
+		inInterview: true
 	});
 
 	// may move to dashboard component later
@@ -255,14 +255,16 @@ const Main = () => {
 			<div className={styles.content_container}><QuestionMain/></div>
 			:
 			<div className={styles.interview_interface}>
-				<div reserveFor="codingComponent">
+				<div className={styles.coding_interface}>
 
 				</div>
-				<Video>
-
-				</Video>
-				<div reserveFor="chatBoxComponent">
-
+				<div className={styles.conferencing_interface}>
+					<div className={styles.video_interface}>
+						<Video></Video>
+					</div>
+					<div className={styles.chat_interface}>
+						
+					</div>
 				</div>
 			</div>
 			}

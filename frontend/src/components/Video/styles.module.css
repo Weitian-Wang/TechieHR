@@ -1,23 +1,33 @@
 .video_container {
-    position: relative;
-    float: right;
+    display: flex;
+    flex-direction: column;
 }
 
 .large_video {
     position: relative;
-    top: 0;
-    right: 0;
 }
 
 .small_video {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 1;
+    height: 20%;
+    z-index: 5;
 }
 
 .local_video {
+    height: 100%;
+    width: 100%;
     transform: rotateY(180deg);
     -webkit-transform:rotateY(180deg); /* Safari and Chrome */
     -moz-transform:rotateY(180deg); /* Firefox */
+}
+
+.remote_video {
+    height: 100%;
+    width: 100%;
+}
+
+.video_buttons {
+    display: flex;
 }
