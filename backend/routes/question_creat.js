@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { Question } = require("../models/question");
-const { auth } = require("../lib/auth")
-const { USER_ROLE } = require("../lib/constants")
+const { auth } = require("../lib/auth");
+const { USER_ROLE } = require("../lib/constants");
 
 router.post("/", async (req, res) => {
 	try {

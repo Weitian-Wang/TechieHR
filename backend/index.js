@@ -73,3 +73,7 @@ app.use("/api/question/create", questionCreateRoutes);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
+
+process.on('uncaughtException', function (error) {
+    console.log(error);
+});
