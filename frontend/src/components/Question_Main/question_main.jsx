@@ -1,5 +1,6 @@
 import styles from './styles.module.css' 
 import Markdown from '../Markdown/markdown'
+import Codepad from '../Codepad/codepad'
 import { useRef, useState } from "react";
 
 const QuestionMain = ({props}) => {
@@ -36,51 +37,72 @@ Input: nums = [1], k = 1
 Output: [1]
 
 ---`)
-    
-    const contentAreaRef = useRef();
-    
-    const textarea_update_content = (e) =>{
-        set_markdown_content(e.target.value);
-    }
+    const [grader_code, set_grader_code] = useState(`
+from solution import Solution
+s = Solution()
+output_file_name = 'output.txt'
+input_file_name = 'input.txt'
+with open(input_file_name, 'r'), open(output_file_name, 'w+') as input_file, output_file:
+    for line in input_file:
+        output_file.write(s.operation(line)+'\n')
+`)
+    const [solution_code, set_solution_code] = useState(`import sys
+from math import floor, ceil
+class Solution:
+    def operation(self, input):
+        output = input
+        return
+`)
 	return (
         <div className={styles.question_container}>
             <div className={styles.description}>
                 <div className={styles.markdown}>
                     <Markdown content={markdown_content}/>
                 </div>
-                <div className={styles.action_group1}>
+                <div className={styles.action_group}>
+                    <h3 style={{margin: '0.3em 0 0.3em 0'}}>Description</h3>
                     <div className={styles.btn}>📁</div>
                     <div className={styles.btn}>💾</div>
                     <div className={styles.btn}>↩️</div>
                 </div>
                 <div className={styles.input_holder}>
-                    <textarea ref={contentAreaRef} className={styles.question_md_input} value={markdown_content} 
-                        onChange={(e) => {
-                            set_markdown_content(e.target.value);
-                        }}
-                        onKeyDown={(e) => {
-                            if (e.key == 'Tab') {
-                            e.preventDefault();
-                            const { selectionStart, selectionEnd } = e.target;
-                            const newText =
-                            markdown_content.substring(0, selectionStart) +
-                                '  ' + // Edit this for type tab you want
-                                    // Here it's 2 spaces per tab
-                                    markdown_content.substring(selectionEnd, markdown_content.length);
-                            contentAreaRef.current.focus();
-                            contentAreaRef.current.value = newText;
-                            contentAreaRef.current.setSelectionRange(
-                                selectionStart + 2,
-                                selectionStart + 2
-                            );
-                            set_markdown_content(newText);
-                            }
-                        }}
+                    <Codepad 
+                        className={styles.question_md_input}
+                        needHighlight={false}
+                        code={markdown_content}
+                        setCode={set_markdown_content}
                     />
                 </div>
             </div>
             <div className={styles.grader_code}>
-                Auto Grader
+                <div className={styles.action_group}>
+                    <h3 style={{margin: '0.3em 0 0.3em 0'}}>Auto Grader</h3>
+                    <div className={styles.btn}>📁</div>
+                    <div className={styles.btn}>💾</div>
+                    <div className={styles.btn}>↩️</div>
+                </div>
+                <div className={styles.auto_grader}>
+                    <Codepad 
+                        className={styles.question_md_input}
+                        needHighlight={true}
+                        code={grader_code}
+                        setCode={set_grader_code}
+                    />
+                </div>
+                <div className={styles.action_group}>
+                    <h3 style={{margin: '0.3em 0 0.3em 0'}}>Offical Solution</h3>
+                    <div className={styles.btn}>📁</div>
+                    <div className={styles.btn}>💾</div>
+                    <div className={styles.btn}>↩️</div>
+                </div>
+                <div className={styles.solution}>
+                    <Codepad 
+                        className={styles.question_md_input}
+                        needHighlight={true}
+                        code={solution_code}
+                        setCode={set_solution_code}
+                    />
+                </div>
             </div>
             <div className={styles.case_and_result}>
                 <div>Test Cases</div>

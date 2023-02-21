@@ -4,9 +4,14 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
+// user
 const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
 const authRoutes = require("./routes/auth");
+
+// question 
+const questionListRoutes = require("./routes/question_list")
+const questionCreateRoutes = require("./routes/question_creat")
 
 // socket connection
 const { createServer } = require("http");
@@ -42,7 +47,6 @@ io.on("connection", (socket) => {
 })
 
 server.listen(80, () => console.log("Listening on port 80..."));
-const questionListRoutes = require("./routes/question_list")
 
 // database connection
 const connectDB = require("./services/db");
@@ -65,6 +69,7 @@ app.use("/api/auth", authRoutes);
 
 // question
 app.use("/api/question/list", questionListRoutes)
+app.use("/api/question/create", questionCreateRoutes)
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

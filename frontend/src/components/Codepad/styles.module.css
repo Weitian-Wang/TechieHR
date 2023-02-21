@@ -1,0 +1,20 @@
+.editor {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: 1em;
+    background-color: var(--code-section);
+    counter-reset: line;
+    overflow: visible;
+    border-radius: 5px;
+}
+
+.editor textarea {
+    padding-left: 2.5em !important;
+  }
+  
+  .editor pre {
+    padding-left: 2.5em !important;
+  }
+  
+.editor textarea{
+    outline: 0;
+}

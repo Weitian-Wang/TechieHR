@@ -8,7 +8,7 @@ import 'katex/dist/katex.min.css'
 const Markdown = (props) => {
 
 	return (
-        <ReactMarkdown styles={styles.md}
+        <ReactMarkdown
          children={props.content}
          remarkPlugins={[remarkMath]}
          rehypePlugins={[rehypeKatex]}

@@ -3,10 +3,9 @@ import Peer from "simple-peer"
 import { io } from "socket.io-client"
 import { useEffect, useRef, useState } from "react"
 
-const socket = io('http://localhost:80')
 
 const Video = () => {
-
+	const socket = io('http://localhost:80')
 	const userType = localStorage.getItem("userType")
 
 	// dummies value

@@ -9,7 +9,7 @@ const Register = () => {
 		lastName: "",
 		email: "",
 		password: "",
-		enterprise: false 
+		role: false 
 	});
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
@@ -19,7 +19,6 @@ const Register = () => {
 	};
 
 	const setCheckbox = () => {
-
 		setData({ ...data, enterprise: !data.enterprise });
 	};
 

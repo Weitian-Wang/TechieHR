@@ -17,6 +17,11 @@
 
 .description {
     flex: 2;
+    /* - 50px of the content container margin */
+    /* - flex 2 total 5*/
+    /* - 3em content container padding */
+    /* - 1em description div right padding */
+    max-width: calc((100vw - 50px)/5*2 - 3em);
     height: 100%;
     display: flex;
     padding: 0 1em 0 0;
@@ -29,46 +34,68 @@
 
 .markdown {
     flex: 2;
-    overflow: scroll;
-    border-bottom: 1px solid var(--message-box-border);
+    overflow-wrap: break-word;
+    overflow-y: scroll;
 }
 
 .markdown p {
     color: var(--main-color);
 }
 
-.action_group1 {
+.action_group {
     display: flex;
     flex-direction: row;
     margin: 5px 0 5px 0;
     justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid var(--message-box-border);
+    border-bottom: 1px solid var(--message-box-border);
+}
+
+.action_group h3{
+    width: 100%;
 }
 
 .input_holder {
     flex: 1;
+    overflow: auto;
+    border-radius: 5px;
 }
 
 .question_md_input{
     font-size: 18px;
     height: 100%;
     width: 100%;
+    overflow-wrap: break-word;
     background-color: transparent;
     color: var(--main-color);
     overflow: scroll;
-    resize: none;
-    outline: none;
-    border: none;
-    border-top: 1px solid var(--message-box-border);
 }
 
 .grader_code {
     flex: 2;
-    padding: 0 1em 0 1em;
+    max-width: calc((100vw - 50px)/5*2 - 4em);
+    overflow: hidden;
+}
+
+.auto_grader {
+    height: 41%;
+    width: 100%;
+    overflow: scroll;
+    border-radius: 5px;
+}
+
+.solution {
+    height: 42%;
+    width: 100%;
+    overflow: scroll;
+    border-radius: 5px;
 }
 
 .case_and_result {
     flex: 1;
     padding: 0 0 0 1em;
+    max-width: calc((100vw - 50px)/5*1);
     border-left: 1px solid var(--message-box-border);
 }
 

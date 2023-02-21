@@ -24,7 +24,16 @@ router.post("/", async (req, res) => {
 		const token = user.generateAuthToken();
 		await redisClient.set(user.email, token);
 		await redisClient.expire(user.email, process.env.TIMEOUT);
-		res.status(200).send({ token: token, email: user.email, enterprise: user.enterprise, message: "Logged in Successfully" });
+		res.status(200).send({ 
+			token: token,
+			email: user.email,
+			// for frontend page load divergent ONLY
+			// check role for backend api access control
+			enterprise: user.enterprise,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			message: "Logged in Successfully"
+		});
 	} catch (error) {
 		console.log(error);
 		res.status(500).send({ message: "Internal Server Error" });

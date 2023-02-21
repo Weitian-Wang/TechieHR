@@ -20,6 +20,8 @@ const Login = () => {
 			localStorage.setItem("email", res.email);
 			if (res.enterprise) localStorage.setItem("userType", "interviewer");
 			else localStorage.setItem("userType", "interviewee");
+			localStorage.setItem('firstName', res.firstName);
+			localStorage.setItem('lastName', res.lastName);
 			window.location = "/";
 		} catch (error) {
 			if (

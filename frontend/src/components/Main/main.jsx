@@ -121,6 +121,7 @@ const Main = () => {
 		inInterview: false
 	});
 
+	// may move to dashboard component later
 	const [interviews, set_interviews] = useState(dummy_interviews)
 	const [questions, set_questions] = useState(dummy_questions)
 	
@@ -149,6 +150,7 @@ const Main = () => {
 	
 	// encapsulated post function
 	// url = "/api/register"
+	// pass as prop to lower level
 	// data dictionary {id:val, name:val}
 	const post = async (api_url, data) => {
 		try {
@@ -158,7 +160,7 @@ const Main = () => {
 				data, 
 				{  
 					headers: {
-					'Authorization': `${localStorage.getItem('token')}` 
+					'Authorization': `Bearer ${localStorage.getItem('token')}` 
 					}
 				}
 			);
@@ -228,7 +230,7 @@ const Main = () => {
 					</div>
 					<button className={`profile_btn ${profile_btn_active?'active':''}`} onClick={expand_profile_options}>
 						{/* put user avatar in button */}
-						{localStorage.getItem("email")[0].toLocaleUpperCase()}
+						{`${localStorage.getItem("firstName")[0].toLocaleUpperCase()}${localStorage.getItem("lastName")[0].toLocaleUpperCase()}`}
 					</button>
 				</div>
 			</nav>

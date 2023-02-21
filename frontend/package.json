@@ -21,7 +21,8 @@
     "rehype-highlight": "^6.0.0",
     "react-syntax-highlighter": "^15.5.0",
     "remark-math": "^5.1.1",
-    "rehype-katex": "^6.0.2"
+    "rehype-katex": "^6.0.2",
+    "react-simple-code-editor": "0.13.1"
   },
   "scripts": {
     "start": "react-scripts start",

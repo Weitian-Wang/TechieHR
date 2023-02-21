@@ -8,11 +8,15 @@ const userSchema = new mongoose.Schema({
     lastName: {type: String, required: true},
     email: {type: String, required: true},
     password: {type: String, required: true},
-    enterprise: {type: Boolean, required: true},
+    // INTERVIEWER 1
+    // INTERVIEWEE 2
+    role: {type: Number, required: true},
 });
 
 userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({_id: this._id, timestamp: Date.now()}, process.env.JWTPRIVATEKEY);
+    // decode token, check role and get _id for queries
+    // trust token
+    const token = jwt.sign({_id: this._id, role: this.role, timestamp: Date.now()}, process.env.JWTPRIVATEKEY);
     return token;
 };
 
@@ -24,7 +28,7 @@ const validate = (data) => {
         lastName: joi.string().required().label("Last Name"),
         email: joi.string().required().label("Email"),
         password: passwordComplexity().required().label("Password"),
-        enterprise: joi.boolean().required().label("Enterprise"),
+        role: joi.number().integer().required().label("Role"),
     })
     return schema.validate(data);
 }
