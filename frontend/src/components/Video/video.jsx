@@ -23,8 +23,8 @@ const Video = () => {
 	const [ localAudioTrack, setLocalAudioTrack ] = useState()
 	const [ localVideoSmall, setLocalVideoSmall ] = useState(false)
 
-	const localVideo = useRef()
-	const remoteVideo = useRef()
+	var localVideo = useRef()
+	var remoteVideo = useRef()
 	const connection = useRef()
 
 	useEffect(() => {
