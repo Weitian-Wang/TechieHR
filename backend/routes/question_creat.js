@@ -5,14 +5,16 @@ const { USER_ROLE } = require("../lib/constants");
 
 router.post("/", async (req, res) => {
 	try {
-        await auth(req, [USER_ROLE.INTERVIEWER]);
-		const list = await Question.find({ creatorEmail: req.body.email });
-		res.status(200).send({data:{list:list}, message: `Found ${list.length} Items`});
+        const uid = await auth(req, [USER_ROLE.INTERVIEWER]);
+        console.log(req);
+        const newQuestion = {
+            creatorId: uid,
+            title: req.body.title
+        }
+        await Question(newQuestion).save()
+        res.status(201).send({ message: "Question created successfully" });
 	} catch (error) {
         console.log(error);
-		if(error.error_code != 500){
-			res.status(error.error_code).send({ message: error.message });	
-		}
 		res.status(500).send({ message: "Internal Server Error" });
 	}
 });

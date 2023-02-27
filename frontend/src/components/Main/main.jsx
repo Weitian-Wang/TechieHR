@@ -5,12 +5,63 @@ import QuestionMain from "../Question_Main/question_main"
 /* Example of token validation*/
 import { validateToken } from "../../utils";
 import axios from "axios";
-import { useRef, useReducer, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const Main = () => {
 	const handleLogout = () => {
 		localStorage.removeItem("token");
 		window.location.reload();
+	};
+
+	const [prompt_msg, set_prompt_msg] = useState("")
+	const promptRef = useRef(null); 
+
+	// isSuccess === true prompt success message
+	// else prompt error message
+	// setTimeout funky behavior, needs debounce?
+	const prompt = (msg, isSuccess) => {
+		set_prompt_msg(msg);
+		if(isSuccess){
+			promptRef.current.className = styles.success_msg;
+			setTimeout(() => {promptRef.current.className = styles.hide_success_msg}, 3500);
+		}
+		else{
+			promptRef.current.className = styles.error_msg;
+			setTimeout(() => {promptRef.current.className = styles.hide_error_msg}, 3500);
+		}
+	}
+	
+	// encapsulated post function
+	// url = "/api/register"
+	// pass as prop to lower level
+	// data dictionary {id:val, name:val}
+	const post = async (api_url, data) => {
+		try {
+			const url = "http://localhost:8080" + api_url;
+			const { data: res } = await axios.post(
+				url, 
+				data, 
+				{  
+					headers: {
+					'Authorization': `Bearer ${localStorage.getItem('token')}` 
+					}
+				}
+			);
+			prompt(res.message, true);
+			return res.data
+		} catch (error) {
+			console.log(error);
+			if (
+				error.response &&
+				error.response.status >= 400 &&
+				error.response.status <= 500
+			) {
+				prompt(error.response.data.message, false);
+			}
+			else{
+				prompt("APP Internal Error", false);
+			}
+		}
 	};
 
 	const dummy_interviews = [
@@ -124,61 +175,12 @@ const Main = () => {
 	// may move to dashboard component later
 	const [interviews, set_interviews] = useState(dummy_interviews)
 	const [questions, set_questions] = useState(dummy_questions)
-	
+
 	// variable for button status
 	const [profile_btn_active, set_profile_btn] = useState(false);
     const [question_btn_active, set_question_btn] = useState(false)
 	const [interview_btn_active, set_interview_btn] = useState(false)
 	const [mode_btn_active, set_mode_btn] = useState(false)
-	const [prompt_msg, set_prompt_msg] = useState("")
-	const promptRef = useRef(null); 
-
-	// isSuccess === true prompt success message
-	// else prompt error message
-	// setTimeout funky behavior, needs debounce?
-	const prompt = (msg, isSuccess) => {
-		set_prompt_msg(msg);
-		if(isSuccess){
-			promptRef.current.className = styles.success_msg;
-			setTimeout(() => {promptRef.current.className = styles.hide_success_msg}, 3500);
-		}
-		else{
-			promptRef.current.className = styles.error_msg;
-			setTimeout(() => {promptRef.current.className = styles.hide_error_msg}, 3500);
-		}
-	}
-	
-	// encapsulated post function
-	// url = "/api/register"
-	// pass as prop to lower level
-	// data dictionary {id:val, name:val}
-	const post = async (api_url, data) => {
-		try {
-			const url = "http://localhost:8080" + api_url;
-			const { data: res } = await axios.post(
-				url, 
-				data, 
-				{  
-					headers: {
-					'Authorization': `Bearer ${localStorage.getItem('token')}` 
-					}
-				}
-			);
-			prompt(res.message, true);
-			return res.data
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				prompt(error.response.message, false);
-			}
-			else{
-				prompt("APP Internal Error", false);
-			}
-		}
-	};
 
 	const add_interview_btn = () => {
 		if(interview_btn_active || question_btn_active){
@@ -235,24 +237,29 @@ const Main = () => {
 				</div>
 			</nav>
 			{ !interviewStatus.inInterview ? 
+			<div className={styles.content_container}>
+				<Dashboard 
+					className={styles.interview_dash} 
+					text={"Interviews"} 
+					type={"interview_dash"} 
+					button_status={interview_btn_active} 
+					onClick={add_interview_btn}
+					list={interviews}
+					post={post}
+				/>
+				<Dashboard 
+					className={styles.problem_dash}
+					text={"Questions"}
+					type={"question_dash"}
+					button_status={question_btn_active}
+					onClick={add_question_btn}
+					list={questions}
+					post={post}
+				/>
+			</div> 
 			// <div className={styles.content_container}>
-			// 	<Dashboard 
-			// 		className={styles.interview_dash} 
-			// 		text={"Interviews"} 
-			// 		type={"interview_dash"} 
-			// 		button_status={interview_btn_active} 
-			// 		onClick={add_interview_btn}
-			// 		list={interviews}
-			// 	/>
-			// 	<Dashboard 
-			// 		className={styles.problem_dash}
-			// 		text={"Questions"} type={"question_dash"}
-			// 		button_status={question_btn_active}
-			// 		onClick={add_question_btn}
-			// 		list={questions}
-			// 	/>
-			// </div> 
-			<div className={styles.content_container}><QuestionMain/></div>
+			// 		<QuestionMain post={post}/>
+			// </div>
 			:
 			<div className={styles.interview_interface}>
 				<div className={styles.coding_interface}>

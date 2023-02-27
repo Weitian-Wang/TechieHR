@@ -2,17 +2,36 @@ import styles from "./styles.module.css"
 import Interview from '../Interview/interview'
 import Question from '../Question/question'
 import Seachbar from "../Searchbar/searchbar"
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 const Dashboard = (props) => {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
-    const mapping = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sept','10':'Oct','11':'Nov','12':'Dec'}
+    const mapping = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sept','10':'Oct','11':'Nov','12':'Dec'};
 
+    // else list = props.post('/interview/list', {})
     // copy of interview list and question list for searching
     const [list, set_list] = useState(props.list)
-	const [display_list, set_display_list] = useState(list)
+	const [display_list, set_display_list] = useState(props.list)
+    
+    useEffect(() => {
+        const post_request = async () => {
+            try{
+                const data = await props.post('/api/question/list', {});
+                set_list(data.list)
+            }
+            catch(error){
+                console.log(error.message)
+            }
+        }
+        post_request()
+    }, [props.type])
+
+    useEffect(() => {
+        set_display_list(list)
+    }, [list])
 
 	const search_list = (e) => {
 		const value = e.target.value;
@@ -34,19 +53,7 @@ const Dashboard = (props) => {
 		else{
 			set_display_list(list);
 		}
-	}
-
-	// const search_questions = (e) => {
-	// 	const value = e.target.value;
-	// 	if(value.length != 0){
-	// 		set_display_questions(questions.filter(question => { 
-	// 			return question.name.toLocaleLowerCase().includes(value.toLocaleLowerCase())
-	// 	}));
-	// 	}
-	// 	else{
-	// 		set_display_questions(questions);
-	// 	}
-	// }
+	};
 
 	return (
 			<div className={props.className}>

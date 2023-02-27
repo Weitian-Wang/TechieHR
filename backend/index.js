@@ -1,6 +1,8 @@
 require("dotenv").config();
 
 const express = require("express");
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload');
 const cors = require("cors");
 const app = express();
 
@@ -59,6 +61,9 @@ connectRedis();
 // middlewares
 app.use(express.json());
 app.use(cors());
+app.use(bodyParser.urlencoded())
+app.use(bodyParser.json())
+app.use(fileUpload())
 
 // routes
 app.use("/api/register", registerRoutes);

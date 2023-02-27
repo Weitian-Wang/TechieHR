@@ -5,8 +5,9 @@ const { USER_ROLE } = require("../lib/constants");
 
 router.post("/", async (req, res) => {
 	try {
-		await auth(req, [USER_ROLE.INTERVIEWEE]);
-		const list = await Question.find({ creatorEmail: req.body.email });
+		// get user id from token
+		const uid = await auth(req, [USER_ROLE.INTERVIEWER]);
+		const list = await Question.find({ creatorId: uid});
 		res.status(200).send({data:{list:list}, message: `Found ${list.length} Items`});
 	} catch (error) {
 		console.log(error);

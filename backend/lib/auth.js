@@ -34,6 +34,8 @@ const auth = async (req, roles) => {
         // refresh token expire time in redis
         await redisClient.set(payload.email, token);
         await redisClient.expire(payload.email, process.env.TIMEOUT);
+        // return user id for future use
+        return payload._id
     }
     catch (error){
         throw error;
