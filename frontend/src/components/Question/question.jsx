@@ -1,11 +1,11 @@
 import styles from './styles.module.css' 
 
-const Question = ({props, show_question_detail}) => {
+const Question = (props) => {
 	return (
         <div className={styles.question}>
-           <div className={styles.question_name}>{props.title}</div>
+           <div className={styles.question_name}>{props.list_item.title}</div>
            <div className={styles.action_group}>
-                <button className={styles.btn} id={props._id} onClick={(e) => {show_question_detail(e)}}>✏️</button>
+                <button className={styles.btn} id={props.list_item._id} onClick={(e) => props.show_question_detail(e)}>✏️</button>
            </div>
         </div>
     )

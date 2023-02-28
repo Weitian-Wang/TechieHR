@@ -12,16 +12,16 @@ router.post("/", async (req, res) => {
         const interviewer = await User.findOne({ id: uid })
         const interviewee = await User.findOne({ id: data.interviewee_id })
         if(!interviewee){
-            res.status(406).send({ message: "Invalid Interviewee" });
+            return res.status(406).send({ message: "Invalid Interviewee" });
         }
         if(data.question_list.length == 0){
-            res.status(406).send({ message: "Need At Least 1 Question" });
+            return res.status(406).send({ message: "Need At Least 1 Question" });
         }
         data.question_list.forEach( async (qid, index) => {
             // make sure question created by interviewer
             const q = await Question.findOne({ creatorId: uid , id: qid});
             if(!q){
-                res.status(406).send({ message: "Invalid Question" });
+                return res.status(406).send({ message: "Invalid Question" });
             }
         });
         const newInterview = new Interview({
@@ -40,6 +40,9 @@ router.post("/", async (req, res) => {
         res.status(201).send({ message: "Interview created successfully" });
 	} catch (error) {
         console.log(error);
+        if(error.error_code != 500){
+			res.status(error.error_code).send({ message: error.message });	
+		}
 		res.status(500).send({ message: "Internal Server Error" });
 	}
 });

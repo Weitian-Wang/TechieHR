@@ -14,6 +14,11 @@ const authRoutes = require("./routes/auth");
 // question 
 const questionListRoutes = require("./routes/question_list")
 const questionCreateRoutes = require("./routes/question_creat")
+const questionDetailRoutes = require("./routes/question_detail")
+const questionDescriptionLoadRoutes = require("./routes/question_description_load")
+const questionDescriptionSaveRoutes = require("./routes/question_description_save")
+const questionGraderLoadRoutes = require("./routes/question_grader_load")
+const questionSolutionLoadRoutes = require("./routes/question_grader_load")
 
 // interview
 const interviewListByIntervieweeRoutes = require("./routes/interview_list_interviewee")
@@ -83,6 +88,11 @@ app.use("/api/interview/create", interviewCreateRoutes);
 // question
 app.use("/api/question/list", questionListRoutes);
 app.use("/api/question/create", questionCreateRoutes);
+app.use("/api/question/detail", questionDetailRoutes);
+app.use("/api/question/description/load", questionDescriptionLoadRoutes);
+app.use("/api/question/description/save", questionDescriptionSaveRoutes);
+app.use("/api/question/grader/load", questionGraderLoadRoutes);
+app.use("/api/question/solution/load", questionSolutionLoadRoutes);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

@@ -72,7 +72,9 @@ const Main = () => {
 
 	const [showDash, set_showDash] = useState(true);
 	const [showQuestion, set_showQuestion] = useState(false);
+	const [questionId, set_questionId] = useState(null);
 	const [showInterview, set_showInterview] = useState(false);
+	const [interviewId, set_interviewId] = useState(null);
 
 	const show_dashboard = () => {
 		set_showDash(true);
@@ -94,7 +96,7 @@ const Main = () => {
 
 	const show_question_detail = (e) => {
 		const qid = e.target.id;
-		console.log(qid);
+		set_questionId(qid)
 		show_question();
 	}
 
@@ -104,7 +106,7 @@ const Main = () => {
 	
 	const show_interview_detail = (e) => {
 		const itvw_id = e.target.id;
-		console.log(itvw_id);
+		set_interviewId(itvw_id);
 		show_interview();
 	}
 
@@ -190,6 +192,7 @@ const Main = () => {
 					<QuestionMain 
 						post={post} 
 						show_dashboard_detail={show_dashboard_detail}
+						qid={questionId}
 					/>
 			</div>
 			:

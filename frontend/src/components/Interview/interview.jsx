@@ -1,6 +1,6 @@
 import styles from './styles.module.css' 
 
-const Interview = ({props, show_interview_detail}) => {
+const Interview = (props) => {
     // TEMPERARY DATA FORMAT
     // interviewer_id: {type: String, required: true},
     // interview_name: {type: String, required: true},
@@ -12,20 +12,20 @@ const Interview = ({props, show_interview_detail}) => {
     const color_list = ['#fee4cb', '#e9e7fd', '#dbf6fd', '#ffd3e2', '#c8f7dc', '#d5deff']
 
 	return (
-        <div className={styles.interview_box} style={{backgroundColor:color_list[props._id.charCodeAt(12) % color_list.length]}}>
+        <div className={styles.interview_box} style={{backgroundColor:color_list[props.list_item._id.charCodeAt(12) % color_list.length]}}>
             <div>
-                <p className={styles.name}>{`${props.interviewer_name} & ${props.interviewee_name}`}</p>
-                <p className={styles.interview_name}>{`${props.interview_name}`}</p>
-                <p className={styles.create_time}>{`Created ${props.createdAt}`}</p>
+                <p className={styles.name}>{`${props.list_item.interviewer_name} & ${props.list_item.interviewee_name}`}</p>
+                <p className={styles.interview_name}>{`${props.list_item.interview_name}`}</p>
+                <p className={styles.create_time}>{`Created ${props.list_item.createdAt}`}</p>
             </div>
             <div>
-                <p className={styles.name}>{`${props.scheduled_time}`}</p>
-                <p className={styles.interview_name}>{`${props.duration} Min`}</p>
-                <p className={styles.create_time}> {props.interviewee_email} </p>
+                <p className={styles.name}>{`${props.list_item.scheduled_time}`}</p>
+                <p className={styles.interview_name}>{`${props.list_item.duration} Min`}</p>
+                <p className={styles.create_time}> {props.list_item.interviewee_email} </p>
             </div>
             <div className={styles.action_group}>
-                <button id={props._id} className={styles.btn2} onClick={(e) => show_interview_detail(e)}>Join</button>
-                <button id={props._id} className={styles.btn1}>···</button>
+                <button id={props.list_item._id} className={styles.btn2} onClick={(e) => props.show_interview_detail(e)}>Join</button>
+                <button id={props.list_item._id} className={styles.btn1}>···</button>
             </div>
         </div>
     )
