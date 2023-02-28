@@ -64,15 +64,49 @@ const Main = () => {
 		}
 	};
 
-	const [interviewStatus, setInterviewStatus] = useState({
-		inInterview: false
-	});
-
 	// variable for button status
 	const [profile_btn_active, set_profile_btn] = useState(false);
     const [question_btn_active, set_question_btn] = useState(false)
 	const [interview_btn_active, set_interview_btn] = useState(false)
 	const [mode_btn_active, set_mode_btn] = useState(false)
+
+	const [showDash, set_showDash] = useState(true);
+	const [showQuestion, set_showQuestion] = useState(false);
+	const [showInterview, set_showInterview] = useState(false);
+
+	const show_dashboard = () => {
+		set_showDash(true);
+		set_showQuestion(false);
+		set_showInterview(false);
+	}
+
+	const show_question = () => {
+		set_showDash(false);
+		set_showQuestion(true);
+		set_showInterview(false);
+	}
+
+	const show_interview = () => {
+		set_showDash(false);
+		set_showQuestion(false);
+		set_showInterview(true);
+	}
+
+	const show_question_detail = (e) => {
+		const qid = e.target.id;
+		console.log(qid);
+		show_question();
+	}
+
+	const show_dashboard_detail = (e) => {
+		show_dashboard();
+	}
+	
+	const show_interview_detail = (e) => {
+		const itvw_id = e.target.id;
+		console.log(itvw_id);
+		show_interview();
+	}
 
 	const add_interview_btn = () => {
 		if(interview_btn_active || question_btn_active){
@@ -89,10 +123,10 @@ const Main = () => {
 	const add_question_btn = () => {
 		if(interview_btn_active || question_btn_active){
 			if(interview_btn_active){
-				set_interview_btn(!interview_btn_active)
+				set_interview_btn(!interview_btn_active);
 			}
 			else{
-				set_question_btn(!question_btn_active)
+				set_question_btn(!question_btn_active);
 			}
 		}
 		set_question_btn(!question_btn_active)
@@ -104,7 +138,7 @@ const Main = () => {
 	};
 
 	const expand_profile_options = () => {
-		set_profile_btn(!profile_btn_active)
+		set_profile_btn(!profile_btn_active);
 	}
 
 	return (
@@ -128,30 +162,38 @@ const Main = () => {
 					</button>
 				</div>
 			</nav>
-			{ !interviewStatus.inInterview ? 
-			<div className={styles.content_container}>
+			{
+			showDash?
+			(<div className={styles.content_container}>
 				<Dashboard 
 					className={styles.interview_dash} 
 					text={"Interviews"} 
 					type={"interview_dash"} 
 					button_status={interview_btn_active} 
-					onClick={add_interview_btn}
 					post={post}
+					show_interview_detail={show_interview_detail}
 				/>
+				{
+				localStorage.getItem("userType") == "interviewer"?
 				<Dashboard 
 					className={styles.problem_dash}
 					text={"Questions"}
 					type={"question_dash"}
 					button_status={question_btn_active}
-					onClick={add_question_btn}
 					post={post}
-				/>
-			</div> 
-			// <div className={styles.content_container}>
-			// 		<QuestionMain post={post}/>
-			// </div>
+					show_question_detail={show_question_detail}
+				/>:<></>
+				}
+			</div>):
+			(showQuestion? 
+			<div className={styles.content_container}>
+					<QuestionMain 
+						post={post} 
+						show_dashboard_detail={show_dashboard_detail}
+					/>
+			</div>
 			:
-			<div className={styles.interview_interface}>
+			(showInterview? <div className={styles.interview_interface}>
 				<div className={styles.coding_interface}>
 
 				</div>
@@ -164,6 +206,9 @@ const Main = () => {
 					</div>
 				</div>
 			</div>
+			:<p>Invalid Frontend Status</p>
+			)
+			)
 			}
 		</div>
 	);

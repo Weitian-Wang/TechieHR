@@ -1,6 +1,6 @@
 import styles from './styles.module.css' 
 
-const Interview = ({props}) => {
+const Interview = ({props, show_interview_detail}) => {
     // TEMPERARY DATA FORMAT
     // interviewer_id: {type: String, required: true},
     // interview_name: {type: String, required: true},
@@ -11,10 +11,8 @@ const Interview = ({props}) => {
 
     const color_list = ['#fee4cb', '#e9e7fd', '#dbf6fd', '#ffd3e2', '#c8f7dc', '#d5deff']
 
-    console.log(props)
-
 	return (
-        <div className={styles.interview_box} style={{backgroundColor:color_list[ Math.floor(Math.random() * color_list.length)]}}>
+        <div className={styles.interview_box} style={{backgroundColor:color_list[props._id.charCodeAt(12) % color_list.length]}}>
             <div>
                 <p className={styles.name}>{`${props.interviewer_name} & ${props.interviewee_name}`}</p>
                 <p className={styles.interview_name}>{`${props.interview_name}`}</p>
@@ -26,8 +24,8 @@ const Interview = ({props}) => {
                 <p className={styles.create_time}> {props.interviewee_email} </p>
             </div>
             <div className={styles.action_group}>
-                <button className={styles.btn2}>Join</button>
-                <button className={styles.btn1}>···</button>
+                <button id={props._id} className={styles.btn2} onClick={(e) => show_interview_detail(e)}>Join</button>
+                <button id={props._id} className={styles.btn1}>···</button>
             </div>
         </div>
     )

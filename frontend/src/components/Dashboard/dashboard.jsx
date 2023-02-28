@@ -20,20 +20,25 @@ const Dashboard = (props) => {
         const post_request = async () => {
             try{
                 var data;
-                if(props.type == "question_dash"){
-                    data = await props.post('/api/question/list', {});
+                if(localStorage.getItem("userType") == "interviewer"){
+                    if(props.type == "question_dash"){
+                        data = await props.post('/api/question/list', {});
+                    }
+                    if(props.type == "interview_dash"){
+                        data = await props.post('/api/interview/list/interviewer', {});
+                    }
                 }
-                if(props.type == "interview_dash"){
-                    data = await props.post('/api/interview/list/interviewer', {});
+                if(localStorage.getItem("userType") == "interviewee"){
+                    data = await props.post('/api/interview/list/interviewee', {});
                 }
-                set_list(data.list)
+                set_list(data.list);
             }
             catch(error){
                 console.log(error.message)
             }
         }
         post_request()
-    }, [props.type])
+    }, [props.button_status])
 
     useEffect(() => {
         set_display_list(list)
@@ -44,14 +49,20 @@ const Dashboard = (props) => {
 		if(value.length != 0){
 			set_display_list(list.filter(item => {
                 var rst = false;
-                if(item.name){
-				    rst = rst || item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+                if(item.interviewer_name){
+				    rst = rst || item.interviewer_name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+                }
+                if(item.interviewee_name){
+				    rst = rst || item.interviewee_name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
                 }
                 if(item.interview_name){
                     rst = rst || item.interview_name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
                 }
-                if(item.email){
-                    rst = rst || item.email.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+                if(item.interviewee_email){
+                    rst = rst || item.interviewee_email.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+                }
+                if(item.title){
+                    rst = rst || item.title.toLocaleLowerCase().includes(value.toLocaleLowerCase());
                 }
                 return rst;
 			}));
@@ -67,7 +78,7 @@ const Dashboard = (props) => {
                 <div className={styles.dash_header}>
                     <div className={styles.left_cluster}>
                             <h2>{props.text}</h2>
-                            <button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>
+                            {localStorage.getItem("userType") == "interviewer"?<button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>:<></>}
                     </div>
                     <Seachbar search={search_list}/>
                 </div>
@@ -76,9 +87,9 @@ const Dashboard = (props) => {
                 {
                     props.type==="interview_dash"?
                     display_list.map((item) => 
-                    <Interview key={item.id} props={item}/>):
+                    <Interview key={item._id} props={item} post={props.post} show_interview_detail={props.show_interview_detail}/>):
                     display_list.map((item) =>
-                    <Question key={item.id} props={item}/>)
+                    <Question key={item._id} props={item} post={props.post} show_question_detail={props.show_question_detail}/>)
                 }
                 </div>
 			</div>

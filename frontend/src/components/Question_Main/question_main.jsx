@@ -3,12 +3,16 @@ import Markdown from '../Markdown/markdown'
 import Codepad from '../Codepad/codepad'
 import { useRef, useState } from "react";
 
-const QuestionMain = ({props}) => {
+const QuestionMain = ({props, show_dashboard_detail}) => {
     // TEMPERARY DATA FORMAT
     // {
     //     id:
     //     name:
     // }
+    const exit_to_dashboard = () => {
+        show_dashboard_detail();
+    }
+
     const [markdown_content, set_markdown_content] = useState(`## Sliding Window Maximum
 ---
 You are given an array of integers **nums**, there is a sliding window of size array which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
@@ -107,8 +111,8 @@ class Solution:
             <div className={styles.case_and_result}>
                 <div>Test Cases</div>
                 <div>Result</div>
-                <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}}>X</div>
-                <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}}>&#10004;</div>
+                <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}} onClick={exit_to_dashboard}>X</div>
+                <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={exit_to_dashboard}>&#10004;</div>
             </div>
         </div>
     )
