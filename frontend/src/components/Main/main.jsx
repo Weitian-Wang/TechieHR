@@ -64,117 +64,9 @@ const Main = () => {
 		}
 	};
 
-	const dummy_interviews = [
-		{
-			id: 1,
-			interview_name: "Initial Round",
-			name: "Richard",
-			email: "weitiaw1@uci.edu",
-			// time format from backend to be decided
-			create_time: "02/14/2023",
-			scheduled_time: "02/16/2023 08:00",
-			length: 60
-		},
-		{
-			id: 2,
-			interview_name: "Technical Round",
-			name: "Lanny",
-			email: "lannyw@uci.edu",
-			// time format from backend to be decided
-			create_time: "02/14/2023",
-			scheduled_time: "02/16/2023 08:00",
-			length: 80
-		},
-		{
-			id: 3,
-			interview_name: "Coding Round",
-			name: "Richard",
-			email: "weitiaw1@uci.edu",
-			// time format from backend to be decided
-			create_time: "02/12/2023",
-			scheduled_time: "02/13/2023 08:00",
-			length: 120
-		},
-		{
-			id: 4,
-			interview_name: "Behavior Interview",
-			name: "Richard",
-			email: "weitiaw1@uci.edu",
-			// time format from backend to be decided
-			create_time: "02/12/2023",
-			scheduled_time: "02/26/2023 12:00",
-			length: 80
-		},
-		{
-			id: 5,
-			interview_name: "HR Interview",
-			name: "Richard",
-			email: "weitiaw1@uci.edu",
-			// time format from backend to be decided
-			create_time: "02/12/2023",
-			scheduled_time: "02/13/2023 15:00",
-			length: 120
-		},
-		{
-			id: 6,
-			interview_name: "Final Round",
-			name: "Richard",
-			email: "weitiaw1@uci.edu",
-			// time format from backend to be decided
-			create_time: "02/15/2023",
-			scheduled_time: "02/20/2023 16:00",
-			length: 120
-		},
-		{
-			id: 7,
-			interview_name: "Second Round",
-			name: "Richard",
-			email: "weitiaw1@uci.edu",
-			// time format from backend to be decided
-			create_time: "02/15/2023",
-			scheduled_time: "02/20/2023 21:00",
-			length: 120
-		}
-	]
-
-	const dummy_questions = [
-		{
-			id: 1,
-			name: "Median of Two Sorted Array"
-		},
-		{
-			id: 2,
-			name: "Two Sum"
-		},
-		{
-			id: 3,
-			name: "Palindromic Substrings with Recursion & Two Pointers"
-		},
-		{
-			id: 4,
-			name: "Coin Change"
-		},
-		{
-			id: 5,
-			name: "Coin Change II"
-		},
-		{
-			id: 6,
-			name: "Longest Common Sequence"
-		},
-		{
-			id: 7,
-			name: "Edit Distance"
-		},
-	]
-
 	const [interviewStatus, setInterviewStatus] = useState({
 		inInterview: false
 	});
-
-	// may move to dashboard component later
-	const [interviews, set_interviews] = useState(dummy_interviews)
-	const [questions, set_questions] = useState(dummy_questions)
 
 	// variable for button status
 	const [profile_btn_active, set_profile_btn] = useState(false);
@@ -244,7 +136,6 @@ const Main = () => {
 					type={"interview_dash"} 
 					button_status={interview_btn_active} 
 					onClick={add_interview_btn}
-					list={interviews}
 					post={post}
 				/>
 				<Dashboard 
@@ -253,7 +144,6 @@ const Main = () => {
 					type={"question_dash"}
 					button_status={question_btn_active}
 					onClick={add_question_btn}
-					list={questions}
 					post={post}
 				/>
 			</div> 

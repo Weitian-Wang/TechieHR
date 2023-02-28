@@ -13,13 +13,19 @@ const Dashboard = (props) => {
 
     // else list = props.post('/interview/list', {})
     // copy of interview list and question list for searching
-    const [list, set_list] = useState(props.list)
-	const [display_list, set_display_list] = useState(props.list)
+    const [list, set_list] = useState([])
+	const [display_list, set_display_list] = useState(list)
     
     useEffect(() => {
         const post_request = async () => {
             try{
-                const data = await props.post('/api/question/list', {});
+                var data;
+                if(props.type == "question_dash"){
+                    data = await props.post('/api/question/list', {});
+                }
+                if(props.type == "interview_dash"){
+                    data = await props.post('/api/interview/list/interviewer', {});
+                }
                 set_list(data.list)
             }
             catch(error){
