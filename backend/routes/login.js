@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 			email: user.email,
 			// for frontend page load divergent ONLY
 			// check role for backend api access control
-			enterprise: user.enterprise,
+			role: user.role,
 			firstName: user.firstName,
 			lastName: user.lastName,
 			message: "Logged in Successfully"
