@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
         const data = {
             grader: grader,
         }
-        res.status(201).send({ message: "Question Files Loaded", data: data});
+        res.status(201).send({ message: "Question Grader Loaded", data: data});
 	} catch (error) {
         console.log(error);
 		if(error.error_code != 500){

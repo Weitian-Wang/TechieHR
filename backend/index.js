@@ -18,9 +18,16 @@ const questionDetailRoutes = require("./routes/question_detail")
 const questionDescriptionLoadRoutes = require("./routes/question_description_load")
 const questionDescriptionSaveRoutes = require("./routes/question_description_save")
 const questionGraderLoadRoutes = require("./routes/question_grader_load")
-const questionSolutionLoadRoutes = require("./routes/question_grader_load")
+const questionGraderSaveRoutes = require("./routes/question_grader_save")
+const questionSolutionLoadRoutes = require("./routes/question_solution_load")
+const questionSolutionSaveRoutes = require("./routes/question_solution_save")
+const questionInputLoadRoutes = require("./routes/question_input_load")
+const questionInputSaveRoutes = require("./routes/question_input_save")
+const questionOutputLoadRoutes = require("./routes/question_output_load")
+const questionOutputSaveRoutes = require("./routes/question_output_save")
 
 // interview
+
 const interviewListByIntervieweeRoutes = require("./routes/interview_list_interviewee")
 const interviewListByInterviewerRoutes = require("./routes/interview_list_interviewer")
 const interviewCreateRoutes = require("./routes/interview_create")
@@ -92,7 +99,13 @@ app.use("/api/question/detail", questionDetailRoutes);
 app.use("/api/question/description/load", questionDescriptionLoadRoutes);
 app.use("/api/question/description/save", questionDescriptionSaveRoutes);
 app.use("/api/question/grader/load", questionGraderLoadRoutes);
+app.use("/api/question/grader/save", questionGraderSaveRoutes);
 app.use("/api/question/solution/load", questionSolutionLoadRoutes);
+app.use("/api/question/solution/save", questionSolutionSaveRoutes);
+app.use("/api/question/input/load", questionInputLoadRoutes);
+app.use("/api/question/input/save", questionInputSaveRoutes);
+app.use("/api/question/output/load", questionOutputLoadRoutes);
+app.use("/api/question/output/save", questionOutputSaveRoutes);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

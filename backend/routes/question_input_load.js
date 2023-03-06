@@ -4,6 +4,7 @@ const { Question } = require("../models/question");
 const { auth } = require("../lib/auth");
 const { USER_ROLE } = require("../lib/constants");
 
+// this API is for INTERVIEWER ONLY
 router.post("/", async (req, res) => {
 	try {
         const uid = await auth(req, [USER_ROLE.INTERVIEWER]);
@@ -13,19 +14,11 @@ router.post("/", async (req, res) => {
         }
         // WORKDIR /app
         const dirpath = `./questions/${uid}/${existQuestion._id}`;
-        const description = await readFile(dirpath+'/description.md', {encoding: 'utf-8'});
-        const grader = await readFile(dirpath+'/grader.py', {encoding: 'utf-8'});
-        const solution = await readFile(dirpath+'/solution.py', {encoding: 'utf-8'});
         const input = await readFile(dirpath+'/input', {encoding: 'utf-8'});
-        const output = await readFile(dirpath+'/output', {encoding: 'utf-8'});
         const data = {
-            description: description,
-            grader: grader,
-            solution: solution,
-            input: input,
-            output: output,
+            input: input
         }
-        res.status(201).send({ message: "Question Files Loaded", data: data});
+        res.status(201).send({ message: "Question Input Loaded", data: data});
 	} catch (error) {
         console.log(error);
         if(error.error_code != 500){

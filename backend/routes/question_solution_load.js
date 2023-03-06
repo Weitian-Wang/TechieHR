@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
         const data = {
             solution: solution
         }
-        res.status(201).send({ message: "Question Files Loaded", data: data});
+        res.status(201).send({ message: "Question Solution Loaded", data: data});
 	} catch (error) {
         console.log(error);
         if(error.error_code != 500){

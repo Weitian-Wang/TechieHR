@@ -17,7 +17,9 @@ const QuestionMain = (props) => {
                 const data = await props.post('/api/question/detail', { qid: props.qid });
                 set_markdown_content(data.description);
                 set_grader_code(data.grader);
-                set_solution_code(data.solution)
+                set_solution_code(data.solution);
+                set_input_content(data.input);
+                set_output_content(data.output);
             }
             catch(error){
                 console.log(error.message)
@@ -55,7 +57,7 @@ const QuestionMain = (props) => {
             try{
                 switch(target){
                     case "description_save":    await props.post('/api/question/description/save', { qid: props.qid, content: markdown_content });break;
-                    case "grade_save":          await props.post('/api/question/grade/save', { qid: props.qid, content: grader_code });break;
+                    case "grader_save":          await props.post('/api/question/grader/save', { qid: props.qid, content: grader_code });break;
                     case "solution_save":       await props.post('/api/question/solution/save', { qid: props.qid, content: solution_code });break;
                     case "input_save":          await props.post('/api/question/input/save', { qid: props.qid, content: input_content });break;
                     case "output_save":         await props.post('/api/question/output/save', { qid: props.qid, content: output_content });break;
@@ -78,24 +80,28 @@ const QuestionMain = (props) => {
                             set_markdown_content(data.description);
                             break;
                         }
-                    case "grade_load":          
+                    case "grader_load":          
                         {   
-                            await props.post('/api/question/grade/load', { qid: props.qid });
+                            const data = await props.post('/api/question/grader/load', { qid: props.qid });
+                            set_grader_code(data.grader);
                             break;
                         }
                     case "solution_load":       
                         {   
-                            await props.post('/api/question/solution/load', { qid: props.qid });
+                            const data = await props.post('/api/question/solution/load', { qid: props.qid });
+                            set_solution_code(data.solution);
                             break;
                         }
                     case "input_load":
                         {
-                            await props.post('/api/question/input/load', { qid: props.qid });
+                            const data = await props.post('/api/question/input/load', { qid: props.qid });
+                            set_input_content(data.input)
                             break;
                         }
                     case "output_load":
                         {
-                            await props.post('/api/question/output/load', { qid: props.qid });
+                            const data = await props.post('/api/question/output/load', { qid: props.qid });
+                            set_output_content(data.output)
                             break;
                         }
                 }
@@ -115,12 +121,29 @@ const QuestionMain = (props) => {
             case "description_upload":  description_upload.current.click();break;
             case "description_save":    onSaveFile(target);break;
             case "description_load":    onLoadFile(target);break;
-            case "grader_upload":       grader_upload.current.click();break;
-            case "solution_upload":     solution_upload.current.click();break;
-            case "input_upload":        input_upload.current.click();break;
-            case "output_upload":       output_upload.current.click();break;
+            case "grader_upload":  grader_upload.current.click();break;
+            case "grader_save":    onSaveFile(target);break;
+            case "grader_load":    onLoadFile(target);break;
+            case "solution_upload":  solution_upload.current.click();break;
+            case "solution_save":    onSaveFile(target);break;
+            case "solution_load":    onLoadFile(target);break;
+            case "input_upload":  input_upload.current.click();break;
+            case "input_save":    onSaveFile(target);break;
+            case "input_load":    onLoadFile(target);break;
+            case "output_upload":  output_upload.current.click();break;
+            case "output_save":    onSaveFile(target);break;
+            case "output_load":    onLoadFile(target);break;
         }
     };
+
+    const save_all_changes = async () =>{
+        await props.post('/api/question/description/save', { qid: props.qid, content: markdown_content });
+        await props.post('/api/question/grader/save', { qid: props.qid, content: grader_code });
+        await props.post('/api/question/solution/save', { qid: props.qid, content: solution_code });
+        await props.post('/api/question/input/save', { qid: props.qid, content: input_content });
+        await props.post('/api/question/output/save', { qid: props.qid, content: output_content });
+        props.show_dashboard_detail();
+    }
 
 	return (
         <div className={styles.question_container}>
@@ -149,8 +172,8 @@ const QuestionMain = (props) => {
                     <h3 style={{margin: '0.3em 0 0.3em 0'}}>Auto Grader</h3>
                     <div className={styles.btn} id='grader_upload' onClick={(e) => onButtonClick(e)}>📁</div>
                     <input type='file' id='grader_upload' ref={grader_upload} style={{display: 'none'}} onChange={(e) => onUploadFile(e)}/>
-                    <div className={styles.btn}>💾</div>
-                    <div className={styles.btn}>↩️</div>
+                    <div className={styles.btn} id='grader_save'   onClick={(e) => onButtonClick(e)}>💾</div>
+                    <div className={styles.btn} id='grader_load'   onClick={(e) => onButtonClick(e)}>↩️</div>
                 </div>
                 <div className={styles.auto_grader}>
                     <Codepad 
@@ -161,11 +184,11 @@ const QuestionMain = (props) => {
                     />
                 </div>
                 <div className={styles.action_group}>
-                    <h3 style={{margin: '0.3em 0 0.3em 0'}}>Offical Solution</h3>
+                    <h3 style={{margin: '0.3em 0 0.3em 0'}}>Official Solution</h3>
                     <div className={styles.btn} id='solution_upload' onClick={(e) => onButtonClick(e)}>📁</div>
                     <input type='file' id='solution_upload' ref={solution_upload} style={{display: 'none'}} onChange={(e) => onUploadFile(e)}/>
-                    <div className={styles.btn}>💾</div>
-                    <div className={styles.btn}>↩️</div>
+                    <div className={styles.btn} id='solution_save'   onClick={(e) => onButtonClick(e)}>💾</div>
+                    <div className={styles.btn} id='solution_load'   onClick={(e) => onButtonClick(e)}>↩️</div>
                 </div>
                 <div className={styles.solution}>
                     <Codepad 
@@ -177,10 +200,40 @@ const QuestionMain = (props) => {
                 </div>
             </div>
             <div className={styles.case_and_result}>
-                <div>Test Cases</div>
-                <div>Result</div>
-                <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}} onClick={props.show_dashboard_detail}>X</div>
-                <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={props.show_dashboard_detail}>&#10004;</div>
+                <div className={styles.action_group}>
+                    <h3 style={{margin: '0.3em 0 0.3em 0'}}>Input</h3>
+                    <div className={styles.btn} id='input_upload' onClick={(e) => onButtonClick(e)}>📁</div>
+                    <input type='file' id='input_upload' ref={input_upload} style={{display: 'none'}} onChange={(e) => onUploadFile(e)}/>
+                    <div className={styles.btn} id='input_save'   onClick={(e) => onButtonClick(e)}>💾</div>
+                    <div className={styles.btn} id='input_load'   onClick={(e) => onButtonClick(e)}>↩️</div>
+                </div>
+                <div className={styles.test_case}>
+                    <Codepad 
+                        className={styles.test_case_input}
+                        needHighlight={true}
+                        code={input_content}
+                        setCode={set_input_content}
+                    />
+                </div>
+                <div className={styles.action_group}>
+                    <h3 style={{margin: '0.3em 0 0.3em 0'}}>Output</h3>
+                    <div className={styles.btn} id='output_upload' onClick={(e) => onButtonClick(e)}>📁</div>
+                    <input type='file' id='output_upload' ref={output_upload} style={{display: 'none'}} onChange={(e) => onUploadFile(e)}/>
+                    <div className={styles.btn} id='output_save'   onClick={(e) => onButtonClick(e)}>💾</div>
+                    <div className={styles.btn} id='output_load'   onClick={(e) => onButtonClick(e)}>↩️</div>
+                </div>
+                <div className={styles.test_case}>
+                    <Codepad 
+                        className={styles.test_case_input}
+                        needHighlight={true}
+                        code={output_content}
+                        setCode={set_output_content}
+                    />
+                </div>
+                <div className={styles.question_edit_action}>
+                    <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}} onClick={props.show_dashboard_detail}>X</div>
+                    <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={save_all_changes}>&#10004;</div>
+                </div>
             </div>
         </div>
     )
