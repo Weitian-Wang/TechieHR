@@ -2,10 +2,11 @@ import styles from "./styles.module.css"
 import Peer from "simple-peer"
 import { io } from "socket.io-client"
 import { useEffect, useRef, useState } from "react"
+import { FaVideo, FaVideoSlash, FaMicrophone, FaMicrophoneSlash } from "react-icons/fa"
 
 
 const Video = () => {
-	const socket = io('http://localhost:80')
+	const [socket, setSocket] = useState()
 	const userType = localStorage.getItem("userType")
 
 	// dummies value
@@ -13,23 +14,29 @@ const Video = () => {
 	const [userToCall, setUserToCall] = useState("")
 	const [userCalling, setUserCalling] = useState("")
 
-	const [ stream, setStream ] = useState()
+	const [ localVideoStream, setLocalVideoStream ] = useState(null)
 	const [ receivingCall, setReceivingCall ] = useState(false)
 	const [ sendingCall, setSendingCall ] = useState(false)
-	const [ callerSignal, setCallerSignal ] = useState()
+	const [ callerSignal, setCallerSignal ] = useState(null)
 	const [ callAccepted, setCallAccepted ] = useState(false)
 	const [ callEnded, setCallEnded ] = useState(true)
-	const [ localAudio, setLocalAudio ] = useState(true)
-	const [ localAudioTrack, setLocalAudioTrack ] = useState()
 	const [ localVideoSmall, setLocalVideoSmall ] = useState(false)
 
-	var localVideo = useRef()
-	var remoteVideo = useRef()
+	const [ localVideoOn, setLocalVideoOn ] = useState(false)
+	const [ localAudioOn, setLocalAudioOn ] = useState(false)
+
+	const localVideo = useRef()
+	const remoteVideo = useRef()
 	const connection = useRef()
 
 	useEffect(() => {
+		const socket = io('http://localhost:80')
+		setSocket(socket)
+
 		navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-			setStream(stream)
+			setLocalVideoStream(stream)
+			stream.getVideoTracks()[0].enabled = false
+			stream.getAudioTracks()[0].enabled = false
 			localVideo.current.srcObject = stream
 		})
 
@@ -49,8 +56,12 @@ const Video = () => {
 			setCallAccepted(false)
 			setCallEnded(true)
 			connection.current.destroy()
-			socket.disconnect()
 		})
+
+		return () => {
+			socket.removeAllListeners()
+			socket.disconnect()
+		}
 	}, [])
 
 	const call = () => {
@@ -58,7 +69,7 @@ const Video = () => {
 		const peer = new Peer({
 			initiator: true,
 			trickle: false,
-			stream: stream
+			stream: localVideoStream
 		})
 		peer.on("signal", (data) => {
 			socket.emit("call", {
@@ -87,7 +98,7 @@ const Video = () => {
 		const peer = new Peer({
 			initiator: false,
 			trickle: false,
-			stream: stream
+			stream: localVideoStream
 		})
 		peer.on("signal", (data) => {
 			socket.emit("accept", { signal: data, to: userCalling })
@@ -108,30 +119,42 @@ const Video = () => {
 		connection.current.destroy()
 		if (userType === "interviewer") socket.emit("end", userToCall)
 		else socket.emit("end", userCalling)
-		socket.disconnect()
+	}
+
+	const toggleLocalVideo = () => {
+		if (localVideoOn) {
+			localVideoStream.getVideoTracks()[0].enabled = false
+			setLocalVideoOn(false)
+		} else {
+			localVideoStream.getVideoTracks()[0].enabled = true
+			setLocalVideoOn(true)
+		}
 	}
 
 	const toggleLocalAudio = () => {
-		setLocalAudio(!localAudio)
+		if (localAudioOn) {
+			localVideoStream.getAudioTracks()[0].enabled = false
+			setLocalAudioOn(false)
+		} else {
+			localVideoStream.getAudioTracks()[0].enabled = true
+			setLocalAudioOn(true)
+		}
 	}
+
+	const localVideoHTML = <video playsInline muted ref={localVideo} autoPlay className={styles.local_video} />
+
+	const remoteVideoHTML = <video playsInline ref={remoteVideo} autoPlay className={styles.remote_video} />
 
     return (
         <div className={styles.video_container}>
-			{stream && <div className={styles.large_video}>
-				{localVideoSmall && callAccepted && !callEnded
-					? <video playsInline ref={remoteVideo} autoPlay className={styles.remote_video} />
-					: <video playsInline muted ref={localVideo} autoPlay className={styles.local_video} />}
-				{callAccepted && !callEnded && <div className={styles.small_video} onClick={() => setLocalVideoSmall(!localVideoSmall)}>
-					{localVideoSmall
-						? <video playsInline muted ref={localVideo} autoPlay className={styles.local_video} />
-						: <video playsInline ref={remoteVideo} autoPlay className={styles.remote_video} />}
-				</div>}
-			</div>}
+			<div className={callAccepted && !callEnded && localVideoSmall ? styles.small_video : styles.large_video} onClick={callAccepted && !callEnded && localVideoSmall ? () => setLocalVideoSmall(false) : ''}>{localVideoHTML}</div>
+			{callAccepted && !callEnded && <div className={localVideoSmall ? styles.large_video : styles.small_video} onClick={!localVideoSmall ? () => setLocalVideoSmall(true) : ''}>{remoteVideoHTML}</div>}
 			<div className={styles.video_buttons}>
+				{localVideoOn ? <div className={styles.video_button} onClick={toggleLocalVideo}><FaVideo /></div> : <div className={`${styles.video_button} ${styles.video_button_red}`} onClick={toggleLocalVideo}><FaVideoSlash /></div>}
+				{localAudioOn ? <div className={styles.video_button} onClick={toggleLocalAudio}><FaMicrophone /></div> : <div className={`${styles.video_button} ${styles.video_button_red}`} onClick={toggleLocalAudio}><FaMicrophoneSlash /></div>}
 				{userType === "interviewer" && !callAccepted && callEnded && <button onClick={call}>Join Video</button>}
 				{userType === "interviewee" && receivingCall && !callAccepted && <button onClick={accept}>Answer Video</button>}
 				{(receivingCall || sendingCall || !callEnded) && <button onClick={end}>End Video</button>}
-				{callAccepted && !callEnded && <button onClick={toggleLocalAudio}>{localAudio ? "Close Audio" : "Open Audio"}</button>}
 			</div>
 			<p>{socketId}</p>
 			{userType === "interviewer" && <input value={userToCall} onChange={(e) => setUserToCall(e.target.value)}></input>}
