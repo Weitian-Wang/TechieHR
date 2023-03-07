@@ -138,6 +138,7 @@
 	height: 50px;
 	font-weight: bold;
     text-align: center;
+    vertical-align: middle;
     line-height: 50px;
 	font-size: 30px;
 	transition: 0.2s;

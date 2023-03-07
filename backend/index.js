@@ -25,6 +25,7 @@ const questionInputLoadRoutes = require("./routes/question_input_load")
 const questionInputSaveRoutes = require("./routes/question_input_save")
 const questionOutputLoadRoutes = require("./routes/question_output_load")
 const questionOutputSaveRoutes = require("./routes/question_output_save")
+const questionSubmit = require("./routes/question_submit")
 
 // interview
 
@@ -106,6 +107,7 @@ app.use("/api/question/input/load", questionInputLoadRoutes);
 app.use("/api/question/input/save", questionInputSaveRoutes);
 app.use("/api/question/output/load", questionOutputLoadRoutes);
 app.use("/api/question/output/save", questionOutputSaveRoutes);
+app.use("/api/question/submit", questionSubmit)
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

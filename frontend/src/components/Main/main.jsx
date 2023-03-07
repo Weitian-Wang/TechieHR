@@ -35,7 +35,7 @@ const Main = () => {
 	// url = "/api/register"
 	// pass as prop to lower level
 	// data dictionary {id:val, name:val}
-	const post = async (api_url, data) => {
+	const post = async (api_url, data, msg_prompt = true) => {
 		try {
 			const url = "http://localhost:8080" + api_url;
 			const { data: res } = await axios.post(
@@ -47,7 +47,7 @@ const Main = () => {
 					}
 				}
 			);
-			prompt(res.message, true);
+			if(msg_prompt) prompt(res.message, true);
 			return res.data
 		} catch (error) {
 			console.log(error);
@@ -56,10 +56,10 @@ const Main = () => {
 				error.response.status >= 400 &&
 				error.response.status <= 500
 			) {
-				prompt(error.response.data.message, false);
+				if(msg_prompt) prompt(error.response.data.message, false);
 			}
 			else{
-				prompt("APP Internal Error", false);
+				if(msg_prompt) prompt("APP Internal Error", false);
 			}
 		}
 	};

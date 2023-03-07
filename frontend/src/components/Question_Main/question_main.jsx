@@ -137,12 +137,17 @@ const QuestionMain = (props) => {
     };
 
     const save_all_changes = async () =>{
-        await props.post('/api/question/description/save', { qid: props.qid, content: markdown_content });
-        await props.post('/api/question/grader/save', { qid: props.qid, content: grader_code });
-        await props.post('/api/question/solution/save', { qid: props.qid, content: solution_code });
-        await props.post('/api/question/input/save', { qid: props.qid, content: input_content });
-        await props.post('/api/question/output/save', { qid: props.qid, content: output_content });
+        await props.post('/api/question/description/save', { qid: props.qid, content: markdown_content }, false);
+        await props.post('/api/question/grader/save', { qid: props.qid, content: grader_code }, false);
+        await props.post('/api/question/solution/save', { qid: props.qid, content: solution_code }, false);
+        await props.post('/api/question/input/save', { qid: props.qid, content: input_content }, false);
+        await props.post('/api/question/output/save', { qid: props.qid, content: output_content }, false);
+
         props.show_dashboard_detail();
+    }
+
+    const test_run = async () => {
+        await props.post('/api/question/submit', { qid: props.qid, solution: solution_code });
     }
 
 	return (
@@ -231,6 +236,7 @@ const QuestionMain = (props) => {
                     />
                 </div>
                 <div className={styles.question_edit_action}>
+                <div className={styles.round_btn} style={{backgroundColor:"var(--status-orange)", fontSize:"1em"}} onClick={test_run}>RUN</div>
                     <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}} onClick={props.show_dashboard_detail}>X</div>
                     <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={save_all_changes}>&#10004;</div>
                 </div>

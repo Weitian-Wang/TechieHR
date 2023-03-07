@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
         }
         // WORKDIR /app
         const dirpath = `./questions/${uid}/${existQuestion._id}`;
-        await writeFile(dirpath+'/Solution.py', req.body.content);
+        await writeFile(dirpath+'/solution.py', req.body.content);
         res.status(201).send({ message: "Question Solution Saved" });
 	} catch (error) {
         console.log(error);
