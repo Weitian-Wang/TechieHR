@@ -5,9 +5,9 @@ class Solution(object):
         :type target: int
         :rtype: List[int]
         """
-        d = {}
-        for idx, num in enumerate(nums):
-            if num in d:
-                return [d[num], idx]
-            else:
-                d[target-num] = idx
+        seen = {}
+        for idx,num in enumerate(nums):
+            if num in seen:
+                return [seen[num], idx]
+            seen[target-num] = idx
+        return

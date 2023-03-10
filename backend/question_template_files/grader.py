@@ -15,7 +15,7 @@ def main():
         while idx < len(input_lines):
             # convert line into input data
             data = input_lines[idx].strip('\n')
-            result = solution.dosomething(data)
+            result = solution.solve(data)
             idx += 1
             # user_output.write(str(result)+'\n')
         

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import {URL} from '../../utils'
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 
@@ -14,7 +15,7 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:8080/api/login";
+			const url = `${URL}:8080/api/login`;
 			const { data: res } = await axios.post(url, data);
 			localStorage.setItem("token", res.token);
 			localStorage.setItem("email", res.email);

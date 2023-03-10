@@ -3,7 +3,7 @@ import Peer from "simple-peer"
 import { io } from "socket.io-client"
 import { useEffect, useRef, useState } from "react"
 import { FaVideo, FaVideoSlash, FaMicrophone, FaMicrophoneSlash } from "react-icons/fa"
-
+import { URL } from "../../utils"
 
 const Video = () => {
 	const [socket, setSocket] = useState()
@@ -30,7 +30,7 @@ const Video = () => {
 	const connection = useRef()
 
 	useEffect(() => {
-		const socket = io('http://localhost:80')
+		const socket = io(`${URL}:80`)
 		setSocket(socket)
 
 		navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {

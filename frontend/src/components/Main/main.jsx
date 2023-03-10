@@ -2,8 +2,7 @@ import styles from "./styles.module.css";
 import Dashboard from "../Dashboard/dashboard";
 import Video from "../Video/video";
 import QuestionMain from "../Question_Main/question_main"
-/* Example of token validation*/
-import { validateToken } from "../../utils";
+import {URL} from '../../utils'
 import axios from "axios";
 import { useRef, useEffect, useState } from "react";
 
@@ -15,19 +14,20 @@ const Main = () => {
 
 	const [prompt_msg, set_prompt_msg] = useState("")
 	const promptRef = useRef(null); 
-
+	var promptTimeout;
 	// isSuccess === true prompt success message
 	// else prompt error message
-	// setTimeout funky behavior, needs debounce?
 	const prompt = (msg, isSuccess) => {
 		set_prompt_msg(msg);
 		if(isSuccess){
+			clearTimeout(promptTimeout);
 			promptRef.current.className = styles.success_msg;
-			setTimeout(() => {promptRef.current.className = styles.hide_success_msg}, 3500);
+			promptTimeout = setTimeout(() => {promptRef.current.className = styles.hide_success_msg}, 3500);
 		}
 		else{
+			clearTimeout(promptTimeout);
 			promptRef.current.className = styles.error_msg;
-			setTimeout(() => {promptRef.current.className = styles.hide_error_msg}, 3500);
+			promptTimeout = setTimeout(() => {promptRef.current.className = styles.hide_error_msg}, 3500);
 		}
 	}
 	
@@ -37,7 +37,7 @@ const Main = () => {
 	// data dictionary {id:val, name:val}
 	const post = async (api_url, data, msg_prompt = true) => {
 		try {
-			const url = "http://localhost:8080" + api_url;
+			const url =`${URL}:8080` + api_url;
 			const { data: res } = await axios.post(
 				url, 
 				data, 
