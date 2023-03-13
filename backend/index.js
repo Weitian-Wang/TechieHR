@@ -45,24 +45,25 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-	console.log(`WebSocket ${socket.id} connected`)
+	socket.on("join", (roomId) => {
+		socket.join(roomId)
+		console.log(`WebSocket ${socket.id} connected to room ${roomId}`)
+		socket.to(roomId).emit("userJoined", socket.id)
 
-	socket.emit("socketId", socket.id)
+		socket.on("disconnect", () => {
+			io.to(roomId).emit("callEnded")
+			console.log(`WebSocket ${socket.id} disconnected`)
+		})
+	})
 
 	socket.on("call", (data) => {
+		console.log(`${data.from} called ${data.to}`)
 		io.to(data.to).emit("call", { signal: data.signalData, from: data.from })
 	})
 
 	socket.on("accept", (data) => {
-		io.to(data.to).emit("callAccepted", data.signal)
-	})
-
-	socket.on("end", (id) => {
-		io.to(id).emit("callEnded")
-	})
-
-	socket.on("disconnect", () => {
-		console.log(`WebSocket ${socket.id} disconnected`)
+		console.log(`${socket.id} accepted ${data.to}`)
+		io.to(data.to).emit("callAccepted", data.signalData)
 	})
 })
 

@@ -5,6 +5,8 @@
 }
 
 .large_video {
+    position: relative;
+    height: 100%;
     z-index: 0;
 }
 
@@ -27,6 +29,10 @@
 .remote_video {
     height: 100%;
     width: 100%;
+}
+
+.video_name {
+    position: absolute;
 }
 
 .video_buttons {
