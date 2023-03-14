@@ -9,6 +9,8 @@ import { useRef, useState } from "react";
 const Main = () => {
 	const handleLogout = () => {
 		localStorage.removeItem("token");
+		window.localStorage.removeItem("showDash")
+		window.localStorage.removeItem("showInterview")
 		window.location.reload();
 	};
 
@@ -70,10 +72,10 @@ const Main = () => {
 	const [interview_btn_active, set_interview_btn] = useState(false)
 	const [mode_btn_active, set_mode_btn] = useState(false)
 
-	const [showDash, set_showDash] = useState(false);
+	const [showDash, set_showDash] = useState(window.localStorage.getItem("showDash") ? window.localStorage.getItem("showDash") : true);
 	const [showQuestion, set_showQuestion] = useState(false);
 	const [questionId, set_questionId] = useState(null);
-	const [showInterview, set_showInterview] = useState(true);
+	const [showInterview, set_showInterview] = useState(window.localStorage.getItem("showInterview") === "true");
 	const [interviewId, set_interviewId] = useState(null);
 
 	const show_dashboard = () => {
@@ -90,8 +92,10 @@ const Main = () => {
 
 	const show_interview = () => {
 		set_showDash(false);
+		window.localStorage.setItem("showDash", "false")
 		set_showQuestion(false);
 		set_showInterview(true);
+		window.localStorage.setItem("showInterview", "true")
 	}
 
 	const show_question_detail = (e) => {
