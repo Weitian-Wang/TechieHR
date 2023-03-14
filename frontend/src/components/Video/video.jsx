@@ -8,7 +8,7 @@ import { URL } from "../../utils"
 const Video = (props) => {
 	const [ localVideoStream, setLocalVideoStream ] = useState(null)
 	const [ callEnded, setCallEnded ] = useState(true)
-	const [ localVideoSmall, setLocalVideoSmall ] = useState()
+	const [ localVideoSmall, setLocalVideoSmall ] = useState(window.localStorage.getItem("localVideoSmall") === "true")
 
 	const [ localVideoOn, setLocalVideoOn ] = useState(window.localStorage.getItem("localVideoOn") === "true")
 	const [ localAudioOn, setLocalAudioOn ] = useState(window.localStorage.getItem("localAudioOn") === "true")
@@ -91,6 +91,16 @@ const Video = (props) => {
 		})
 	}
 
+	const toggleLocalVideoSmall = () => {
+		if (localVideoSmall) {
+			setLocalVideoSmall(false)
+			window.localStorage.setItem("localVideoSmall", "false")
+		} else {
+			setLocalVideoSmall(true)
+			window.localStorage.setItem("localVideoSmall", "true")
+		}
+	}
+
 	const toggleLocalVideo = () => {
 		if (localVideoOn) {
 			localVideoStream.getVideoTracks()[0].enabled = false
@@ -121,8 +131,8 @@ const Video = (props) => {
 
     return (
         <div className={styles.video_container}>
-			<div className={!callEnded && localVideoSmall ? styles.small_video : styles.large_video} onClick={!callEnded && localVideoSmall ? () => setLocalVideoSmall(false) : () => void 0}>{localVideoHTML}</div>
-			{!callEnded && <div className={localVideoSmall ? styles.large_video : styles.small_video} onClick={!localVideoSmall ? () => setLocalVideoSmall(true) :  () => void 0}>{remoteVideoHTML}</div>}
+			<div className={!callEnded && localVideoSmall ? styles.small_video : styles.large_video} onClick={!callEnded && localVideoSmall ? () => toggleLocalVideoSmall() : () => void 0}>{localVideoHTML}</div>
+			{!callEnded && <div className={localVideoSmall ? styles.large_video : styles.small_video} onClick={!localVideoSmall ? () => toggleLocalVideoSmall() :  () => void 0}>{remoteVideoHTML}</div>}
 			<div className={styles.video_buttons}>
 				{localVideoOn ? <div className={styles.video_button} onClick={toggleLocalVideo}><FaVideo /></div> : <div className={`${styles.video_button} ${styles.video_button_red}`} onClick={toggleLocalVideo}><FaVideoSlash /></div>}
 				{localAudioOn ? <div className={styles.video_button} onClick={toggleLocalAudio}><FaMicrophone /></div> : <div className={`${styles.video_button} ${styles.video_button_red}`} onClick={toggleLocalAudio}><FaMicrophoneSlash /></div>}
