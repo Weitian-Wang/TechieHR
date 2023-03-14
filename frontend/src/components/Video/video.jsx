@@ -5,31 +5,31 @@ import { useEffect, useRef, useState } from "react"
 import { FaVideo, FaVideoSlash, FaMicrophone, FaMicrophoneSlash } from "react-icons/fa"
 import { URL } from "../../utils"
 
-const Video = () => {
+const Video = (props) => {
 	const [ localVideoStream, setLocalVideoStream ] = useState(null)
 	const [ callEnded, setCallEnded ] = useState(true)
-	const [ localVideoSmall, setLocalVideoSmall ] = useState(false)
+	const [ localVideoSmall, setLocalVideoSmall ] = useState()
 
-	const [ localVideoOn, setLocalVideoOn ] = useState(false)
-	const [ localAudioOn, setLocalAudioOn ] = useState(false)
+	const [ localVideoOn, setLocalVideoOn ] = useState(window.localStorage.getItem("localVideoOn") === "true")
+	const [ localAudioOn, setLocalAudioOn ] = useState(window.localStorage.getItem("localAudioOn") === "true")
 
 	const localVideo = useRef()
 	const remoteVideo = useRef()
 	const connection = useRef()
 
-	const roomId = "123"
+	const roomId = "123" //props.interviewId
 
 	useEffect(() => {
 		const socket = io(`${URL}:80`)
 
 		navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
 			setLocalVideoStream(stream)
-			stream.getVideoTracks()[0].enabled = false
-			stream.getAudioTracks()[0].enabled = false
+			stream.getVideoTracks()[0].enabled = localVideoOn
+			stream.getAudioTracks()[0].enabled = localAudioOn
 			localVideo.current.srcObject = stream
-		})
 
-		socket.emit("join", roomId)
+			socket.emit("join", roomId)
+		})
 
 		socket.on("userJoined", (socketId) => {
 			const peer = createPeer(true)
@@ -47,16 +47,14 @@ const Video = () => {
 			})
 
 			socket.on("callAccepted", (signal) => {
-				setCallEnded(false)
 				peer.signal(signal)
+				setCallEnded(false)
 			})
 
 			connection.current = peer
 		})
 
 		socket.on("call", (data) => {
-			setCallEnded(false)
-
 			const peer = createPeer(false)
 
 			peer.on("signal", (signal) => {
@@ -69,11 +67,14 @@ const Video = () => {
 
 			peer.signal(data.signal)
 			connection.current = peer
+
+			setCallEnded(false)
 		})
 
 		socket.on("callEnded", () => {
 			setCallEnded(true)
 			connection.current.destroy()
+			window.location.reload()
 		})
 
 		return () => {
@@ -94,9 +95,11 @@ const Video = () => {
 		if (localVideoOn) {
 			localVideoStream.getVideoTracks()[0].enabled = false
 			setLocalVideoOn(false)
+			window.localStorage.setItem("localVideoOn", "false")
 		} else {
 			localVideoStream.getVideoTracks()[0].enabled = true
 			setLocalVideoOn(true)
+			window.localStorage.setItem("localVideoOn", "true")
 		}
 	}
 
@@ -104,9 +107,11 @@ const Video = () => {
 		if (localAudioOn) {
 			localVideoStream.getAudioTracks()[0].enabled = false
 			setLocalAudioOn(false)
+			window.localStorage.setItem("localAudioOn", "false")
 		} else {
 			localVideoStream.getAudioTracks()[0].enabled = true
 			setLocalAudioOn(true)
+			window.localStorage.setItem("localAudioOn", "true")
 		}
 	}
 

@@ -4,7 +4,7 @@ import Video from "../Video/video";
 import QuestionMain from "../Question_Main/question_main"
 import {URL} from '../../utils'
 import axios from "axios";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
 const Main = () => {
 	const handleLogout = () => {
@@ -70,10 +70,10 @@ const Main = () => {
 	const [interview_btn_active, set_interview_btn] = useState(false)
 	const [mode_btn_active, set_mode_btn] = useState(false)
 
-	const [showDash, set_showDash] = useState(true);
+	const [showDash, set_showDash] = useState(false);
 	const [showQuestion, set_showQuestion] = useState(false);
 	const [questionId, set_questionId] = useState(null);
-	const [showInterview, set_showInterview] = useState(false);
+	const [showInterview, set_showInterview] = useState(true);
 	const [interviewId, set_interviewId] = useState(null);
 
 	const show_dashboard = () => {
@@ -176,7 +176,7 @@ const Main = () => {
 					show_interview_detail={show_interview_detail}
 				/>
 				{
-				localStorage.getItem("userType") == "interviewer"?
+				localStorage.getItem("userType") === "interviewer"?
 				<Dashboard 
 					className={styles.problem_dash}
 					text={"Questions"}
@@ -202,7 +202,7 @@ const Main = () => {
 				</div>
 				<div className={styles.conferencing_interface}>
 					<div className={styles.video_interface}>
-						<Video></Video>
+						<Video interviewId={interviewId}></Video>
 					</div>
 					<div className={styles.chat_interface}>
 						
