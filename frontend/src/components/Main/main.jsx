@@ -72,7 +72,7 @@ const Main = () => {
 	const [interview_btn_active, set_interview_btn] = useState(false)
 	const [mode_btn_active, set_mode_btn] = useState(false)
 
-	const [showDash, set_showDash] = useState(window.localStorage.getItem("showDash") ? window.localStorage.getItem("showDash") : true);
+	const [showDash, set_showDash] = useState(window.localStorage.getItem("showDash") ? window.localStorage.getItem("showDash") === "true" : true);
 	const [showQuestion, set_showQuestion] = useState(false);
 	const [questionId, set_questionId] = useState(null);
 	const [showInterview, set_showInterview] = useState(window.localStorage.getItem("showInterview") === "true");
