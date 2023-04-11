@@ -5,10 +5,17 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import { URL } from "../../utils";
 import { BsFillSendFill } from "react-icons/bs"
 
+const updateLocalMessageList = (message) => {
+  const messageList = JSON.parse(localStorage.getItem("messageList"))
+  localStorage.setItem("messageList", JSON.stringify([...messageList, message]))
+}
+
 const Chatbox = (props) => {
+    if (localStorage.getItem("messageList") === null) localStorage.setItem("messageList", JSON.stringify([]));
+
     const [socket, setSocket] = useState();
     const [currentMessage, setCurrentMessage] = useState("");
-    const [messageList, setMessageList] = useState([]);
+    const [messageList, setMessageList] = useState(JSON.parse(localStorage.getItem("messageList")));
 
     const roomId = props.interviewId + "_chat"
 
@@ -22,6 +29,7 @@ const Chatbox = (props) => {
         socket.on("receive", (data) => {
             data.user = "remote"
             setMessageList((list) => [...list, data]);
+            updateLocalMessageList(data);
           });
 
         return () => {
@@ -41,6 +49,7 @@ const Chatbox = (props) => {
     
         await socket.emit("send", messageData);
         setMessageList((list) => [...list, messageData]);
+        updateLocalMessageList(messageData);
         setCurrentMessage("");
       }
     }
