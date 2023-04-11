@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import Dashboard from "../Dashboard/dashboard";
+import Interview_Create from "../Interview_Create/interview_create"
 import Video from "../Video/video";
 import Chatbox from "../Chatbox/chatbox";
 import QuestionMain from "../Question_Main/question_main"
@@ -73,33 +74,60 @@ const Main = () => {
 	const [interview_btn_active, set_interview_btn] = useState(false)
 	const [mode_btn_active, set_mode_btn] = useState(false)
 
-	//const [showDash, set_showDash] = useState(false)
+
 	const [showDash, set_showDash] = useState(window.localStorage.getItem("showDash") ? window.localStorage.getItem("showDash") === "true" : true);
 	const [showQuestion, set_showQuestion] = useState(false);
+	const [showQuestionCreate, set_showQuestionCreate] = useState(false)
 	const [questionId, set_questionId] = useState(null);
-	//const [showInterview, set_showInterview] = useState(true);
 	const [showInterview, set_showInterview] = useState(window.localStorage.getItem("showInterview") === "true");
-	//const [interviewId, set_interviewId] = useState("123");
+	const [showInterviewCreate, set_showInterviwCreate] = useState(false)
 	const [interviewId, set_interviewId] = useState(null);
 
 	const show_dashboard = () => {
 		set_showDash(true);
+		window.localStorage.setItem("showDash", "true");
 		set_showQuestion(false);
+		set_showQuestionCreate(false);
 		set_showInterview(false);
+		window.localStorage.setItem("showInterview", "false");
+		set_showInterviwCreate(false);
 	}
 
 	const show_question = () => {
 		set_showDash(false);
+		window.localStorage.setItem("showDash", "false");
 		set_showQuestion(true);
+		set_showQuestionCreate(false);
 		set_showInterview(false);
+		window.localStorage.setItem("showInterview", "false");
+		set_showInterviwCreate(false);
 	}
 
 	const show_interview = () => {
 		set_showDash(false);
-		window.localStorage.setItem("showDash", "false")
+		window.localStorage.setItem("showDash", "false");
 		set_showQuestion(false);
+		set_showQuestionCreate(false);
 		set_showInterview(true);
-		window.localStorage.setItem("showInterview", "true")
+		window.localStorage.setItem("showInterview", "true");
+		set_showInterviwCreate(false);
+	}
+
+	const show_interview_create = () => {
+		set_showDash(false);
+		window.localStorage.setItem("showDash", "false");
+		set_showQuestion(false);
+		set_showQuestionCreate(false);
+		set_showInterview(false);
+		window.localStorage.setItem("showInterview", "false");
+		set_showInterviwCreate(true);
+	}
+
+	const show_question_create = () => {
+		// input question name in a form
+		// create new question template
+		// get question id
+		show_question_detail();
 	}
 
 	const show_question_detail = (e) => {
@@ -204,7 +232,8 @@ const Main = () => {
 					/>
 			</div>
 			:
-			(showInterview? <div className={styles.interview_interface}>
+			(showInterview? 
+			<div className={styles.interview_interface}>
 				<div className={styles.coding_interface}>
 
 				</div>
@@ -216,6 +245,7 @@ const Main = () => {
 						<Chatbox interviewId={interviewId}></Chatbox>
 					</div>
 				</div>
+				<button className='btn' onClick={show_dashboard}>X</button>
 			</div>
 			:<p>Invalid Frontend Status</p>
 			)

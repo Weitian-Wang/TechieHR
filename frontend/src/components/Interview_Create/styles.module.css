@@ -1,0 +1,39 @@
+.dash_header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dash_header h2{
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+    opacity: 0.9;
+    margin: 0;
+    color: var(--main-color);
+}
+
+.left_cluster{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.right_cluster{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 1em;
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.list_frame{
+    overflow: scroll;
+    margin-top: 1em;
+}
