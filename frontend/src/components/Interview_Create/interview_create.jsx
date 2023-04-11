@@ -1,80 +1,55 @@
 import styles from "./styles.module.css"
 import Seachbar from "../Searchbar/searchbar"
 import { useState, useEffect } from "react";
+import Multiselect from 'multiselect-react-dropdown';
+
+
 
 const Interview_Create = (props) => {
-    var today = new Date();
+    const [question_options, set_question_options] = useState([]);
+    var selectedValue = [];
 
-    // else list = props.post('/interview/list', {})
-    // copy of interview list and question list for searching
-    const [question_list, set_question_list] = useState([])
-	const [display_list, set_display_list] = useState(list)
-    
     useEffect(() => {
         const post_request = async () => {
             try{
                 var data;
                 data = await props.post('/api/question/list', {});
-                set_question_list(data.list);
+                set_question_options(data.list.map((dict) => {
+                    return {name: dict.title, id: dict._id}
+                }));
             }
             catch(error){
-                console.log(error.message)
+                console.log(error.message);
             }
         }
-        post_request()
+        post_request();
     }, [props.type])
-
-    useEffect(() => {
-        set_display_list(list)
-    }, [list])
-
-	const search_list = (e) => {
-		const value = e.target.value;
-		if(value.length != 0){
-			set_display_list(list.filter(item => {
-                var rst = false;
-                if(item.interviewer_name){
-				    rst = rst || item.interviewer_name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
-                }
-                if(item.interviewee_name){
-				    rst = rst || item.interviewee_name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
-                }
-                if(item.interview_name){
-                    rst = rst || item.interview_name.toLocaleLowerCase().includes(value.toLocaleLowerCase());
-                }
-                if(item.interviewee_email){
-                    rst = rst || item.interviewee_email.toLocaleLowerCase().includes(value.toLocaleLowerCase());
-                }
-                if(item.title){
-                    rst = rst || item.title.toLocaleLowerCase().includes(value.toLocaleLowerCase());
-                }
-                return rst;
-			}));
-		}
-		else{
-			set_display_list(list);
-		}
-	};
-
+    
 	return (
-			<div className={props.className}>
-                {/* header */}
-                <div className={styles.dash_header}>
-                    <div className={styles.left_cluster}>
-                            <h2>{props.text}</h2>
-                            {localStorage.getItem("userType") == "interviewer"?<button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>:<></>}
+			<div className={styles.content_container}>
+                <div className={styles.form_container}>
+                    <div className={styles.input_line}>Name<input type="text" className={styles.input} placeholder="Technical Interview"/></div>
+
+                    <div className={styles.input_line}>Interviewee<input type="text" className={styles.input} placeholder="example@email.com"/></div>
+
+                    <div className={styles.input_line}>Schedule<input type="text" className={styles.input}/></div>
+
+                    <div className={styles.input_line}>Duration<input type="numer" className={styles.input}/></div>
+
+                    <div className={styles.input_line}>Questions
+                        <Multiselect
+                            options={question_options} // Options to display in the dropdown
+                            selectedValues={selectedValue} // Preselected value to persist in dropdown
+                            // onSelect={this.onSelect} // Function will trigger on select event
+                            // onRemove={this.onRemove} // Function will trigger on remove event
+                            displayValue="name" // Property name to display in the dropdown options
+                        />
                     </div>
-                    <Seachbar search={search_list}/>
-                </div>
-                {/* list of items */}
-                <div className={styles.list_frame}>
-                {
-                    props.type==="interview_dash"?
-                    display_list.map((item) => 
-                    <Interview key={item._id} list_item={item} post={props.post} show_interview_detail={props.show_interview_detail}/>):
-                    display_list.map((item) =>
-                    <Question key={item._id} list_item={item} post={props.post} show_question_detail={props.show_question_detail}/>)
-                }
+
+                    <div className={styles.btn_cluster}>
+                        <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}} onClick={props.show_dashboard_detail}>X</div>
+                        <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}}>&#10004;</div>
+                    </div>
                 </div>
 			</div>
 	);

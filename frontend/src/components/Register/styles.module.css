@@ -61,7 +61,7 @@
 	width: 370px;
 	padding: 15px;
 	border-radius: 10px;
-	background-color: #edf3f5;
+	background-color: var(--app-container);
 	margin: 5px 0;
 	font-size: 14px;
 }

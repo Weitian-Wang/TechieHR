@@ -70,16 +70,16 @@ const Main = () => {
 
 	// variable for button status
 	const [profile_btn_active, set_profile_btn] = useState(false);
-    const [question_btn_active, set_question_btn] = useState(false)
-	const [interview_btn_active, set_interview_btn] = useState(false)
 	const [mode_btn_active, set_mode_btn] = useState(false)
 
 
-	const [showDash, set_showDash] = useState(window.localStorage.getItem("showDash") ? window.localStorage.getItem("showDash") === "true" : true);
+	// const [showDash, set_showDash] = useState(window.localStorage.getItem("showDash") ? window.localStorage.getItem("showDash") === "true" : true);
+	const [showDash, set_showDash] = useState(true);
 	const [showQuestion, set_showQuestion] = useState(false);
 	const [showQuestionCreate, set_showQuestionCreate] = useState(false)
 	const [questionId, set_questionId] = useState(null);
-	const [showInterview, set_showInterview] = useState(window.localStorage.getItem("showInterview") === "true");
+	// const [showInterview, set_showInterview] = useState(window.localStorage.getItem("showInterview") === "true");
+	const [showInterview, set_showInterview] = useState(false);
 	const [showInterviewCreate, set_showInterviwCreate] = useState(false)
 	const [interviewId, set_interviewId] = useState(null);
 
@@ -124,6 +124,7 @@ const Main = () => {
 	}
 
 	const show_question_create = () => {
+		// !TODO!
 		// input question name in a form
 		// create new question template
 		// get question id
@@ -144,30 +145,6 @@ const Main = () => {
 		const itvw_id = e.target.id;
 		set_interviewId(itvw_id);
 		show_interview();
-	}
-
-	const add_interview_btn = () => {
-		if(interview_btn_active || question_btn_active){
-			if(interview_btn_active){
-				set_interview_btn(!interview_btn_active)
-			}
-			else{
-				set_question_btn(!question_btn_active)
-			}
-		}
-		set_interview_btn(!interview_btn_active)
-	}
-
-	const add_question_btn = () => {
-		if(interview_btn_active || question_btn_active){
-			if(interview_btn_active){
-				set_interview_btn(!interview_btn_active);
-			}
-			else{
-				set_question_btn(!question_btn_active);
-			}
-		}
-		set_question_btn(!question_btn_active)
 	}
 
 	const switch_mode = () =>{
@@ -207,9 +184,9 @@ const Main = () => {
 					className={styles.interview_dash} 
 					text={"Interviews"} 
 					type={"interview_dash"} 
-					button_status={interview_btn_active} 
 					post={post}
 					show_interview_detail={show_interview_detail}
+					create={show_interview_create}
 				/>
 				{
 				localStorage.getItem("userType") === "interviewer"?
@@ -217,9 +194,9 @@ const Main = () => {
 					className={styles.problem_dash}
 					text={"Questions"}
 					type={"question_dash"}
-					button_status={question_btn_active}
 					post={post}
 					show_question_detail={show_question_detail}
+					create={show_question_create}
 				/>:<></>
 				}
 			</div>):
@@ -245,8 +222,17 @@ const Main = () => {
 						<Chatbox interviewId={interviewId}></Chatbox>
 					</div>
 				</div>
-				<button className='btn' onClick={show_dashboard}>X</button>
+				<div className={`btn`} style={{backgroundColor:"var(--error-red)"}} onClick={show_dashboard_detail}>X</div>
 			</div>
+			:showInterviewCreate?
+				<div className={styles.content_container}>
+					<Interview_Create
+						show_dashboard_detail={show_dashboard_detail}
+						post={post}
+					>
+
+					</Interview_Create>
+				</div>
 			:<p>Invalid Frontend Status</p>
 			)
 			)

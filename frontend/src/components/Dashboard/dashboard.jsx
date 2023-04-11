@@ -78,7 +78,7 @@ const Dashboard = (props) => {
                 <div className={styles.dash_header}>
                     <div className={styles.left_cluster}>
                             <h2>{props.text}</h2>
-                            {localStorage.getItem("userType") == "interviewer"?<button className={`add_btn ${props.button_status?'active':''}`} onClick={props.onClick}>+</button>:<></>}
+                            {localStorage.getItem("userType") == "interviewer"?<button className={`add_btn`} onClick={props.create}>+</button>:<></>}
                     </div>
                     <Seachbar search={search_list}/>
                 </div>
