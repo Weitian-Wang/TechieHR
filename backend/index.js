@@ -65,6 +65,10 @@ io.on("connection", (socket) => {
 		console.log(`${socket.id} accepted ${data.to}`)
 		io.to(data.to).emit("callAccepted", data.signalData)
 	})
+
+	socket.on("send", (data) => {
+		socket.to(data.room).emit("receive", data);
+	})
 })
 
 server.listen(80, () => console.log("Listening on port 80..."));

@@ -36,6 +36,10 @@
 }
 
 .video_buttons {
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+    z-index: 1;
     display: flex;
 }
 

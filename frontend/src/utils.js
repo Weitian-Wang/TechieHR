@@ -1,1 +1,3 @@
-export const URL = "http://192.168.1.24"
+const URL = "http://localhost"
+
+export { URL }

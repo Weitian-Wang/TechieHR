@@ -1,6 +1,7 @@
 import styles from "./styles.module.css";
 import Dashboard from "../Dashboard/dashboard";
 import Video from "../Video/video";
+import Chatbox from "../Chatbox/chatbox";
 import QuestionMain from "../Question_Main/question_main"
 import {URL} from '../../utils'
 import axios from "axios";
@@ -72,10 +73,13 @@ const Main = () => {
 	const [interview_btn_active, set_interview_btn] = useState(false)
 	const [mode_btn_active, set_mode_btn] = useState(false)
 
+	//const [showDash, set_showDash] = useState(false)
 	const [showDash, set_showDash] = useState(window.localStorage.getItem("showDash") ? window.localStorage.getItem("showDash") === "true" : true);
 	const [showQuestion, set_showQuestion] = useState(false);
 	const [questionId, set_questionId] = useState(null);
+	//const [showInterview, set_showInterview] = useState(true);
 	const [showInterview, set_showInterview] = useState(window.localStorage.getItem("showInterview") === "true");
+	//const [interviewId, set_interviewId] = useState("123");
 	const [interviewId, set_interviewId] = useState(null);
 
 	const show_dashboard = () => {
@@ -209,7 +213,7 @@ const Main = () => {
 						<Video interviewId={interviewId}></Video>
 					</div>
 					<div className={styles.chat_interface}>
-						
+						<Chatbox interviewId={interviewId}></Chatbox>
 					</div>
 				</div>
 			</div>

@@ -17,7 +17,7 @@ const Video = (props) => {
 	const remoteVideo = useRef()
 	const connection = useRef()
 
-	const roomId = props.interviewId
+	const roomId = props.interviewId + "_video"
 
 	useEffect(() => {
 		const socket = io(`${URL}:80`)
