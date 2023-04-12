@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
         const uid = await auth(req, [USER_ROLE.INTERVIEWER]);
         const data = req.body
         const interviewer = await User.findOne({ id: uid })
-        const interviewee = await User.findOne({ id: data.interviewee_id })
+        const interviewee = await User.findOne({ email: data.email, role: 2})
         if(!interviewee){
             return res.status(406).send({ message: "Invalid Interviewee" });
         }
