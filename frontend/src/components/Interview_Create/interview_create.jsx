@@ -20,9 +20,9 @@ const Interview_Create = (props) => {
         const post_request = async () => {
             try{
                 var data;
-                data = await props.post('/api/question/list', {});
+                data = await props.post('/api/question/list', {}, false);
                 set_question_options(data.list.map((dict) => {
-                    return {name: dict.title, id: dict._id}
+                    return {title: dict.title, id: dict._id}
                 }));
             }
             catch(error){
@@ -46,18 +46,19 @@ const Interview_Create = (props) => {
     };
     
     const handleSubmit = async () =>{
-        var selected = multiselectRef.current.getSelectedItems();
-        set_selected_questions(selected.map((item) => {return [item.id]}));
+        var selected = multiselectRef.current.getSelectedItems().map((item) => {return item.id});
         const request_data = {
             interview_name: interview_name,
             email: interviewee_email,
             scheduled_time: schedule,
             duration: duration,
-            question_list: selected_questions
+            question_list: selected
         }
-        console.log(selected_questions);
-        await props.post("/api/interview/create", request_data, true);
-        // setTimeout(() => {props.show_dashboard_detail();}, 3500);
+        console.log(request_data);
+        var data_resp = await props.post("/api/interview/create", request_data, true);
+        if(data_resp == 201){
+            setTimeout(() => {props.show_dashboard_detail();}, 500);
+        }
     }
 
 	return (
@@ -97,7 +98,7 @@ const Interview_Create = (props) => {
                             options={question_options} // Options to display in the dropdown
                             // onSelect={this.onSelect} // Function will trigger on select event
                             // onRemove={this.onRemove} // Function will trigger on remove event
-                            displayValue="name" // Property name to display in the dropdown options                  
+                            displayValue="title" // Property name to display in the dropdown options                  
                         />
                     </div>
 

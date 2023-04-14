@@ -61,6 +61,12 @@ const Main = () => {
 				error.response.status <= 500
 			) {
 				if(msg_prompt) prompt(error.response.data.message, false);
+				console.log(error);
+				// token and authentication related error
+				if(error.response.status == 401){
+					prompt(error.response.data.message, false);
+					setTimeout(() => {handleLogout();}, 3000);
+				}
 			}
 			else{
 				if(msg_prompt) prompt("APP Internal Error", false);

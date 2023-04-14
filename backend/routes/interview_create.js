@@ -9,21 +9,29 @@ router.post("/", async (req, res) => {
 	try {
         const uid = await auth(req, [USER_ROLE.INTERVIEWER]);
         const data = req.body
-        const interviewer = await User.findOne({ id: uid })
+        const interviewer = await User.findOne({ _id: uid })
         const interviewee = await User.findOne({ email: data.email, role: 2})
+        if(data.interview_name.length == 0){
+            return res.status(406).send({  data: 406, message: "Empty Interview Name" });
+        }
+        if(data.duration.length == 0 ){
+            return res.status(406).send({  data: 406, message: "Unspecified Duration" });
+        }
         if(!interviewee){
-            return res.status(406).send({ message: "Invalid Interviewee" });
+            return res.status(406).send({  data: 406, message: "Invalid Interviewee" });
         }
         if(data.question_list.length == 0){
-            return res.status(406).send({ message: "Need At Least 1 Question" });
+            return res.status(406).send({  data: 406, message: "Need At Least 1 Question" });
         }
-        data.question_list.forEach( async (qid, index) => {
-            // make sure question created by interviewer
-            const q = await Question.findOne({ creatorId: uid , id: qid});
+
+        // need async check before preceed
+        // !!!forEach not designed for asynchronous operations!!!
+        for(qid of data.question_list){
+            const q = await Question.findOne({ _id: qid });
             if(!q){
-                return res.status(406).send({ message: "Invalid Question" });
+                return res.status(406).send({  data: 406, message: "Invalid Question" });
             }
-        });
+        };
         const newInterview = new Interview({
             interview_name: data.interview_name,
             interviewer_id: uid,
@@ -36,14 +44,11 @@ router.post("/", async (req, res) => {
             duration: data.duration,
             question_list: data.question_list
         })
-        await newInterview.save()
-        res.status(201).send({ message: "Interview created successfully" });
+        await newInterview.save();
+        res.status(201).send({ data: 201, message: "Interview created successfully" });
 	} catch (error) {
         console.log(error);
-        if(error.error_code != 500){
-			res.status(error.error_code).send({ message: error.message });	
-		}
-		res.status(500).send({ message: "Internal Server Error" });
+        res.status(500).send({  data: 500, message: "Internal Server Error" });
 	}
 });
 

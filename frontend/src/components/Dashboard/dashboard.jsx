@@ -22,14 +22,14 @@ const Dashboard = (props) => {
                 var data;
                 if(localStorage.getItem("userType") == "interviewer"){
                     if(props.type == "question_dash"){
-                        data = await props.post('/api/question/list', {});
+                        data = await props.post('/api/question/list', {}, false);
                     }
                     if(props.type == "interview_dash"){
-                        data = await props.post('/api/interview/list/interviewer', {});
+                        data = await props.post('/api/interview/list/interviewer', {}, false);
                     }
                 }
                 if(localStorage.getItem("userType") == "interviewee"){
-                    data = await props.post('/api/interview/list/interviewee', {});
+                    data = await props.post('/api/interview/list/interviewee', {}, false);
                 }
                 set_list(data.list);
             }
