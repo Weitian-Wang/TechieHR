@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
         await copyFile('./question_template_files/solution.py', dirpath+'/solution.py');
         await copyFile('./question_template_files/input', dirpath+'/input');
         await copyFile('./question_template_files/output', dirpath+'/output');
-        res.status(201).send({ message: "Question created successfully" });
+        res.status(201).send({ message: "Question created successfully", data: {qid: newQuestion.id, status: 201} });
 	} catch (error) {
 		res.status(500).send({ message: "Internal Server Error" });
 	}

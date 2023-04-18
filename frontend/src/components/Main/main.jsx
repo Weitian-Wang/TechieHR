@@ -1,6 +1,7 @@
 import styles from "./styles.module.css";
 import Dashboard from "../Dashboard/dashboard";
 import Interview_Create from "../Interview_Create/interview_create"
+import Question_Create from "../Question_Create/question_create"
 import Video from "../Video/video";
 import Chatbox from "../Chatbox/chatbox";
 import QuestionMain from "../Question_Main/question_main"
@@ -134,7 +135,14 @@ const Main = () => {
 		// input question name in a form
 		// create new question template
 		// get question id
-		show_question_detail();
+		set_showDash(false);
+		window.localStorage.setItem("showDash", "false");
+		set_showQuestion(false);
+		set_showQuestionCreate(true);
+		set_showInterview(false);
+		window.localStorage.setItem("showInterview", "false");
+		set_showInterviwCreate(false);
+		// show_question_detail();
 	}
 
 	const show_question_detail = (e) => {
@@ -143,6 +151,10 @@ const Main = () => {
 		show_question();
 	}
 
+	const show_question_id_detail = (qid) => {
+		set_questionId(qid);
+		show_question();
+	}
 	const show_dashboard_detail = (e) => {
 		show_dashboard();
 	}
@@ -239,6 +251,15 @@ const Main = () => {
 
 					</Interview_Create>
 				</div>
+			:showQuestionCreate?
+			<div className={styles.content_container}>
+				<Question_Create
+					show_dashboard_detail = {show_dashboard_detail}
+					show_question_id_detail = {show_question_id_detail}
+					post = {post}
+					prompt = {prompt}
+				></Question_Create>
+			</div>
 			:<p>Invalid Frontend Status</p>
 			)
 			)

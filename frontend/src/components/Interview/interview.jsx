@@ -10,16 +10,18 @@ const Interview = (props) => {
     // duration: {type: Number, required: true}
 
     const color_list = ['#fee4cb', '#e9e7fd', '#dbf6fd', '#ffd3e2', '#c8f7dc', '#d5deff']
+    var date_options = { year: 'numeric', month: '2-digit', day: '2-digit'};
+    var time_options = { hour: '2-digit', minute: '2-digit'}
 
 	return (
         <div className={styles.interview_box} style={{backgroundColor:color_list[props.list_item._id.charCodeAt(12) % color_list.length]}}>
             <div>
                 <p className={styles.name}>{`${props.list_item.interviewer_name} & ${props.list_item.interviewee_name}`}</p>
                 <p className={styles.interview_name}>{`${props.list_item.interview_name}`}</p>
-                <p className={styles.create_time}>{`Created ${props.list_item.createdAt}`}</p>
+                <p className={styles.create_time}>{`Created ${new Date(Date.parse(props.list_item.createdAt)).toLocaleString('en-US', time_options) + " " + new Date(Date.parse(props.list_item.createdAt)).toLocaleString('en-US', date_options)}`}</p>
             </div>
             <div>
-                <p className={styles.name}>{`${props.list_item.scheduled_time}`}</p>
+                <p className={styles.name}>{new Date(Date.parse(props.list_item.scheduled_time)).toLocaleString('en-US', time_options) + " " + new Date(Date.parse(props.list_item.scheduled_time)).toLocaleString('en-US', date_options)}</p>
                 <p className={styles.interview_name}>{`${props.list_item.duration} Min`}</p>
                 <p className={styles.create_time}> {props.list_item.interviewee_email} </p>
             </div>

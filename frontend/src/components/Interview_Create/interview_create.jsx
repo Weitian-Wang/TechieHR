@@ -122,7 +122,6 @@ const Interview_Create = (props) => {
                                         border: "none",
                                         fontSize: "14px",
                                         fontWeight: "500",
-                                        borderRadius: "10px",
                                     },
                                     option: { // To change css for dropdown options
                                         color: "var(--main-color)",
