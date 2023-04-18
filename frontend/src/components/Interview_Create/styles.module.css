@@ -75,14 +75,3 @@
     font-size: 16px;
     font-weight: 700;
 }
-
-#multiselectContainerReact {
-    width: 45%;
-    padding: 0.5em;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-    font-weight: 700;
-}

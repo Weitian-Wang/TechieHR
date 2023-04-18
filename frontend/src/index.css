@@ -161,4 +161,39 @@ code {
 	background-color: var(--link-color-hover);
 	color: var(--link-color-active);
 }
-  
+
+div.react-datetime-picker {
+    outline: none;
+ 	font-size: 14px;
+}
+
+div.react-datetime-picker__wrapper {
+	border: none;
+	width: 400px;
+	padding: 10px 15px;
+	border-radius: 10px;
+	background-color: var(--app-container);
+    color: var(--main-color);
+    margin: 5px 0;
+}
+
+div.react-datetime-picker__inputGroup {
+    font-size: 14px;
+	font-weight: 400;
+}
+
+.react-datetime-picker__clear-button .react-datetime-picker__clear-button__icon{
+	color: var(--main-color);
+}
+
+.react-datetime-picker__calendar-button .react-datetime-picker__calendar-button__icon{
+	color: var(--main-color);
+}
+
+.multiSelectContainer .searchWrapper{
+	display: flex;
+	align-items: center;
+	overflow-x: scroll;
+	border: none;
+	padding: 13px 1em;
+}

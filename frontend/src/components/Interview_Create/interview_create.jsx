@@ -81,7 +81,7 @@ const Interview_Create = (props) => {
                     </div>
 
                     <div className={styles.input_line}>Schedule
-                        <DateTimePicker onChange={set_schedule} value={schedule}/>
+                        <DateTimePicker disableClock={true} minDate={new Date()} onChange={set_schedule} value={schedule}/>
                     </div>
 
                     <div className={styles.input_line}>Duration
@@ -96,9 +96,34 @@ const Interview_Create = (props) => {
                         <Multiselect
                             ref={multiselectRef}
                             options={question_options} // Options to display in the dropdown
-                            // onSelect={this.onSelect} // Function will trigger on select event
-                            // onRemove={this.onRemove} // Function will trigger on remove event
                             displayValue="title" // Property name to display in the dropdown options                  
+                            style={
+                                {
+                                    multiselectContainer: 
+                                    {
+                                        width: "400px",
+                                        borderRadius: "10px",
+                                        backgroundColor: "var(--app-container)",
+                                        color: "var(--main-color)",
+                                        margin: "5px 0",
+                                        fontSize: "14px",
+                                        outline: "none",
+                                        border: "none",
+                                    },
+                                    chips: { // To change css chips(Selected options)
+                                        borderRadius: "10px",
+                                        margin: "0 2px",
+                                    },
+                                    optionContainer: { // To change css for option container 
+                                        overflowY: "scroll",
+                                        maxHeight: "20vh"
+                                    },
+                                    option: { // To change css for dropdown options
+                                        color: "var(--main-color)",
+                                        backgroundColor: "var(--app-container)",
+                                    },
+                                }
+                            }
                         />
                     </div>
 
