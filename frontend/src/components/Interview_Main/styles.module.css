@@ -1,0 +1,57 @@
+.interview_interface {
+    display: flex;
+    flex: 3;
+    overflow: hidden;
+    border-radius: 32px;
+    background-color: var(--projects-section);
+    position: relative;
+    justify-content: space-between;
+    height: 90%;
+    width: 100%;
+	margin: 12px 0 0 0;
+	display: flex;
+	flex-direction: row;
+	box-shadow: var(--box-shadow);
+	padding: 1.5em 1.5em 1em 1.5em;
+}
+
+.coding_interface {
+    flex: 2;
+    font-size: 18px;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    overflow-wrap: break-word;
+    background-color: transparent;
+    color: var(--main-color);
+    background-color: var(--code-section);
+    overflow: scroll;
+}
+
+.code_pad {
+	font-size: 18px;
+    height: 100%;
+    overflow-wrap: break-word;
+    background-color: transparent;
+    color: var(--main-color);
+    overflow-y: scroll;
+}
+
+.conferencing_interface {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.video_interface {
+    flex: 0 0 auto; /* div A should remain its original height (neither expand nor shrink) */
+    padding: 0 5px 5px 5px;
+}
+
+.chat_interface {
+    flex: 1 1 auto; /* div B should fit the remaining space */
+    width: 100%;
+    overflow-y: auto;
+}

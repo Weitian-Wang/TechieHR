@@ -197,3 +197,8 @@ div.react-datetime-picker__inputGroup {
 	border: none;
 	padding: 13px 1em;
 }
+
+.searchWrapper .searchBox{
+	font-size: 14px;
+	font-weight: 500;
+}

@@ -136,6 +136,7 @@ const Video = (props) => {
 			<div className={styles.video_buttons}>
 				{localVideoOn ? <div className={styles.video_button} onClick={toggleLocalVideo}><FaVideo /></div> : <div className={`${styles.video_button} ${styles.video_button_red}`} onClick={toggleLocalVideo}><FaVideoSlash /></div>}
 				{localAudioOn ? <div className={styles.video_button} onClick={toggleLocalAudio}><FaMicrophone /></div> : <div className={`${styles.video_button} ${styles.video_button_red}`} onClick={toggleLocalAudio}><FaMicrophoneSlash /></div>}
+				<div className={styles.video_button} onClick={props.show_dashboard_detail}>X</div>
 			</div>
 		</div>
     )

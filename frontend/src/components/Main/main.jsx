@@ -2,9 +2,8 @@ import styles from "./styles.module.css";
 import Dashboard from "../Dashboard/dashboard";
 import Interview_Create from "../Interview_Create/interview_create"
 import Question_Create from "../Question_Create/question_create"
-import Video from "../Video/video";
-import Chatbox from "../Chatbox/chatbox";
 import QuestionMain from "../Question_Main/question_main"
+import Interview_Main from "../Interview_Main/interview_main"
 import {URL} from '../../utils'
 import axios from "axios";
 import { useRef, useState } from "react";
@@ -174,6 +173,8 @@ const Main = () => {
 		set_profile_btn(!profile_btn_active);
 	}
 
+	const [solution_code, set_solution_code] = useState("");
+
 	return (
 		<div className={styles.main_container}>
 			{/* header */}
@@ -228,19 +229,11 @@ const Main = () => {
 			</div>
 			:
 			(showInterview? 
-			<div className={styles.interview_interface}>
-				<div className={styles.coding_interface}>
-
-				</div>
-				<div className={styles.conferencing_interface}>
-					<div className={styles.video_interface}>
-						<Video interviewId={interviewId}></Video>
-					</div>
-					<div className={styles.chat_interface}>
-						<Chatbox interviewId={interviewId}></Chatbox>
-					</div>
-				</div>
-				<div className={`btn`} style={{backgroundColor:"var(--error-red)"}} onClick={show_dashboard_detail}>X</div>
+			<div className={styles.content_container}>
+				<Interview_Main 
+					interviewId={interviewId}
+					show_dashboard_detail={show_dashboard_detail}
+				></Interview_Main>
 			</div>
 			:showInterviewCreate?
 				<div className={styles.content_container}>
@@ -248,7 +241,6 @@ const Main = () => {
 						show_dashboard_detail={show_dashboard_detail}
 						post={post}
 					>
-
 					</Interview_Create>
 				</div>
 			:showQuestionCreate?

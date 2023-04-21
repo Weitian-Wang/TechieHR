@@ -111,10 +111,11 @@ const Interview_Create = (props) => {
                                         border: "none",
                                     },
                                     chips: { // To change css chips(Selected options)
-                                        borderRadius: "10px",
+                                        borderRadius: "5px",
                                         margin: "0 2px",
                                         fontSize: "14px",
                                         fontWeight: "500",
+                                        padding: "0 1em",
                                     },
                                     optionContainer: { // To change css for option container 
                                         overflowY: "scroll",

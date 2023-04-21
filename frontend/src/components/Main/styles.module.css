@@ -136,14 +136,3 @@
 	box-shadow: var(--box-shadow);
 	padding: 1.5em 1.5em 1em 1.5em;
 }
-
-.interview_interface {
-	display: flex;
-	justify-content: space-between;
-	padding: 1.5em 1.5em 1em 1.5em;
-}
-
-.conferencing_interface {
-	display: flex;
-	flex-direction: column;
-}

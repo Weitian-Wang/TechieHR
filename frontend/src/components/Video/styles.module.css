@@ -7,6 +7,8 @@
 .large_video {
     position: relative;
     height: 100%;
+    width: 100%;
+    display: flex;
     z-index: 0;
 }
 
@@ -19,16 +21,19 @@
 }
 
 .local_video {
-    height: 100%;
-    width: 100%;
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg); /* Safari and Chrome */
     -moz-transform: rotateY(180deg); /* Firefox */
+    border-radius: 5px;
 }
 
 .remote_video {
     height: 100%;
     width: 100%;
+    border-radius: 5px;
 }
 
 .video_name {
@@ -37,8 +42,8 @@
 
 .video_buttons {
     position: absolute;
-    bottom: 10px;
-    left: 5px;
+    bottom: 5px;
+    right: 5px;
     z-index: 1;
     display: flex;
 }
@@ -47,7 +52,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--theme-green);
+    background-color: var(--app-container);
+    transition: 200ms;
     height: 25px;
     border-radius: 5px;
     font-size: 1.2rem;
@@ -55,7 +61,11 @@
     margin: 0 0.1rem;
 }
 
+.video_button:hover {
+    background-color: var(--link-color-hover);
+}
+
 .video_button_red {
-    background-color: #f6484a;
+    background-color: var(--error-red);
 }
 

@@ -65,9 +65,9 @@ const Chatbox = (props) => {
                       <div className={styles.message_content}>
                         <p>{message.content}</p>
                       </div>
-                      <div className={styles.message_meta}>
+                      {/* <div className={styles.message_meta}>
                         <p>{message.time}</p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 );
@@ -78,12 +78,16 @@ const Chatbox = (props) => {
             <input
               type="text"
               value={currentMessage}
-              placeholder=""
+              placeholder="Send Message"
               onChange={(event) => {
                 setCurrentMessage(event.target.value);
               }}
+              onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    sendMessage();
+                  }
+              }}
             />
-            <button onClick={sendMessage}><BsFillSendFill /></button>
           </div>
         </div>
     );
