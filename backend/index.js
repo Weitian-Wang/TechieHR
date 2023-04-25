@@ -52,7 +52,7 @@ io.on("connection", (socket) => {
 
 		socket.on("disconnect", () => {
 			io.to(roomId).emit("callEnded")
-			console.log(`WebSocket ${socket.id} disconnected`)
+			console.log(`WebSocket ${socket.id} disconnected from room ${roomId}`)
 		})
 	})
 

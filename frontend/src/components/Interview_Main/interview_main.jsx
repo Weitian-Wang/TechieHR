@@ -1,12 +1,46 @@
-import styles from './styles.module.css' 
-import Markdown from '../Markdown/markdown'
+import styles from './styles.module.css'
 import Codepad from '../Codepad/codepad'
 import Video from "../Video/video"
 import Chatbox from "../Chatbox/chatbox"
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react"
+import { io } from "socket.io-client"
+import { URL } from "../../utils";
 
 const Interview_Main = (props) => {
-    const [solution_code, set_solution_code] = useState("class Solution():")
+    if (localStorage.getItem("code") === null) localStorage.setItem("code", JSON.stringify("class Solution():"))
+
+    const [socket, setSocket] = useState()
+    const [currentCode, setCurrentCode] = useState(JSON.parse(localStorage.getItem("code")))
+
+    const roomId = props.interviewId
+
+    useEffect(() => {
+        const socket = io(`${URL}:80`)
+
+        setSocket(socket)
+
+        socket.emit("join", roomId)
+
+        socket.on("receive", (data) => {
+            setCurrentCode(data.code)
+            localStorage.setItem("code", JSON.stringify(data.code))
+        })
+
+        return () => {
+          socket.removeAllListeners()
+          socket.disconnect()
+        }
+    }, [])
+
+    const sendCode = async (code) => {
+        const data = {
+            room: roomId,
+            code: code
+        }
+        await socket.emit("send", data)
+        setCurrentCode(code)
+        localStorage.setItem("code", JSON.stringify(code))
+    }
 
     return (
         <div className={styles.interview_interface}>
@@ -14,8 +48,8 @@ const Interview_Main = (props) => {
                 <Codepad
                     className={styles.code_pad}
                     needHighlight={true}
-                    code={solution_code}
-                    setCode={set_solution_code}
+                    code={currentCode}
+                    setCode={sendCode}
                 ></Codepad>
             </div>
             <div className={styles.conferencing_interface}>

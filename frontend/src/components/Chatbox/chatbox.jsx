@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { URL } from "../../utils";
-import { BsFillSendFill } from "react-icons/bs"
 
 const updateLocalMessageList = (message) => {
   const messageList = JSON.parse(localStorage.getItem("messageList"))
@@ -60,7 +59,7 @@ const Chatbox = (props) => {
             <ScrollToBottom className={styles.message_container}>
               {messageList.map((message) => {
                 return (
-                  <div className={`${styles.message} ${message.user === "local" ? styles.local : styles.remote}`}>
+                  <div className={`${styles.message} ${message.user === "local" ? styles.local : styles.remote}`} key={message.time}>
                     <div>
                       <div className={styles.message_content}>
                         <p>{message.content}</p>

@@ -80,14 +80,14 @@ const Main = () => {
 
 
 	// const [showDash, set_showDash] = useState(window.localStorage.getItem("showDash") ? window.localStorage.getItem("showDash") === "true" : true);
-	const [showDash, set_showDash] = useState(true);
+	const [showDash, set_showDash] = useState(true); //set true to false to test interview room
 	const [showQuestion, set_showQuestion] = useState(false);
 	const [showQuestionCreate, set_showQuestionCreate] = useState(false)
 	const [questionId, set_questionId] = useState(null);
 	// const [showInterview, set_showInterview] = useState(window.localStorage.getItem("showInterview") === "true");
-	const [showInterview, set_showInterview] = useState(false);
+	const [showInterview, set_showInterview] = useState(false); //set false to true to test interview room
 	const [showInterviewCreate, set_showInterviwCreate] = useState(false)
-	const [interviewId, set_interviewId] = useState(null);
+	const [interviewId, set_interviewId] = useState(null); //set null to a random number to test interview room
 
 	const show_dashboard = () => {
 		set_showDash(true);
