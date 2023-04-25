@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { URL } from "../../utils";
-import { BsFillSendFill } from "react-icons/bs"
 
 const updateLocalMessageList = (message) => {
   const messageList = JSON.parse(localStorage.getItem("messageList"))
