@@ -233,6 +233,7 @@ const Main = () => {
 				<Interview_Main 
 					interviewId={interviewId}
 					show_dashboard_detail={show_dashboard_detail}
+					post={post}
 				></Interview_Main>
 			</div>
 			:showInterviewCreate?

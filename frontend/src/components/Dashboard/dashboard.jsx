@@ -5,12 +5,6 @@ import Seachbar from "../Searchbar/searchbar"
 import { useState, useEffect } from "react";
 
 const Dashboard = (props) => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-    const mapping = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sept','10':'Oct','11':'Nov','12':'Dec'};
-
     // else list = props.post('/interview/list', {})
     // copy of interview list and question list for searching
     const [list, set_list] = useState([])

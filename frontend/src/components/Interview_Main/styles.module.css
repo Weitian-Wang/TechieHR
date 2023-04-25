@@ -15,8 +15,32 @@
 	padding: 1.5em 1.5em 1em 1.5em;
 }
 
+.question_interface{
+    flex: 3;
+    font-size: 18px;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    overflow-wrap: break-word;
+    background-color: transparent;
+    color: var(--main-color);
+    /* background-color: var(--code-section); */
+    overflow: scroll;
+    padding-right: 5px;
+}
+
+.question_selector {
+    width: 100%;
+}
+
+.markdown {
+    z-index: 0;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
+}
+
 .coding_interface {
-    flex: 2;
+    flex: 3;
     font-size: 18px;
     border-radius: 5px;
     height: 100%;
@@ -38,16 +62,17 @@
 }
 
 .conferencing_interface {
-    flex: 1;
+    flex: 2;
     display: flex;
     flex-direction: column;
     border-radius: 5px;
     overflow: hidden;
+    padding-left: 5px;
 }
 
 .video_interface {
     flex: 0 0 auto; /* div A should remain its original height (neither expand nor shrink) */
-    padding: 0 5px 5px 5px;
+    padding: 0 0 5px 0;
 }
 
 .chat_interface {

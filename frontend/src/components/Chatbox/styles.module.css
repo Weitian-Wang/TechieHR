@@ -28,6 +28,7 @@
     height: calc(100% - 45px);
     background-color: var(--projects-section);
     position: relative;
+    border-radius: 5px;
   }
   .chat_window .chat_body .message_container {
     width: 100%;
@@ -42,7 +43,7 @@
   
   .chat_window .chat_body .message {
     height: auto;
-    padding: 10px 5px 10px 5px;
+    padding: 5px 0 5px 0;
     display: flex;
   }
   
@@ -123,7 +124,6 @@
     background-color: transparent;
     font-family: "Open Sans", sans-serif;
     border-radius: 5px;
-    margin: 0 5px 0 5px;
     height: 40px;
     display: flex;
     justify-content: space-between;

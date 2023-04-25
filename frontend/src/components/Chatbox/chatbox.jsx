@@ -60,7 +60,7 @@ const Chatbox = (props) => {
             <ScrollToBottom className={styles.message_container}>
               {messageList.map((message) => {
                 return (
-                  <div className={`${styles.message} ${message.user === "local" ? styles.local : styles.remote}`}>
+                  <div className={`${styles.message} ${message.user === "local" ? styles.local : styles.remote}`} key={message.time}>
                     <div>
                       <div className={styles.message_content}>
                         <p>{message.content}</p>

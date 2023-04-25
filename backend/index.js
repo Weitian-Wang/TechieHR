@@ -32,6 +32,8 @@ const questionSubmit = require("./routes/question_submit")
 const interviewListByIntervieweeRoutes = require("./routes/interview_list_interviewee")
 const interviewListByInterviewerRoutes = require("./routes/interview_list_interviewer")
 const interviewCreateRoutes = require("./routes/interview_create")
+const interviewQuestionDisplayInterviewer = require("./routes/interview_question_display_interviewer")
+const interviewQuestionDisplayInterviewee = require("./routes/interview_question_display_interviewee")
 
 // socket connection
 const { createServer } = require("http");
@@ -97,6 +99,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/interview/list/interviewee", interviewListByIntervieweeRoutes);
 app.use("/api/interview/list/interviewer", interviewListByInterviewerRoutes);
 app.use("/api/interview/create", interviewCreateRoutes);
+app.use("/api/interview/question/display/interviewer", interviewQuestionDisplayInterviewer);
+app.use("/api/interview/question/display/interviewee", interviewQuestionDisplayInterviewee);
 
 // question
 app.use("/api/question/list", questionListRoutes);
