@@ -21,11 +21,12 @@
     border-radius: 5px;
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     overflow-wrap: break-word;
     background-color: transparent;
     color: var(--main-color);
     /* background-color: var(--code-section); */
-    overflow: scroll;
     padding-right: 5px;
 }
 

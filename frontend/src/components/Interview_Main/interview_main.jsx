@@ -2,6 +2,7 @@ import styles from './styles.module.css'
 import Codepad from '../Codepad/codepad'
 import Video from "../Video/video"
 import Chatbox from "../Chatbox/chatbox"
+import Markdown from "../Markdown/markdown"
 import Multiselect from 'multiselect-react-dropdown';
 import { useEffect, useState } from "react"
 import { io } from "socket.io-client"
