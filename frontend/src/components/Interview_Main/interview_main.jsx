@@ -4,7 +4,7 @@ import Video from "../Video/video"
 import Chatbox from "../Chatbox/chatbox"
 import Markdown from "../Markdown/markdown"
 import Multiselect from 'multiselect-react-dropdown';
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { io } from "socket.io-client"
 import { URL } from "../../utils";
 
@@ -12,8 +12,15 @@ const Interview_Main = (props) => {
     if (localStorage.getItem("code") === null) localStorage.setItem("code", JSON.stringify("class Solution():"))
 
     const [socket, setSocket] = useState()
-    const [currentCode, setCurrentCode] = useState(JSON.parse(localStorage.getItem("code")))
-
+    // how to support language change?
+    // id: {description: markdown, code: code}
+    const [questionDetails, setQuestionDetails] = useState({}); 
+    const [questionOptions, setQuestionOptions] = useState([]);
+    const [activeQuestionDescription, setActiveQuestionDescription] = useState("");
+    const [activeQuestionID, setActiveQuestionID] = useState("");
+    // const [currentCode, setCurrentCode] = useState(JSON.parse(localStorage.getItem("code")))
+    const [currentCode, setCurrentCode] = useState("")
+    const multiselectRef = useRef(); 
     const roomId = props.interviewId
 
     useEffect(() => {
@@ -41,11 +48,9 @@ const Interview_Main = (props) => {
         }
         await socket.emit("send", data)
         setCurrentCode(code)
+        questionDetails[activeQuestionID].code = code
         localStorage.setItem("code", JSON.stringify(code))
     }
-    const [questionDescription, setQuestionDescription] = useState({}); 
-    const [questionOptions, setQuestionOptions] = useState([]);
-    const [activeQuestionDescription, setActiveQuestionDescription] = useState("## Select Question");
 
     useEffect(() => {
         const post_request = async () => {
@@ -57,12 +62,15 @@ const Interview_Main = (props) => {
                 if(localStorage.getItem("userType") == "interviewee"){
                     data = await props.post('/api/interview/question/display/interviewee', {interview_id: props.interviewId});
                 }
-                setQuestionDescription(Object.assign({}, ...data.questions.map((dict) => {
-                    return {[dict.qid]: dict.description}
+                setQuestionDetails(Object.assign({}, ...data.questions.map((dict) => {
+                    return {[dict.qid]: {description: dict.description, code: ""}}
                 })));
                 setQuestionOptions(data.questions.map((dict) => {
                     return {title: dict.title, id: dict.qid}
                 }));
+                setActiveQuestionID(data.questions[0].qid)
+                setActiveQuestionDescription(data.questions[0].description)
+                setCurrentCode("")
             }
             catch(error){
                 console.log(error.message)
@@ -72,7 +80,10 @@ const Interview_Main = (props) => {
     }, [props.interviewId])
     
     const setQuestion = (e) => {
-        setActiveQuestionDescription(questionDescription[e[0].id]);
+        setActiveQuestionID(e[0].id);
+        // don't use activeQuestionID, not synchronous, use e[0].id instead
+        setActiveQuestionDescription(questionDetails[e[0].id].description);
+        setCurrentCode(questionDetails[e[0].id].code);
     }
 
     return (
@@ -80,10 +91,12 @@ const Interview_Main = (props) => {
             <div className={styles.question_interface}>
                 <div className={styles.question_selector}>
                     <Multiselect
+                            ref = {multiselectRef}
                             customCloseIcon={<></>}
                             singleSelect={true}
                             onSelect={setQuestion}
                             options={questionOptions} // Options to display in the dropdown
+                            selectedValues={questionOptions.length!=0?[questionOptions[0]]:[]}
                             displayValue="title" // Property name to display in the dropdown options                  
                             style={
                                 {
