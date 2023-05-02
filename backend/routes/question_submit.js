@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { writeFile } = require('node:fs/promises');
 const { Question } = require("../models/question");
+const { Interview } = require("../models/interview");
 const { auth } = require("../lib/auth");
 const { USER_ROLE } = require("../lib/constants");
 
@@ -27,12 +28,16 @@ router.post("/", async (req, res) => {
 
 	try {
         const uid = await auth(req, [USER_ROLE.INTERVIEWER, USER_ROLE.INTERVIEWEE]);
+        const existInterview = await Interview.findOne({_id: req.body.interview_id});
         const existQuestion = await Question.findOne({ _id: req.body.qid });
-        if(!existQuestion){
+        if(!existQuestion || !existInterview){
+            return res.status(409).send({ message: "Invalid Request Parameters" });
+        }
+        if(existInterview.interviewer_id != uid && existInterview.interviewee_id != uid){
             return res.status(409).send({ message: "Invalid Request Parameters" });
         }
         // WORKDIR /app
-        const dirpath = `./questions/${uid}/${existQuestion._id}`;
+        const dirpath = `./questions/${existInterview.interviewer_id}/${existQuestion._id}`;
         await writeFile(dirpath+'/user_solution.py', req.body.solution);
         await runPy(dirpath);
 	} catch (error) {

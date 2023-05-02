@@ -81,7 +81,7 @@ const Dashboard = (props) => {
                 {
                     props.type==="interview_dash"?
                     display_list.map((item) => 
-                    <Interview key={item._id} list_item={item} post={props.post} show_interview_detail={props.show_interview_detail}/>):
+                    <Interview key={item._id} list_item={item} post={props.post} show_interview_detail={props.show_interview_detail} show_interview_edit={props.show_interview_edit}/>):
                     display_list.map((item) =>
                     <Question key={item._id} list_item={item} post={props.post} show_question_detail={props.show_question_detail}/>)
                 }

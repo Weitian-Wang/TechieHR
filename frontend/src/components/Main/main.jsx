@@ -86,6 +86,7 @@ const Main = () => {
 	const [questionId, set_questionId] = useState(null);
 	// const [showInterview, set_showInterview] = useState(window.localStorage.getItem("showInterview") === "true");
 	const [showInterview, set_showInterview] = useState(false); //set false to true to test interview room
+	const [interviewEdit, set_interviewEdit] = useState(false);
 	const [showInterviewCreate, set_showInterviwCreate] = useState(false)
 	const [interviewId, set_interviewId] = useState(null); //set null to a random number to test interview room
 
@@ -125,6 +126,20 @@ const Main = () => {
 		set_showQuestion(false);
 		set_showQuestionCreate(false);
 		set_showInterview(false);
+		set_interviewEdit(false);
+		window.localStorage.setItem("showInterview", "false");
+		set_showInterviwCreate(true);
+	}
+
+	const show_interview_edit = (e) => {
+		const itvw_id = e.target.id;
+		set_interviewId(itvw_id);
+		set_showDash(false);
+		window.localStorage.setItem("showDash", "false");
+		set_showQuestion(false);
+		set_showQuestionCreate(false);
+		set_showInterview(false);
+		set_interviewEdit(true);
 		window.localStorage.setItem("showInterview", "false");
 		set_showInterviwCreate(true);
 	}
@@ -173,7 +188,6 @@ const Main = () => {
 		set_profile_btn(!profile_btn_active);
 	}
 
-	const [solution_code, set_solution_code] = useState("");
 
 	return (
 		<div className={styles.main_container}>
@@ -205,6 +219,7 @@ const Main = () => {
 					type={"interview_dash"} 
 					post={post}
 					show_interview_detail={show_interview_detail}
+					show_interview_edit={show_interview_edit}
 					create={show_interview_create}
 				/>
 				{
@@ -240,6 +255,8 @@ const Main = () => {
 				<div className={styles.content_container}>
 					<Interview_Create
 						show_dashboard_detail={show_dashboard_detail}
+						interviewEdit={interviewEdit}
+						interviewId={interviewId}
 						post={post}
 					>
 					</Interview_Create>

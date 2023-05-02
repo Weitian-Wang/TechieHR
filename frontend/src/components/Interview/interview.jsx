@@ -27,7 +27,7 @@ const Interview = (props) => {
             </div>
             <div className={styles.action_group}>
                 <button id={props.list_item._id} className={styles.btn2} onClick={(e) => props.show_interview_detail(e)}>Join</button>
-                <button id={props.list_item._id} className={styles.btn1}>···</button>
+                <button id={props.list_item._id} className={styles.btn1} onClick={(e) => props.show_interview_edit(e)}>···</button>
             </div>
         </div>
     )

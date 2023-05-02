@@ -236,7 +236,7 @@ const QuestionMain = (props) => {
                     />
                 </div>
                 <div className={styles.question_edit_action}>
-                <div className={styles.round_btn} style={{backgroundColor:"var(--status-orange)", fontSize:"1em"}} onClick={test_run}>RUN</div>
+                    <div className={styles.round_btn} style={{backgroundColor:"var(--status-orange)", fontSize:"1em"}} onClick={test_run}>RUN</div>
                     <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}} onClick={props.show_dashboard_detail}>X</div>
                     <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={save_all_changes}>&#10004;</div>
                 </div>

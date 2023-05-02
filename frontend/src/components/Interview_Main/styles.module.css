@@ -35,9 +35,44 @@
 }
 
 .markdown {
+    border-radius: 5px;
+    margin-bottom: 5px;
     z-index: 0;
     overflow-wrap: break-word;
     overflow-y: scroll;
+}
+
+.code_button_cluster {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    justify-content: space-between;
+}
+
+.round_btn {
+	border: none;
+	outline: none;
+	border-radius: 50%;
+	color: var(--main-color);
+	width: 50px;
+	height: 50px;
+	font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+	font-size: 30px;
+	transition: 0.2s;
+	box-shadow: var(--box-shadow);
+}
+
+.round_btn.active {
+	color: var(--link-color-active);
+	background-color: var(--link-color-active-bg);
+}
+
+.round_btn:not(.active):hover{
+	color: var(--link-color-active);
+	background-color: var(--link-color-hover);
 }
 
 .coding_interface {

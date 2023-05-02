@@ -14,13 +14,11 @@ def main():
         user_output = open('user_output', 'w+')
         while idx < len(input_lines):
             # convert line into input data
-            line = input_lines[idx].strip('\n').strip('[').strip(']')
-            if not line:
-                break
-            nums = [int(ele) for ele in line.split(',')]
-            target = int(input_lines[idx+1].strip('\n'))
-            idx += 2
-            result = solution.solve(nums, target)
+            s1 = input_lines[idx].strip('\n')
+            idx += 1
+            s2 = input_lines[idx].strip('\n')
+            idx += 1
+            result = solution.solve(s1, s2)
             user_output.write(str(result)+'\n')
         
         # test case tally
@@ -37,6 +35,7 @@ def main():
                 correct_count += 1
             case_count += 1
             idx += 1
+        # use print for messages for test taker
         print(f'{correct_count}/{case_count} test cases passed!')
     except Exception as e:
         print(f'Error occured when running solution: {str(e)}')

@@ -13,7 +13,6 @@ const Interview_Create = (props) => {
     const [schedule, set_schedule] = useState(new Date());
     const [duration, set_duration] = useState("");
     const [question_options, set_question_options] = useState([]);
-    const [selected_questions, set_selected_questions] = useState([]);
     const multiselectRef = useRef(); 
 
     useEffect(() => {
@@ -61,6 +60,23 @@ const Interview_Create = (props) => {
         }
     }
 
+    const handleUpdateSubmit = async () => {
+        var selected = multiselectRef.current.getSelectedItems().map((item) => {return item.id});
+        const request_data = {
+            interview_id: props.interview_id,
+            interview_name: interview_name,
+            email: interviewee_email,
+            scheduled_time: schedule,
+            duration: duration,
+            question_list: selected
+        }
+        console.log(request_data);
+        var data_resp = await props.post("/api/interview/update", request_data, true);
+        if(data_resp == 201){
+            setTimeout(() => {props.show_dashboard_detail();}, 500);
+        }
+    }
+
 	return (
 			<div className={styles.content_container}>
                 <div className={styles.form_container}>
@@ -72,7 +88,7 @@ const Interview_Create = (props) => {
                             />
                     </div>
 
-                    <div className={styles.input_line}>Interviewee
+                    <div className={styles.input_line}>Candidate
                         <input type="text" 
                             className={styles.input} 
                             placeholder="example@email.com"
@@ -135,6 +151,7 @@ const Interview_Create = (props) => {
                     </div>
 
                     <div className={styles.btn_cluster}>
+                        {props.interviewEdit?<div className={styles.round_btn} style={{backgroundColor:"var(--status-orange)", fontSize:"1em"}} onClick={props.show_dashboard_detail}>DEL</div>:<></>}
                         <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}} onClick={props.show_dashboard_detail}>X</div>
                         <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={handleSubmit}>&#10004;</div>
                     </div>
