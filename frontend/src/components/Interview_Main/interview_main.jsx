@@ -87,8 +87,6 @@ const Interview_Main = (props) => {
     }
 
     const submitCode = async() => {
-        console.log(activeQuestionID);
-        console.log(currentCode);
         await props.post('/api/question/submit', { qid: activeQuestionID, interview_id: props.interviewId, solution: currentCode });
     }
 

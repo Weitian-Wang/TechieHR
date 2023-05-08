@@ -13,23 +13,36 @@ const Interview_Create = (props) => {
     const [schedule, set_schedule] = useState(new Date());
     const [duration, set_duration] = useState("");
     const [question_options, set_question_options] = useState([]);
+    const [pre_selected, set_pre_selected] = useState([]);
     const multiselectRef = useRef(); 
 
     useEffect(() => {
         const post_request = async () => {
             try{
-                var data;
-                data = await props.post('/api/question/list', {}, false);
+                var data = await props.post('/api/question/list', {}, false);
                 set_question_options(data.list.map((dict) => {
                     return {title: dict.title, id: dict._id}
                 }));
+
+                if(props.interviewEdit){
+                    var interview_data = await props.post('/api/interview/detail', {interview_id: props.interviewId}, false);
+                    set_interview_name(interview_data.interview.interview_name);
+                    set_interviewee_email(interview_data.interview.interviewee_email);
+                    set_schedule(interview_data.interview.scheduled_time);
+                    set_duration(interview_data.interview.duration);
+                    set_pre_selected(data.list.filter((dict) => {
+                        return interview_data.interview.question_list.indexOf(dict._id) != -1;
+                    }).map((dict) => {
+                        return {title: dict.title, id: dict._id}
+                    }));
+                }
             }
             catch(error){
                 console.log(error.message);
             }
         }
         post_request();
-    }, [props.type])
+    }, [])
 
     const handleNameChange = event => {
         set_interview_name(event.target.value);
@@ -60,10 +73,20 @@ const Interview_Create = (props) => {
         }
     }
 
+    const handleDelete = async () => {
+        const request_data = {
+            interview_id: props.interviewId,
+        }
+        var data_resp = await props.post("/api/interview/delete", request_data, true);
+        if(data_resp == 201){
+            setTimeout(() => {props.show_dashboard_detail();}, 500);
+        }
+    }
+
     const handleUpdateSubmit = async () => {
         var selected = multiselectRef.current.getSelectedItems().map((item) => {return item.id});
         const request_data = {
-            interview_id: props.interview_id,
+            interview_id: props.interviewId,
             interview_name: interview_name,
             email: interviewee_email,
             scheduled_time: schedule,
@@ -85,6 +108,7 @@ const Interview_Create = (props) => {
                             className={styles.input}
                             placeholder="Technical Interview"
                             onChange={handleNameChange}
+                            value={interview_name}
                             />
                     </div>
 
@@ -93,11 +117,12 @@ const Interview_Create = (props) => {
                             className={styles.input} 
                             placeholder="example@email.com"
                             onChange={handleEmailChange}
+                            value={interviewee_email}
                             />
                     </div>
 
                     <div className={styles.input_line}>Schedule
-                        <DateTimePicker disableClock={true} minDate={new Date()} onChange={set_schedule} value={schedule}/>
+                        <DateTimePicker disableClock={true} minDate={props.interviewEdit?null:new Date()} onChange={set_schedule} value={schedule}/>
                     </div>
 
                     <div className={styles.input_line}>Duration
@@ -113,6 +138,7 @@ const Interview_Create = (props) => {
                             ref={multiselectRef}
                             options={question_options} // Options to display in the dropdown
                             displayValue="title" // Property name to display in the dropdown options                  
+                            selectedValues={pre_selected}
                             style={
                                 {
                                     multiselectContainer: 
@@ -151,9 +177,9 @@ const Interview_Create = (props) => {
                     </div>
 
                     <div className={styles.btn_cluster}>
-                        {props.interviewEdit?<div className={styles.round_btn} style={{backgroundColor:"var(--status-orange)", fontSize:"1em"}} onClick={props.show_dashboard_detail}>DEL</div>:<></>}
+                        {props.interviewEdit?<div className={styles.round_btn} style={{backgroundColor:"var(--status-orange)", fontSize:"1em"}} onClick={handleDelete}>DEL</div>:<></>}
                         <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}} onClick={props.show_dashboard_detail}>X</div>
-                        <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={handleSubmit}>&#10004;</div>
+                        <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={props.interviewEdit?handleUpdateSubmit:handleSubmit}>&#10004;</div>
                     </div>
                 </div>
 			</div>

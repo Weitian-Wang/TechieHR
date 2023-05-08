@@ -32,6 +32,9 @@ const questionSubmit = require("./routes/question_submit")
 const interviewListByIntervieweeRoutes = require("./routes/interview_list_interviewee")
 const interviewListByInterviewerRoutes = require("./routes/interview_list_interviewer")
 const interviewCreateRoutes = require("./routes/interview_create")
+const interviewDeleteRoutes = require("./routes/interview_delete")
+const interviewDetailRoutes = require("./routes/interview_detail")
+const interviewUpdateRoutes = require("./routes/interview_update")
 const interviewQuestionDisplayInterviewer = require("./routes/interview_question_display_interviewer")
 const interviewQuestionDisplayInterviewee = require("./routes/interview_question_display_interviewee")
 
@@ -99,6 +102,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/interview/list/interviewee", interviewListByIntervieweeRoutes);
 app.use("/api/interview/list/interviewer", interviewListByInterviewerRoutes);
 app.use("/api/interview/create", interviewCreateRoutes);
+app.use("/api/interview/delete", interviewDeleteRoutes);
+app.use("/api/interview/detail", interviewDetailRoutes);
+app.use("/api/interview/update", interviewUpdateRoutes);
 app.use("/api/interview/question/display/interviewer", interviewQuestionDisplayInterviewer);
 app.use("/api/interview/question/display/interviewee", interviewQuestionDisplayInterviewee);
 
