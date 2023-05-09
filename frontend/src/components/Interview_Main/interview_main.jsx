@@ -43,7 +43,7 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
         }
         await socket.emit("send", data)
         setCurrentCode(code)
-        questionDetails[activeQuestionID].code = code
+        //questionDetails[activeQuestionID].code = code
         localStorage.setItem("code", JSON.stringify(code))
     }
 

@@ -17,6 +17,7 @@ const Codepad = (props) => {
       className={styles.editor}
       value={currentCode}
       onValueChange={code => {
+        setCurrentCode(props.code)
         props.setCode(code)
       }}
       highlight={code =>
