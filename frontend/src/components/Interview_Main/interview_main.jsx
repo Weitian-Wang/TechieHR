@@ -8,17 +8,13 @@ import { useEffect, useState, useRef } from "react"
 import { io } from "socket.io-client"
 import { URL } from "../../utils";
 
-const Interview_Main = (props) => {
-    if (localStorage.getItem("code") === null) localStorage.setItem("code", JSON.stringify("class Solution():"))
-
-    const [socket, setSocket] = useState()
+const Interview_Main = (props) => {const [socket, setSocket] = useState()
     // how to support language change?
     // id: {description: markdown, code: code}
     const [questionDetails, setQuestionDetails] = useState({}); 
     const [questionOptions, setQuestionOptions] = useState([]);
     const [activeQuestionDescription, setActiveQuestionDescription] = useState("");
     const [activeQuestionID, setActiveQuestionID] = useState("");
-    // const [currentCode, setCurrentCode] = useState(JSON.parse(localStorage.getItem("code")))
     const [currentCode, setCurrentCode] = useState("")
     const multiselectRef = useRef(); 
     const roomId = props.interviewId
@@ -32,7 +28,6 @@ const Interview_Main = (props) => {
 
         socket.on("receive", (data) => {
             setCurrentCode(data.code)
-            // localStorage.setItem("code", JSON.stringify(data.code))
         })
 
         return () => {
