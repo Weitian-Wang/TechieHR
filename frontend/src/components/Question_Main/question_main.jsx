@@ -147,7 +147,7 @@ const QuestionMain = (props) => {
     }
 
     const test_run = async () => {
-        await props.post('/api/question/submit', { qid: props.qid, solution: solution_code });
+        await props.post('/api/question/submit/test', { qid: props.qid, solution: solution_code });
     }
 
 	return (
