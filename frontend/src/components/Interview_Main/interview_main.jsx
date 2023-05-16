@@ -11,6 +11,8 @@ import { URL } from "../../utils";
 const Interview_Main = (props) => {const [socket, setSocket] = useState()
     // how to support language change?
     // id: {description: markdown, code: code}
+    const [language, set_language] = useState("python");
+    const languageOptions = [{id: "python", title:'Python'}, {id: "cpp", title:'C++'}];
     const [questionDetails, setQuestionDetails] = useState({}); 
     const [questionOptions, setQuestionOptions] = useState([]);
     const [activeQuestionDescription, setActiveQuestionDescription] = useState("");
@@ -18,7 +20,6 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
     const [currentCode, setCurrentCode] = useState("")
     const multiselectRef = useRef(); 
     const roomId = props.interviewId
-
     useEffect(() => {
         const socket = io(`${URL}:80`)
 
@@ -79,6 +80,10 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
         // don't use activeQuestionID, not synchronous, use e[0].id instead
         setActiveQuestionDescription(questionDetails[e[0].id].description);
         setCurrentCode(questionDetails[e[0].id].code);
+    }
+
+    const setLanguage = (e) => {
+        set_language(e[0].id);
     }
 
     const submitCode = async() => {
@@ -146,12 +151,61 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
                 </div>
             </div>
             <div className={styles.coding_interface}>
-                <Codepad
-                    className={styles.code_pad}
-                    needHighlight={true}
-                    code={currentCode}
-                    setCode={sendCode}
-                ></Codepad>
+                <Multiselect
+                            customCloseIcon={<></>}
+                            singleSelect={true}
+                            onSelect={setLanguage}
+                            options={languageOptions} // Options to display in the dropdown
+                            selectedValues={[languageOptions[0]]}
+                            displayValue="title" // Property name to display in the dropdown options                  
+                            style={
+                                {
+                                    multiselectContainer: 
+                                    {
+                                        width: "100%",
+                                        borderRadius: "5px",
+                                        backgroundColor: "var(--app-container)",
+                                        color: "var(--main-color)",
+                                        fontSize: "14px",
+                                        outline: "none",
+                                        border: "none",
+                                    },
+                                    searchBox:
+                                    {
+                                        margin: "0px",
+                                    },
+                                    chips: { // To change css chips(Selected options)
+                                        borderRadius: "5px",
+                                        margin: "0 2px",
+                                        fontSize: "14px",
+                                        padding: "0px",
+                                    },
+                                    optionContainer: { // To change css for option container 
+                                        zIndex: "1",
+                                        overflowX: "scroll",
+                                        maxHeight: "20vh",
+                                        border: "none",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                    },
+                                    option: { // To change css for dropdown options
+                                        color: "var(--main-color)",
+                                        border: "none",
+                                        backgroundColor: "var(--app-container)",
+                                        padding: "13px 1em",
+                                    },
+                                }
+                            }
+                />
+                <div className={styles.code_container}>
+                    <Codepad
+                        className={styles.code_pad}
+                        needHighlight={true}
+                        code={currentCode}
+                        setCode={sendCode}
+                        lang={language}
+                    ></Codepad>
+                </div>
             </div>
             <div className={styles.conferencing_interface}>
                 <div className={styles.video_interface}>

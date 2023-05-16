@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
             return res.status(409).send({ message: "Invalid Request Parameters" });
         }
         // WORKDIR /app
-        const dirpath = `./questions/${uid}/${existQuestion._id}`;
+        const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
         await writeFile(dirpath+'/output', req.body.content);
         res.status(201).send({ message: "Question Output Saved" });
 	} catch (error) {

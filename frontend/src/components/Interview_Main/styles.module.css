@@ -81,20 +81,28 @@
     border-radius: 5px;
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     overflow-wrap: break-word;
     background-color: transparent;
     color: var(--main-color);
-    background-color: var(--code-section);
+    /* background-color: var(--code-section); */
+}
+
+.code_container {
+    margin-top: 5px;
     overflow: scroll;
+    border-radius: 5px;
 }
 
 .code_pad {
-	font-size: 18px;
+    font-size: 18px;
     height: 100%;
+    width: 100%;
     overflow-wrap: break-word;
     background-color: transparent;
     color: var(--main-color);
-    overflow-y: scroll;
+    overflow: scroll;
 }
 
 .conferencing_interface {

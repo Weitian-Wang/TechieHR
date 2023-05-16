@@ -3,6 +3,10 @@ import {useState, useEffect} from "react"
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-python';
+// what the puck have to import all three to use cpp highlighting
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-c';
+import 'prismjs/components/prism-cpp';
 import './highlight.css'
 
 const Codepad = (props) => {
@@ -11,6 +15,8 @@ const Codepad = (props) => {
   useEffect(() => {
     setCurrentCode(props.code)
   }, [props.code])
+
+  const lang_map = {"python": languages.py, "cpp": languages.cpp};
 
 	return (
     <Editor
@@ -22,7 +28,7 @@ const Codepad = (props) => {
       }}
       highlight={code =>
         props.needHighlight?
-        highlight(code, languages.py)
+        highlight(code, lang_map[props.lang])
         .split("\n")
         .map((line, i) => `<span class='editor_line_number' style='position: absolute; left: 0; color: #cccccc; text-align: right; width: 2em;'>${i + 1}</span>${line}`)
         .join("\n")

@@ -13,10 +13,21 @@ router.post("/", async (req, res) => {
             return res.status(409).send({ message: "Invalid Request Parameters" });
         }
         // WORKDIR /app
-        const dirpath = `./questions/${uid}/${existQuestion._id}`;
-        const grader = await readFile(dirpath+'/grader.py', {encoding: 'utf-8'});
-        const data = {
-            grader: grader,
+        var data;
+        // python
+        const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
+        if(req.body.lang === 'python'){
+            const grader = await readFile(dirpath+'/grader.py', {encoding: 'utf-8'});
+            data = {
+                grader: grader,
+            }
+        }
+        // cpp
+        else{
+            const grader = await readFile(dirpath+'/grader.py', {encoding: 'utf-8'});
+            data = {
+                grader: grader,
+            }
         }
         res.status(201).send({ message: "Question Grader Loaded", data: data});
 	} catch (error) {

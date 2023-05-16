@@ -37,9 +37,19 @@ router.post("/", async (req, res) => {
             return res.status(409).send({ message: "Invalid Request Parameters" });
         }
         // WORKDIR /app
-        const dirpath = `./questions/${existInterview.interviewer_id}/${existQuestion._id}`;
-        await writeFile(dirpath+'/user_solution.py', req.body.solution);
-        await runPy(dirpath);
+        if(req.body.lang === 'python'){
+            const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
+            await writeFile(dirpath+'/user_solution.py', req.body.solution);
+            await runPy(dirpath);
+        }
+        else if(req.body.lang === 'cpp'){
+            const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
+            await writeFile(dirpath+'/user_solution.py', req.body.solution);
+            await runPy(dirpath);
+        }
+        else{
+            return res.status(409).send({ message: "Invalid Language" }); 
+        }
 	} catch (error) {
         console.log(error);
         if(error.error_code && error.error_code != 500){
