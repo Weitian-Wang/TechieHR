@@ -1,20 +1,23 @@
-import styles from "./styles.module.css";
-import { useState, useEffect } from "react";
-import { io } from "socket.io-client";
-import ScrollToBottom from "react-scroll-to-bottom";
-import { URL } from "../../utils";
+import styles from "./styles.module.css"
+import { useState, useEffect } from "react"
+import { io } from "socket.io-client"
+import ScrollToBottom from "react-scroll-to-bottom"
+import { URL } from "../../utils"
 
-const updateLocalMessageList = (message) => {
-  const messageList = JSON.parse(localStorage.getItem("messageList"))
-  localStorage.setItem("messageList", JSON.stringify([...messageList, message]))
+const updateLocalMessageList = (id, message) => {
+  const messageLists = JSON.parse(localStorage.getItem("messageLists"))
+  if (id in messageLists) messageLists[id] = [...messageLists[id], message]
+  else messageLists[id] = [message]
+  localStorage.setItem("messageLists", JSON.stringify(messageLists))
 }
 
 const Chatbox = (props) => {
-    if (localStorage.getItem("messageList") === null) localStorage.setItem("messageList", JSON.stringify([]));
+    if (localStorage.getItem("messageLists") === null) localStorage.setItem("messageLists", JSON.stringify({}))
 
-    const [socket, setSocket] = useState();
-    const [currentMessage, setCurrentMessage] = useState("");
-    const [messageList, setMessageList] = useState(JSON.parse(localStorage.getItem("messageList")));
+    const [socket, setSocket] = useState()
+    const [currentMessage, setCurrentMessage] = useState("")
+    const messageLists = JSON.parse(localStorage.getItem("messageLists"))
+    const [messageList, setMessageList] = useState(props.interviewId in messageLists ? messageLists[props.interviewId] : [])
 
     const roomId = props.interviewId + "_chat"
 
@@ -27,9 +30,9 @@ const Chatbox = (props) => {
 
         socket.on("receive", (data) => {
             data.user = "remote"
-            setMessageList((list) => [...list, data]);
-            updateLocalMessageList(data);
-          });
+            setMessageList((list) => [...list, data])
+            updateLocalMessageList(props.interviewId, data)
+          })
 
         return () => {
           socket.removeAllListeners()
@@ -46,10 +49,10 @@ const Chatbox = (props) => {
           time: new Date(Date.now()).toLocaleTimeString()
         }
     
-        await socket.emit("send", messageData);
-        setMessageList((list) => [...list, messageData]);
-        updateLocalMessageList(messageData);
-        setCurrentMessage("");
+        await socket.emit("send", messageData)
+        setMessageList((list) => [...list, messageData])
+        updateLocalMessageList(props.interviewId, messageData)
+        setCurrentMessage("")
       }
     }
 
@@ -60,16 +63,14 @@ const Chatbox = (props) => {
               {messageList.map((message) => {
                 return (
                   <div className={`${styles.message} ${message.user === "local" ? styles.local : styles.remote}`} key={message.time}>
-                    <div>
-                      <div className={styles.message_content}>
-                        <p>{message.content}</p>
-                      </div>
-                      {/* <div className={styles.message_meta}>
-                        <p>{message.time}</p>
-                      </div> */}
+                    <div className={styles.message_content}>
+                      <p>{message.content}</p>
+                    </div>
+                    <div className={styles.message_meta}>
+                      <p>{message.time}</p>
                     </div>
                   </div>
-                );
+                )
               })}
             </ScrollToBottom>
           </div>
@@ -92,4 +93,4 @@ const Chatbox = (props) => {
     );
 }
 
-export default Chatbox;
+export default Chatbox

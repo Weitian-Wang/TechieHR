@@ -45,6 +45,7 @@
     height: auto;
     padding: 5px 0 5px 0;
     display: flex;
+    flex-direction: column;
   }
   
   .chat_window .chat_body .message .message_content {
@@ -54,8 +55,6 @@
     /* max-width: 120px; */
     border-radius: 5px;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
     /* margin-right: 5px; */
     /* margin-left: 5px; */
     padding: 10px;
@@ -76,12 +75,17 @@
   
   .local .message_content {
     justify-content: flex-end;
+  }
+
+  .local .message_content p {
+    padding: 10px;
+    border-radius: 5px;
     background-color: var(--app-container);
   }
   
   .local .message_meta {
     justify-content: flex-end;
-    margin-left: 5px;
+    margin-right: 10px;
   }
   
   .remote {
@@ -90,12 +94,17 @@
   
   .remote .message_content {
     justify-content: flex-start;
+  }
+
+  .remote .message_content p {
+    padding: 10px;
+    border-radius: 5px;
     background-color: var(--code-section);
   }
   
   .remote .message_meta {
     justify-content: flex-start;
-    margin-right: 5px;
+    margin-left: 10px;
   }
   
   .message_meta .author {
