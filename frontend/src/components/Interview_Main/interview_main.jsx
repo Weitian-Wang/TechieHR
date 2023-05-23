@@ -8,11 +8,13 @@ import { useEffect, useState, useRef } from "react"
 import { io } from "socket.io-client"
 import { URL } from "../../utils";
 
-const Interview_Main = (props) => {const [socket, setSocket] = useState()
+const Interview_Main = (props) => {
+    const [socket, setSocket] = useState()
     // questionDetails
-    // id: {description: markdown, code: {lang: code}}
+    // {id: {description: markdown, code: {lang: code}}}
     const [language, set_language] = useState("python");
     const languageOptions = [{id: "python", title:'Python 3'}, {id: "cpp", title:'C++17'}];
+    const codeTemplates = {"python": "class Solution:", "cpp": "class Solution {};"};
     const [questionDetails, setQuestionDetails] = useState({}); 
     const [questionOptions, setQuestionOptions] = useState([]);
     const [activeQuestionDescription, setActiveQuestionDescription] = useState("");
@@ -22,25 +24,39 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
     const langselectRef = useRef();
     const roomId = props.interviewId + "_code";
 
+    const updateLocal = (interviewId, qid, lang, code) => {
+        var userSolutions = JSON.parse(localStorage.getItem("userSolutions"))
+        userSolutions[interviewId][qid][lang] = code
+        localStorage.setItem("userSolutions", JSON.stringify(userSolutions))
+    }
+
     useEffect(() => {
         const post_request = async () => {
             try{
                 var data;
-                if(localStorage.getItem("userType") == "interviewer"){
+                if(localStorage.getItem("userType") === "interviewer"){
                     data = await props.post('/api/interview/question/display/interviewer', {interview_id: props.interviewId});
                 }
-                if(localStorage.getItem("userType") == "interviewee"){
+                if(localStorage.getItem("userType") === "interviewee"){
                     data = await props.post('/api/interview/question/display/interviewee', {interview_id: props.interviewId});
                 }
+                var userSolutions = JSON.parse(localStorage.getItem("userSolutions"))
+                if (userSolutions === null) userSolutions = {}
+                if (!(props.interviewId in userSolutions)) {
+                    var interviewSolutions = {}
+                    for (const question of data.questions) interviewSolutions[question.qid] = codeTemplates
+                    userSolutions[props.interviewId] = interviewSolutions
+                }
                 setQuestionDetails(Object.assign({}, ...data.questions.map((dict) => {
-                    return {[dict.qid]: {description: dict.description, code: {"python": "class Solution:", "cpp": "class Solution {};"}}}
+                    return {[dict.qid]: {description: dict.description, code: userSolutions[props.interviewId][dict.qid]}}
                 })));
                 setQuestionOptions(data.questions.map((dict) => {
                     return {title: dict.title, id: dict.qid}
                 }));
                 setActiveQuestionID(data.questions[0].qid)
                 setActiveQuestionDescription(data.questions[0].description)
-                setCurrentCode("class Solution:")
+                setCurrentCode(userSolutions[props.interviewId][data.questions[0].qid][languageOptions[0].id])
+                localStorage.setItem("userSolutions", JSON.stringify(userSolutions))
             }
             catch(error){
                 console.log(error.message)
@@ -57,7 +73,6 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
         socket.emit("join", roomId)
 
         socket.on("receive", (data) => {
-            console.log(data)
             setActiveQuestionID(data.qop[0].id)
             multiselectRef.current.state.selectedValues = data.qop
             setActiveQuestionDescription(data.details[data.qop[0].id].description)
@@ -68,6 +83,8 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
                 prev[data.qop[0].id].code[data.lop[0].id] = data.code
                 return prev
             })
+
+            updateLocal(props.interviewId, data.qop[0].id, data.lop[0].id, data.code)
         })
 
         return () => {
@@ -90,6 +107,8 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
             prev[activeQuestionID].code[language] = code
             return prev
         })
+        
+        updateLocal(props.interviewId, activeQuestionID, language, code)
     }
     
     const setQuestion = (e) => {
