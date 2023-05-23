@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
         }
         else if(req.body.lang === 'cpp'){
             // actual file to be changed
-            await writeFile(dirpath+'/solution.py', req.body.content);
+            await writeFile(dirpath+'/solution.cpp', req.body.content);
         }
         else{
             return res.status(409).send({ message: "Invalid Language" });

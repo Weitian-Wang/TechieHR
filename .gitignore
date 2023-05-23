@@ -16,6 +16,7 @@ build/
 !backend/questions/
 backend/questions/*
 !backend/questions/template_question
+!backend/questions/template_question_1
 
 # misc
 .DS_Store

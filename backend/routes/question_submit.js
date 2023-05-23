@@ -31,10 +31,12 @@ router.post("/", async (req, res) => {
         const { exec, spawn } = require('child_process');
         exec(`cd ${dirpath} && g++ -std=c++17 grader.cpp -o grader`, (error, stdout, stderr) => {
             if (error) {
-              return res.status(201).send({ message: error.message });
+                console.log(error.message);
+                return res.status(201).send({ message: error.message });
             }
             if (stderr) {
-              return res.status(201).send({ message: stderr });
+                console.log(stderr);
+                return res.status(201).send({ message: stderr });
             }
 
             const grader = spawn('./grader', {cwd: dirpath});
