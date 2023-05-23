@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
         }
         else if(req.body.lang === 'cpp'){
             // actual file to be changed
-            const solution = await readFile(dirpath+'/solution.py', {encoding: 'utf-8'});
+            const solution = await readFile(dirpath+'/solution.cpp', {encoding: 'utf-8'});
             data = {
                 solution: solution
             }

@@ -12,6 +12,10 @@ coverage/
 # production
 build/
 
+# runtime
+backend/questions/
+!backend/questions/template_question/
+
 # misc
 .DS_Store
 .env.local

@@ -13,7 +13,7 @@ const authRoutes = require("./routes/auth");
 
 // question 
 const questionListRoutes = require("./routes/question_list")
-const questionCreateRoutes = require("./routes/question_creat")
+const questionCreateRoutes = require("./routes/question_create")
 const questionDetailRoutes = require("./routes/question_detail")
 const questionDescriptionLoadRoutes = require("./routes/question_description_load")
 const questionDescriptionSaveRoutes = require("./routes/question_description_save")

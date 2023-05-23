@@ -30,7 +30,6 @@ const QuestionMain = (props) => {
 
     // automatically refresh components upon language change
     useEffect(() => {
-        console.log(language);
         question_detail_request();
     }, [language])
     
