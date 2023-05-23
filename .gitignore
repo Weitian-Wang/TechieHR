@@ -13,8 +13,9 @@ coverage/
 build/
 
 # runtime
+!backend/questions/
 backend/questions/*
-!backend/questions/template_question/*
+!backend/questions/template_question
 
 # misc
 .DS_Store
