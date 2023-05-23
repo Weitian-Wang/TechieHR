@@ -4,6 +4,7 @@ const { User } = require("../models/user")
 const { Question } = require("../models/question")
 const { auth } = require("../lib/auth");
 const { USER_ROLE } = require("../lib/constants");
+const { nodemailer } = require('nodemailer');
 
 router.post("/", async (req, res) => {
 	try {
@@ -45,6 +46,30 @@ router.post("/", async (req, res) => {
             question_list: data.question_list
         })
         await newInterview.save();
+        // send email to candidate
+        var nodemailer = require('nodemailer');
+        var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'techiehraws1@gmail.com',
+            pass: 'jbiicrzzsjevseku'
+        }
+        });
+        
+        var mailOptions = {
+        from: 'techiehraws1@gmail.com',
+        to: interviewee.email,
+        subject: `${interviewer.firstName} Scheduled an Interview with You!`,
+        html: `<h1>Congrats!</h1><p>Hi ${interviewee.firstName}, we are thrilled to notify you that ${interviewer.firstName} has scheduled an interview with you. The interview starts at ${data.scheduled_time.replace(/T/, ' ').replace(/\..+/, '')} and takes ${data.duration} minutes. Good luck!</p><p>View all your interviews at your <a href="http://localhost:3000/">TechieHR</a> dashboard.</p><p>Contact <a href="mailto: ${interviewer.email}">${interviewer.firstName}</a> for more details or schedule another time with interviewer.</p>`,
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+        });
         res.status(201).send({ data: 201, message: "Interview created successfully" });
 	} catch (error) {
         console.log(error);

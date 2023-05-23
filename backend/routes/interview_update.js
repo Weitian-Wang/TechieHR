@@ -47,6 +47,31 @@ router.post("/", async (req, res) => {
             duration: data.duration,
             question_list: data.question_list
         })
+
+        // send email to candidate
+        var nodemailer = require('nodemailer');
+        var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'techiehraws1@gmail.com',
+            pass: 'jbiicrzzsjevseku'
+        }
+        });
+        
+        var mailOptions = {
+                from: 'techiehraws1@gmail.com',
+                to: interview.interviewee_email,
+                subject: `Reschedule of Your ${interview.interview_name} Interview`,
+                html: `<p>Hi ${interview.interviewee_name}, ${interviewer.firstName} updated your interview. The interview was moved to ${data.scheduled_time.replace(/T/, ' ').replace(/\..+/, '')} and would take ${data.duration} minutes. Good luck!</p><p>View all your interviews at your <a href="http://localhost:3000/">TechieHR</a> dashboard.</p><p>Contact <a href="mailto: ${interviewer.email}">${interviewer.firstName}</a> for more details or schedule another time with interviewer.</p>`,
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+        });
         res.status(201).send({ data: 201, message: "Interview Updated" });
 	} catch (error) {
         console.log(error);
