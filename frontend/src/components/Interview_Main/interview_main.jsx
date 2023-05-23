@@ -12,7 +12,7 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
     // how to support language change?
     // id: {description: markdown, code: code}
     const [language, set_language] = useState("python");
-    const languageOptions = [{id: "python", title:'Python'}, {id: "cpp", title:'C++17'}];
+    const languageOptions = [{id: "python", title:'Python 3'}, {id: "cpp", title:'C++17'}];
     const [questionDetails, setQuestionDetails] = useState({}); 
     const [questionOptions, setQuestionOptions] = useState([]);
     const [activeQuestionDescription, setActiveQuestionDescription] = useState("");

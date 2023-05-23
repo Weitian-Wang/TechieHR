@@ -62,7 +62,7 @@ router.post("/", async (req, res) => {
                 from: 'techiehraws1@gmail.com',
                 to: interview.interviewee_email,
                 subject: `Reschedule of Your ${interview.interview_name} Interview`,
-                html: `<p>Hi ${interview.interviewee_name}, ${interviewer.firstName} updated your interview. The interview was moved to ${data.scheduled_time.replace(/T/, ' ').replace(/\..+/, '')} and would take ${data.duration} minutes. Good luck!</p><p>View all your interviews at your <a href="http://localhost:3000/">TechieHR</a> dashboard.</p><p>Contact <a href="mailto: ${interviewer.email}">${interviewer.firstName}</a> for more details or schedule another time with interviewer.</p>`,
+                html: `<p>Hi ${interview.interviewee_name}, ${interviewer.firstName} updated your interview. The interview was moved to ${data.scheduled_time.replace(/T/, ' ').replace(/\..+/, '')} and would take ${data.duration} minutes. Good luck!</p><p>View all your interviews at your <a href="http://localhost:3000/">TechieHR</a> dashboard.</p><p>Contact <a href="mailto:${interviewer.email}">${interviewer.firstName}</a> for more details or schedule another time with interviewer.</p>`,
         };
         
         transporter.sendMail(mailOptions, function(error, info){

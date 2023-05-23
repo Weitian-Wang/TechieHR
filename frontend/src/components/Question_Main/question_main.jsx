@@ -8,7 +8,7 @@ const QuestionMain = (props) => {
 
     const [markdown_content, set_markdown_content] = useState("");
     const [language, set_language] = useState("python");
-    const languageOptions = [{id: "python", title:'Python'}, {id: "cpp", title:'C++17'}];
+    const languageOptions = [{id: "python", title:'Python 3'}, {id: "cpp", title:'C++17'}];
     const [grader_code, set_grader_code] = useState("");
     const [solution_code, set_solution_code] = useState("");
     const [input_content, set_input_content] = useState("");

@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
                 from: 'techiehraws1@gmail.com',
                 to: interview.interviewee_email,
                 subject: `Cancellation of Your ${interview.interview_name} Interview`,
-                html: `<p>Hi ${interview.interviewee_name}, ${interviewer.firstName} cancelled your interview with you.</p><p>View all your interviews at your <a href="http://localhost:3000/">TechieHR</a> dashboard.</p><p>Contact <a href="mailto: ${interviewer.email}">${interviewer.firstName}</a> for more details or schedule another time with interviewer.</p>`,
+                html: `<p>Hi ${interview.interviewee_name}, ${interview.interviewer_name} cancelled your interview with you.</p><p>View all your interviews at your <a href="http://localhost:3000/">TechieHR</a> dashboard.</p><p>Contact <a href="mailto:${interview.interviewer_email}">${interview.interviewer_name}</a> for more details or schedule another time with interviewer.</p>`,
         };
         
         transporter.sendMail(mailOptions, function(error, info){
