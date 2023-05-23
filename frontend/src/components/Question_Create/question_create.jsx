@@ -24,7 +24,7 @@ const Question_Create = (props) => {
                     <div className={styles.input_line}>Question Title
                         <input type="text" 
                             className={styles.input}
-                            placeholder="Example"
+                            placeholder="Two Sum"
                             onChange={handleNameChange}
                             />
                     </div>

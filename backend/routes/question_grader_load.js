@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
         }
         // cpp
         else{
-            const grader = await readFile(dirpath+'/grader.py', {encoding: 'utf-8'});
+            const grader = await readFile(dirpath+'/grader.cpp', {encoding: 'utf-8'});
             data = {
                 grader: grader,
             }

@@ -14,10 +14,10 @@ router.post("/", async (req, res) => {
         // WORKDIR /app
         var dirpath = `./questions/${uid}/${existQuestion._id}`;
         var data;
+        const description = await readFile(dirpath+'/description.md', {encoding: 'utf-8'});
         // load python file
         if(req.body.lang === "python"){
             dirpath += '/python';
-            const description = await readFile(dirpath+'/description.md', {encoding: 'utf-8'});
             const grader = await readFile(dirpath+'/grader.py', {encoding: 'utf-8'});
             const solution = await readFile(dirpath+'/solution.py', {encoding: 'utf-8'});
             const input = await readFile(dirpath+'/input', {encoding: 'utf-8'});
@@ -33,9 +33,8 @@ router.post("/", async (req, res) => {
         // load cpp file
         else if(req.body.lang === "cpp"){
             dirpath += '/cpp';
-            const description = await readFile(dirpath+'/description.md', {encoding: 'utf-8'});
-            const grader = await readFile(dirpath+'/grader.py', {encoding: 'utf-8'});
-            const solution = await readFile(dirpath+'/solution.py', {encoding: 'utf-8'});
+            const grader = await readFile(dirpath+'/grader.cpp', {encoding: 'utf-8'});
+            const solution = await readFile(dirpath+'/solution.cpp', {encoding: 'utf-8'});
             const input = await readFile(dirpath+'/input', {encoding: 'utf-8'});
             const output = await readFile(dirpath+'/output', {encoding: 'utf-8'});
             data = {

@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
         const template_cpp_dirpath = `${template_dirpath}/cpp`
         const cpp_dirpath = `${dirpath}/cpp`
         await mkdir(cpp_dirpath, {recursive: true});
-        await copyFile(template_cpp_dirpath+'/grader.py', cpp_dirpath+'/grader.py');
+        await copyFile(template_cpp_dirpath+'/grader.cpp', cpp_dirpath+'/grader.cpp');
         await copyFile(template_cpp_dirpath+'/solution.cpp', cpp_dirpath+'/solution.cpp');
         await copyFile(template_cpp_dirpath+'/input', cpp_dirpath+'/input');
         await copyFile(template_cpp_dirpath+'/output', cpp_dirpath+'/output');

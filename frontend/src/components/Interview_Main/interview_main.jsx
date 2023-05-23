@@ -12,7 +12,7 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
     // how to support language change?
     // id: {description: markdown, code: code}
     const [language, set_language] = useState("python");
-    const languageOptions = [{id: "python", title:'Python'}, {id: "cpp", title:'C++'}];
+    const languageOptions = [{id: "python", title:'Python'}, {id: "cpp", title:'C++17'}];
     const [questionDetails, setQuestionDetails] = useState({}); 
     const [questionOptions, setQuestionOptions] = useState([]);
     const [activeQuestionDescription, setActiveQuestionDescription] = useState("");
@@ -87,7 +87,7 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
     }
 
     const submitCode = async() => {
-        await props.post('/api/question/submit', { qid: activeQuestionID, interview_id: props.interviewId, solution: currentCode });
+        await props.post('/api/question/submit', { qid: activeQuestionID, interview_id: props.interviewId, solution: currentCode, lang: language });
     }
 
     return (

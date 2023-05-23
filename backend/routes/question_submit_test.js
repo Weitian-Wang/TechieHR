@@ -25,6 +25,34 @@ router.post("/", async (req, res) => {
         });
     };
 
+    const runCpp = async (dirpath) => {
+
+        const { exec, spawn } = require('child_process');
+        exec(`cd ${dirpath} && g++ -std=c++17 grader.cpp -o grader`, (error, stdout, stderr) => {
+            if (error) {
+              return res.status(201).send({ message: error.message });
+            }
+            if (stderr) {
+              return res.status(201).send({ message: stderr });
+            }
+
+            const grader = spawn('./grader', {cwd: dirpath});
+            grader.stdout.on('data', function(data) {
+                message = data.toString();
+            });
+    
+            grader.stdout.on('close', function(data) {
+                return res.status(201).send({ message: message });
+            });
+        
+            grader.stderr.on('data', (data) => {
+                message = data.toString();
+                console.log(message)
+            });
+        });
+
+    };
+
 	try {
         const uid = await auth(req, [USER_ROLE.INTERVIEWER]);
         const existQuestion = await Question.findOne({ _id: req.body.qid });
@@ -39,8 +67,8 @@ router.post("/", async (req, res) => {
         }
         else if(req.body.lang === 'cpp'){
             const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
-            await writeFile(dirpath+'/user_solution.py', req.body.solution);
-            await runPy(dirpath);
+            await writeFile(dirpath+'/user_solution.cpp', req.body.solution);
+            await runCpp(dirpath);
         }
         else{
             return res.status(409).send({ message: "Invalid Language" }); 

@@ -26,6 +26,34 @@ router.post("/", async (req, res) => {
         });
     };
 
+    const runCpp = async (dirpath) => {
+
+        const { exec, spawn } = require('child_process');
+        exec(`cd ${dirpath} && g++ -std=c++17 grader.cpp -o grader`, (error, stdout, stderr) => {
+            if (error) {
+              return res.status(201).send({ message: error.message });
+            }
+            if (stderr) {
+              return res.status(201).send({ message: stderr });
+            }
+
+            const grader = spawn('./grader', {cwd: dirpath});
+            grader.stdout.on('data', function(data) {
+                message = data.toString();
+            });
+    
+            grader.stdout.on('close', function(data) {
+                return res.status(201).send({ message: message });
+            });
+        
+            grader.stderr.on('data', (data) => {
+                message = data.toString();
+                console.log(message)
+            });
+        });
+
+    };
+
 	try {
         const uid = await auth(req, [USER_ROLE.INTERVIEWER, USER_ROLE.INTERVIEWEE]);
         const existInterview = await Interview.findOne({_id: req.body.interview_id});
@@ -38,14 +66,14 @@ router.post("/", async (req, res) => {
         }
         // WORKDIR /app
         if(req.body.lang === 'python'){
-            const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
+            const dirpath = `./questions/${existInterview.interviewer_id}/${existQuestion._id}/${req.body.lang}`;
             await writeFile(dirpath+'/user_solution.py', req.body.solution);
             await runPy(dirpath);
         }
         else if(req.body.lang === 'cpp'){
-            const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
-            await writeFile(dirpath+'/user_solution.py', req.body.solution);
-            await runPy(dirpath);
+            const dirpath = `./questions/${existInterview.interviewer_id}/${existQuestion._id}/${req.body.lang}`;
+            await writeFile(dirpath+'/user_solution.cpp', req.body.solution);
+            await runCpp(dirpath);
         }
         else{
             return res.status(409).send({ message: "Invalid Language" }); 
