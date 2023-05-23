@@ -54,12 +54,12 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
 	socket.on("join", (roomId) => {
 		socket.join(roomId)
-		console.log(`WebSocket ${socket.id} connected to room ${roomId}`)
+		console.log(`${socket.id} connected to room ${roomId}`)
 		socket.to(roomId).emit("userJoined", socket.id)
 
 		socket.on("disconnect", () => {
 			io.to(roomId).emit("callEnded")
-			console.log(`WebSocket ${socket.id} disconnected from room ${roomId}`)
+			console.log(`${socket.id} disconnected from room ${roomId}`)
 		})
 	})
 

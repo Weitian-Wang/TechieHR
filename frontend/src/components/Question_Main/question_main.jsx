@@ -32,15 +32,6 @@ const QuestionMain = (props) => {
     useEffect(() => {
         question_detail_request();
     }, [language])
-    
-    const swap_language = () => {
-        if(language=="cpp"){
-            set_language('python');
-        }
-        else{
-            set_language('cpp');
-        }
-    }
 
     const description_upload = useRef(null);
     const grader_upload = useRef(null);

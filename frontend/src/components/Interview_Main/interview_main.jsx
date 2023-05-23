@@ -25,7 +25,7 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
 
         setSocket(socket)
 
-        socket.emit("join", roomId)
+        socket.emit("join", roomId + "_code")
 
         socket.on("receive", (data) => {
             setCurrentCode(data.code)
