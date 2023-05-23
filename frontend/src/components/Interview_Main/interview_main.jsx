@@ -9,8 +9,8 @@ import { io } from "socket.io-client"
 import { URL } from "../../utils";
 
 const Interview_Main = (props) => {const [socket, setSocket] = useState()
-    // how to support language change?
-    // id: {description: markdown, code: code}
+    // questionDetails
+    // id: {description: markdown, code: {lang: code}}
     const [language, set_language] = useState("python");
     const languageOptions = [{id: "python", title:'Python 3'}, {id: "cpp", title:'C++17'}];
     const [questionDetails, setQuestionDetails] = useState({}); 
@@ -18,35 +18,9 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
     const [activeQuestionDescription, setActiveQuestionDescription] = useState("");
     const [activeQuestionID, setActiveQuestionID] = useState("");
     const [currentCode, setCurrentCode] = useState("")
-    const multiselectRef = useRef(); 
-    const roomId = props.interviewId
-    useEffect(() => {
-        const socket = io(`${URL}:80`)
-
-        setSocket(socket)
-
-        socket.emit("join", roomId + "_code")
-
-        socket.on("receive", (data) => {
-            setCurrentCode(data.code)
-        })
-
-        return () => {
-          socket.removeAllListeners()
-          socket.disconnect()
-        }
-    }, [])
-
-    const sendCode = async (code) => {
-        const data = {
-            room: roomId,
-            code: code
-        }
-        await socket.emit("send", data)
-        setCurrentCode(code)
-        questionDetails[activeQuestionID].code = code
-        localStorage.setItem("code", JSON.stringify(code))
-    }
+    const multiselectRef = useRef();
+    const langselectRef = useRef();
+    const roomId = props.interviewId + "_code";
 
     useEffect(() => {
         const post_request = async () => {
@@ -59,7 +33,7 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
                     data = await props.post('/api/interview/question/display/interviewee', {interview_id: props.interviewId});
                 }
                 setQuestionDetails(Object.assign({}, ...data.questions.map((dict) => {
-                    return {[dict.qid]: {description: dict.description, code: "class Solution:"}}
+                    return {[dict.qid]: {description: dict.description, code: {"python": "class Solution:", "cpp": "class Solution {};"}}}
                 })));
                 setQuestionOptions(data.questions.map((dict) => {
                     return {title: dict.title, id: dict.qid}
@@ -74,16 +48,59 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
         }
         post_request();
     }, [props.interviewId])
+
+    useEffect(() => {
+        const socket = io(`${URL}:80`)
+
+        setSocket(socket)
+
+        socket.emit("join", roomId)
+
+        socket.on("receive", (data) => {
+            console.log(data)
+            setActiveQuestionID(data.qop[0].id)
+            multiselectRef.current.state.selectedValues = data.qop
+            setActiveQuestionDescription(data.details[data.qop[0].id].description)
+            set_language(data.lop[0].id)
+            langselectRef.current.state.selectedValues = data.lop
+            setCurrentCode(data.code)
+            setQuestionDetails(prev => {
+                prev[data.qop[0].id].code[data.lop[0].id] = data.code
+                return prev
+            })
+        })
+
+        return () => {
+          socket.removeAllListeners()
+          socket.disconnect()
+        }
+    }, [])
+
+    const sendCode = async (code) => {
+        const data = {
+            room: roomId,
+            code: code,
+            details: questionDetails,
+            qop: multiselectRef.current.getSelectedItems(),
+            lop: langselectRef.current.getSelectedItems()
+        }
+        await socket.emit("send", data)
+        setCurrentCode(code)
+        setQuestionDetails(prev => {
+            prev[activeQuestionID].code[language] = code
+            return prev
+        })
+    }
     
     const setQuestion = (e) => {
         setActiveQuestionID(e[0].id);
-        // don't use activeQuestionID, not synchronous, use e[0].id instead
         setActiveQuestionDescription(questionDetails[e[0].id].description);
-        setCurrentCode(questionDetails[e[0].id].code);
+        setCurrentCode(questionDetails[e[0].id].code[language]);
     }
 
     const setLanguage = (e) => {
         set_language(e[0].id);
+        setCurrentCode(questionDetails[activeQuestionID].code[e[0].id]);
     }
 
     const submitCode = async() => {
@@ -152,6 +169,7 @@ const Interview_Main = (props) => {const [socket, setSocket] = useState()
             </div>
             <div className={styles.coding_interface}>
                 <Multiselect
+                            ref = {langselectRef}
                             customCloseIcon={<></>}
                             singleSelect={true}
                             onSelect={setLanguage}
