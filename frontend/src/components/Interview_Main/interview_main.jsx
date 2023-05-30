@@ -13,7 +13,10 @@ const Interview_Main = (props) => {
     // questionDetails
     // {id: {description: markdown, code: {lang: code}}}
     const [language, set_language] = useState("python");
-    const languageOptions = [{id: "python", title:'Python 3'}, {id: "cpp", title:'C++17'}];
+    const languageOptions = [{id: "python", title:'Python 3'}, 
+                             {id: "cpp", title:'C++17'},
+                             {id: "javascript", title: 'JavaScript'},
+                             {id: "java", title: 'Java'}];
     const codeTemplates = {"python": "class Solution:", "cpp": "class Solution {};"};
     const [questionDetails, setQuestionDetails] = useState({}); 
     const [questionOptions, setQuestionOptions] = useState([]);

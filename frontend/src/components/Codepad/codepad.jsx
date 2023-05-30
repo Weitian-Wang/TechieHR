@@ -7,6 +7,8 @@ import 'prismjs/components/prism-python';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-c';
 import 'prismjs/components/prism-cpp';
+import 'prismjs/components/prism-javascript'
+import 'prismjs/components/prism-java'
 import './highlight.css'
 
 const Codepad = (props) => {
@@ -16,7 +18,7 @@ const Codepad = (props) => {
     setCurrentCode(props.code)
   }, [props.code])
 
-  const lang_map = {"python": languages.py, "cpp": languages.cpp};
+  const lang_map = {"python": languages.py, "cpp": languages.cpp, 'javascript': languages.javascript, 'java': languages.java };
 
 	return (
     <Editor
