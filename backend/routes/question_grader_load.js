@@ -23,8 +23,13 @@ router.post("/", async (req, res) => {
             }
         }
         // cpp
-        else{
+        else if (req.body.lang === 'cpp') {
             const grader = await readFile(dirpath+'/grader.cpp', {encoding: 'utf-8'});
+            data = {
+                grader: grader,
+            }
+        } else if (req.body.lang === 'javascript') {
+            const grader = await readFile(dirpath+'/grader.js', {encoding: 'utf-8'});
             data = {
                 grader: grader,
             }

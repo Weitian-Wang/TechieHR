@@ -39,6 +39,8 @@ router.post("/", async (req, res) => {
             }
 
             const grader = spawn('./grader', {cwd: dirpath});
+            var message;
+
             grader.stdout.on('data', function(data) {
                 message = data.toString();
             });
@@ -55,6 +57,25 @@ router.post("/", async (req, res) => {
 
     };
 
+    const runJs = async (dirpath) => {
+        const { spawn } = require('child_process');
+        const jsprog = spawn('node', ['./grader.js'], {cwd: dirpath});
+        var message;
+
+        jsprog.stdout.on('data', function(data) {
+            message = data.toString();
+        });
+
+        jsprog.stdout.on('close', function(data) {
+            return res.status(201).send({ message: message });
+        });
+    
+        jsprog.stderr.on('data', (data) => {
+            message = data.toString();
+            console.log(message)
+        });
+    };
+
 	try {
         const uid = await auth(req, [USER_ROLE.INTERVIEWER]);
         const existQuestion = await Question.findOne({ _id: req.body.qid });
@@ -62,17 +83,17 @@ router.post("/", async (req, res) => {
             return res.status(409).send({ message: "Invalid Request Parameters" });
         }
         // WORKDIR /app
-        if(req.body.lang === 'python'){
-            const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
+        const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
+        if (req.body.lang === 'python'){
             await writeFile(dirpath+'/user_solution.py', req.body.solution);
             await runPy(dirpath);
-        }
-        else if(req.body.lang === 'cpp'){
-            const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
+        } else if(req.body.lang === 'cpp'){
             await writeFile(dirpath+'/user_solution.cpp', req.body.solution);
             await runCpp(dirpath);
-        }
-        else{
+        } else if (req.body.lang === 'javascript') {
+            await writeFile(dirpath+'/user_solution.js', req.body.solution);
+            await runJs(dirpath);
+        } else {
             return res.status(409).send({ message: "Invalid Language" }); 
         }
 	} catch (error) {

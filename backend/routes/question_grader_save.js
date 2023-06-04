@@ -20,6 +20,9 @@ router.post("/", async (req, res) => {
         else if(req.body.lang === 'cpp'){
             await writeFile(dirpath+'/grader.cpp', req.body.content);
         }
+        else if (req.body.lang === 'javascript') {
+            await writeFile(dirpath+'/grader.js', req.body.content);
+        }
         else{
             return res.status(409).send({ message: "Invalid Request Language" });
         }

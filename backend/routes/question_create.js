@@ -23,22 +23,27 @@ router.post("/", async (req, res) => {
         const dirpath = `./questions/${uid}/${newQuestion.id}`
         await mkdir(dirpath, {recursive: true});
         await copyFile(template_dirpath+'/description.md', dirpath+'/description.md');
+        await copyFile(template_dirpath+'/input', dirpath+'/input');
+        await copyFile(template_dirpath+'/output', dirpath+'/output');
         // python
         const template_python_dirpath = `${template_dirpath}/python`
         const python_dirpath = `${dirpath}/python`
         await mkdir(python_dirpath, {recursive: true});
         await copyFile(template_python_dirpath+'/grader.py', python_dirpath+'/grader.py');
         await copyFile(template_python_dirpath+'/solution.py', python_dirpath+'/solution.py');
-        await copyFile(template_python_dirpath+'/input', python_dirpath+'/input');
-        await copyFile(template_python_dirpath+'/output', python_dirpath+'/output');
-        // cpp, files to be changed
+        // cpp
         const template_cpp_dirpath = `${template_dirpath}/cpp`
         const cpp_dirpath = `${dirpath}/cpp`
         await mkdir(cpp_dirpath, {recursive: true});
         await copyFile(template_cpp_dirpath+'/grader.cpp', cpp_dirpath+'/grader.cpp');
         await copyFile(template_cpp_dirpath+'/solution.cpp', cpp_dirpath+'/solution.cpp');
-        await copyFile(template_cpp_dirpath+'/input', cpp_dirpath+'/input');
-        await copyFile(template_cpp_dirpath+'/output', cpp_dirpath+'/output');
+        // javascript
+        const template_js_dirpath = `${template_dirpath}/javascript`
+        const js_dirpath = `${dirpath}/javascript`
+        await mkdir(js_dirpath, {recursive: true});
+        await copyFile(template_js_dirpath+'/grader.js', js_dirpath+'/grader.js');
+        await copyFile(template_js_dirpath+'/solution.js', js_dirpath+'/solution.js');
+
         res.status(201).send({ message: "Question created successfully", data: {qid: newQuestion.id, status: 201} });
 	} catch (error) {
 		res.status(500).send({ message: "Internal Server Error" });

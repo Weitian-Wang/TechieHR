@@ -28,6 +28,12 @@ router.post("/", async (req, res) => {
                 solution: solution
             }
         }
+        else if (req.body.lang === 'javascript') {
+            const solution = await readFile(dirpath+'/solution.js', {encoding: 'utf-8'});
+            data = {
+                solution: solution
+            }
+        }
         else{
             return res.status(409).send({ message: "Invalid Language" });
         }

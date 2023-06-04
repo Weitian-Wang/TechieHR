@@ -17,7 +17,7 @@ const Interview_Main = (props) => {
                              {id: "cpp", title:'C++17'},
                              {id: "javascript", title: 'JavaScript'},
                              {id: "java", title: 'Java'}];
-    const codeTemplates = {"python": "class Solution:", "cpp": "class Solution {};"};
+    const codeTemplates = {"python": "class Solution:", "cpp": "class Solution {};", "javascript": "var solve = function() {};", "java": "class Solution {public int[] solve() {}"};
     const [questionDetails, setQuestionDetails] = useState({}); 
     const [questionOptions, setQuestionOptions] = useState([]);
     const [activeQuestionDescription, setActiveQuestionDescription] = useState("");
