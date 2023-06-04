@@ -55,6 +55,18 @@ router.post("/", async (req, res) => {
                 output: output,
             }
         }
+        else if (req.body.lang === "java") {
+            dirpath += '/java';
+            const grader = await readFile(dirpath+'/Grader.java', {encoding: 'utf-8'});
+            const solution = await readFile(dirpath+'/Solution.java', {encoding: 'utf-8'});
+            data = {
+                description: description,
+                grader: grader,
+                solution: solution,
+                input: input,
+                output: output,
+            }
+        }
         else{
             return res.status(409).send({ message: "Invalid Language Option" });
         }

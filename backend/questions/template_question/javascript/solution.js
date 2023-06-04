@@ -1,7 +1,7 @@
 /**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
+ * @param {Number[]} nums
+ * @param {Number} target
+ * @return {Number[]}
  */
 var solve = function(nums, target) {
     const map = new Map();
@@ -14,4 +14,5 @@ var solve = function(nums, target) {
     return [];
 };
 
+// Do NOT edit below
 exports.solve = solve;

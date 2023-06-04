@@ -43,6 +43,12 @@ router.post("/", async (req, res) => {
         await mkdir(js_dirpath, {recursive: true});
         await copyFile(template_js_dirpath+'/grader.js', js_dirpath+'/grader.js');
         await copyFile(template_js_dirpath+'/solution.js', js_dirpath+'/solution.js');
+        // java
+        const template_java_dirpath = `${template_dirpath}/java`
+        const java_dirpath = `${dirpath}/java`
+        await mkdir(java_dirpath, {recursive: true});
+        await copyFile(template_java_dirpath+'/Grader.java', java_dirpath+'/Grader.java');
+        await copyFile(template_java_dirpath+'/Solution.java', java_dirpath+'/Solution.java');
 
         res.status(201).send({ message: "Question created successfully", data: {qid: newQuestion.id, status: 201} });
 	} catch (error) {

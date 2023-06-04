@@ -76,6 +76,38 @@ router.post("/", async (req, res) => {
         });
     };
 
+    const runJava = async (dirpath) => {
+
+        const { exec, spawn } = require('child_process');
+        exec(`cd ${dirpath} && javac UserSolution.java && javac Grader.java`, (error, stdout, stderr) => {
+            if (error) {
+                console.log(error.message);
+                return res.status(201).send({ message: error.message });
+            }
+            if (stderr) {
+                console.log(stderr);
+                return res.status(201).send({ message: stderr });
+            }
+
+            const grader = spawn('java', ['Grader'], {cwd: dirpath});
+            var message;
+
+            grader.stdout.on('data', function(data) {
+                message = data.toString();
+            });
+    
+            grader.stdout.on('close', function(data) {
+                return res.status(201).send({ message: message });
+            });
+        
+            grader.stderr.on('data', (data) => {
+                message = data.toString();
+                console.log(message)
+            });
+        });
+
+    };
+
 	try {
         const uid = await auth(req, [USER_ROLE.INTERVIEWER]);
         const existQuestion = await Question.findOne({ _id: req.body.qid });
@@ -93,6 +125,9 @@ router.post("/", async (req, res) => {
         } else if (req.body.lang === 'javascript') {
             await writeFile(dirpath+'/user_solution.js', req.body.solution);
             await runJs(dirpath);
+        } else if (req.body.lang === 'java') {
+            await writeFile(dirpath+'/UserSolution.java', req.body.solution);
+            await runJava(dirpath);
         } else {
             return res.status(409).send({ message: "Invalid Language" }); 
         }

@@ -24,6 +24,9 @@ router.post("/", async (req, res) => {
         else if (req.body.lang === 'javascript') {
             await writeFile(dirpath+'/solution.js', req.body.content);
         }
+        else if (req.body.lang === 'java') {
+            await writeFile(dirpath+'/Solution.java', req.body.content);
+        }
         else{
             return res.status(409).send({ message: "Invalid Language" });
         }

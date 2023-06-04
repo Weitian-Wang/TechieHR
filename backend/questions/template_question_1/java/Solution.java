@@ -1,17 +1,19 @@
+// Import needed classes
+import java.util.*;
+
 class Solution {
-public:
-    bool solve(string& s, string& t) {
+    public boolean solve(String s, String t) {
         if (s.length() != t.length()) {
             return false;
         }
         
-        vector<int> freq(26, 0);
+        int[] freq = new int[26];
         for (int i = 0; i < s.length(); i++) {
-            freq[s[i] - 'a']++;
-            freq[t[i] - 'a']--;
+            freq[s.charAt(i) - 'a']++;
+            freq[t.charAt(i) - 'a']--;
         }
         
-        for (int i = 0; i < freq.size(); i++) {
+        for (int i = 0; i < freq.length; i++) {
             if (freq[i] != 0) {
                 return false;
             }
@@ -19,4 +21,4 @@ public:
         
         return true;
     }
-};
+}

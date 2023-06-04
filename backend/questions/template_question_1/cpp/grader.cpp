@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
     try {
-        ifstream input("input"), output("output");
+        ifstream input("../input"), output("../output");
         string s, t, line;
         int amount = 0, count = 0;
         while (getline(input, s)) {

@@ -49,6 +49,10 @@ const Interview_Main = (props) => {
                     var interviewSolutions = {}
                     for (const question of data.questions) interviewSolutions[question.qid] = codeTemplates
                     userSolutions[props.interviewId] = interviewSolutions
+                } else {
+                    for (const question of data.questions) {
+                        if (userSolutions[props.interviewId][question.qid] == null) userSolutions[props.interviewId][question.qid] = codeTemplates
+                    }
                 }
                 setQuestionDetails(Object.assign({}, ...data.questions.map((dict) => {
                     return {[dict.qid]: {description: dict.description, code: userSolutions[props.interviewId][dict.qid]}}
