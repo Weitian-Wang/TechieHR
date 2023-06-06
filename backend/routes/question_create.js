@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
         const uid = await auth(req, [USER_ROLE.INTERVIEWER]);
         const existQuestion = await Question.findOne({ creatorId: uid, title: req.body.title});
         if(existQuestion){
-            return res.status(409).send({ message: "Duplicated Question With Same Title" });
+            return res.status(409).send({ message: "Duplicated Question With Same Title"});
         }
         const newQuestion = new Question({
             creatorId: uid,
@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
         await copyFile(template_java_dirpath+'/Solution.java', java_dirpath+'/Solution.java');
         await copyFile(template_java_dirpath+'/template', java_dirpath+'/template');
 
-        res.status(201).send({ message: "Question created successfully", data: {qid: newQuestion.id, status: 201} });
+        res.status(201).send({ message: "Question Created Successfully", data: {qid: newQuestion.id, status: 201} });
 	} catch (error) {
 		res.status(500).send({ message: "Internal Server Error" });
 	}

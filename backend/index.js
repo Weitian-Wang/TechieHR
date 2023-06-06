@@ -29,6 +29,7 @@ const questionTemplateLoadRoutes = require("./routes/question_template_load")
 const questionTemplateSaveRoutes = require("./routes/question_template_save")
 const questionSubmit = require("./routes/question_submit")
 const questionSubmitTest = require("./routes/question_submit_test")
+const questionDelete = require("./routes/question_delete")
 
 
 // interview
@@ -128,8 +129,9 @@ app.use("/api/question/output/load", questionOutputLoadRoutes);
 app.use("/api/question/output/save", questionOutputSaveRoutes);
 app.use("/api/question/template/load", questionTemplateLoadRoutes);
 app.use("/api/question/template/save", questionTemplateSaveRoutes);
-app.use("/api/question/submit", questionSubmit)
-app.use("/api/question/submit/test", questionSubmitTest)
+app.use("/api/question/submit", questionSubmit);
+app.use("/api/question/submit/test", questionSubmitTest);
+app.use("/api/question/delete", questionDelete);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

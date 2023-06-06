@@ -177,6 +177,12 @@ const QuestionMain = (props) => {
         set_language(e[0].id);
     }
 
+    const question_delete = async () => {
+        const res = await props.post('/api/question/delete', { qid: props.qid });
+    
+        if (res && res === 201) props.show_dashboard_detail();
+    }
+
 	return (
         <div className={styles.question_container}>
             <div className={styles.description}>
@@ -331,7 +337,7 @@ const QuestionMain = (props) => {
                 </div>
                 <div className={styles.question_edit_action}>
                     <div className={styles.round_btn} style={{backgroundColor:"var(--status-orange)", fontSize:"1em"}} onClick={test_run}>RUN</div>
-                    <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)"}} onClick={props.show_dashboard_detail}>X</div>
+                    <div className={styles.round_btn} style={{backgroundColor:"var(--error-red)", fontSize:"1em"}} onClick={question_delete}>DEL</div>
                     <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={save_all_changes}>&#10004;</div>
                 </div>
             </div>

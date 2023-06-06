@@ -14,7 +14,8 @@ const Question_Create = (props) => {
             return;
         }
         var data_resp = await props.post("/api/question/create", {title: question_name}, true);
-        if(data_resp.status == 201){
+        if (data_resp == null || data_resp.status == null) return;
+        if (data_resp.status == 201){
             setTimeout(() => {props.show_question_id_detail(data_resp.qid);}, 1500);
         }
     }
