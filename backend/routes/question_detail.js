@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
             dirpath += '/python';
             const grader = await readFile(dirpath+'/grader.py', {encoding: 'utf-8'});
             const solution = await readFile(dirpath+'/solution.py', {encoding: 'utf-8'});
-            const template = await readFile(dirpath+'/template.py', {encoding: 'utf-8'});
+            const template = await readFile(dirpath+'/template', {encoding: 'utf-8'});
             data = {
                 description: description,
                 grader: grader,
@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
             dirpath += '/cpp';
             const grader = await readFile(dirpath+'/grader.cpp', {encoding: 'utf-8'});
             const solution = await readFile(dirpath+'/solution.cpp', {encoding: 'utf-8'});
-            const template = await readFile(dirpath+'/template.cpp', {encoding: 'utf-8'});
+            const template = await readFile(dirpath+'/template', {encoding: 'utf-8'});
             data = {
                 description: description,
                 grader: grader,
@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
             dirpath += '/javascript';
             const grader = await readFile(dirpath+'/grader.js', {encoding: 'utf-8'});
             const solution = await readFile(dirpath+'/solution.js', {encoding: 'utf-8'});
-            const template = await readFile(dirpath+'/template.js', {encoding: 'utf-8'});
+            const template = await readFile(dirpath+'/template', {encoding: 'utf-8'});
             data = {
                 description: description,
                 grader: grader,
@@ -65,7 +65,7 @@ router.post("/", async (req, res) => {
             dirpath += '/java';
             const grader = await readFile(dirpath+'/Grader.java', {encoding: 'utf-8'});
             const solution = await readFile(dirpath+'/Solution.java', {encoding: 'utf-8'});
-            const template = await readFile(dirpath+'/Template.java', {encoding: 'utf-8'});
+            const template = await readFile(dirpath+'/template', {encoding: 'utf-8'});
             data = {
                 description: description,
                 grader: grader,

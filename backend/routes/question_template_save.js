@@ -4,6 +4,8 @@ const { Question } = require("../models/question");
 const { auth } = require("../lib/auth");
 const { USER_ROLE } = require("../lib/constants");
 
+const languages = new Set(['cpp', 'python', 'javascript', 'java']);
+
 // this API is for INTERVIEWER ONLY
 router.post("/", async (req, res) => {
 	try {
@@ -13,23 +15,11 @@ router.post("/", async (req, res) => {
             return res.status(409).send({ message: "Invalid Request Parameters" });
         }
         // WORKDIR /app
-        const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
-        if(req.body.lang === 'python'){
-            await writeFile(dirpath+'/template.py', req.body.content);
-        }
-        else if(req.body.lang === 'cpp'){
-            // actual file to be changed
-            await writeFile(dirpath+'/template.cpp', req.body.content);
-        }
-        else if (req.body.lang === 'javascript') {
-            await writeFile(dirpath+'/template.js', req.body.content);
-        }
-        else if (req.body.lang === 'java') {
-            await writeFile(dirpath+'/Template.java', req.body.content);
-        }
-        else{
+        if (!languages.has(req.body.lang)) {
             return res.status(409).send({ message: "Invalid Language" });
         }
+        const dirpath = `./questions/${uid}/${existQuestion._id}/${req.body.lang}`;
+        await writeFile(dirpath+'/template', req.body.content);
         res.status(201).send({ message: "Question Solution Saved" });
 	} catch (error) {
         console.log(error);

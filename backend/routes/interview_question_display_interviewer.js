@@ -5,6 +5,8 @@ const { Question } = require("../models/question");
 const { auth } = require("../lib/auth");
 const { USER_ROLE } = require("../lib/constants");
 
+const languages = ['cpp', 'python', 'javascript', 'java'];
+
 // this API is for both interviewer and interviewee
 router.post("/", async (req, res) => {
 	try {
@@ -24,8 +26,17 @@ router.post("/", async (req, res) => {
             var description = await readFile(dirpath+'/description.md', {encoding: 'utf-8'});
             list.push({ qid: question_id, title: question.title, description: description});
         }
+        var templates = {};
+        for(const question_id of interview.question_list){
+            templates[question_id] = {}
+            for(const lang of languages){
+                const template = await readFile(`./questions/${interview.interviewer_id}/${question_id}/${lang}/template`, {encoding: 'utf-8'});
+                templates[question_id][lang] = template
+            }
+        }
         const data = {
             questions: list,
+            templates: templates
         }
         return res.status(200).send({ message: "Questions Loaded", data: data })
 	} catch (error) {

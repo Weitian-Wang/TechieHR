@@ -42,24 +42,16 @@ const Interview_Main = (props) => {
                 if(localStorage.getItem("userType") === "interviewee"){
                     data = await props.post('/api/interview/question/display/interviewee', {interview_id: props.interviewId});
                 }
-                var templates = {};
-                for(const question of data.questions){
-                    templates[question.qid] = {}
-                    for(const lang of languageOptions){
-                        const tmp = await props.post('/api/question/template/load', {qid: question.qid, lang: lang.id})
-                        templates[question.qid][lang.id] = tmp.template
-                    }
-                }
-                setCodeTemplates(templates);
+                setCodeTemplates(data.templates);
                 var userSolutions = JSON.parse(localStorage.getItem("userSolutions"))
                 if (userSolutions === null) userSolutions = {}
                 if (!(props.interviewId in userSolutions)) {
                     var interviewSolutions = {}
-                    for (const question of data.questions) interviewSolutions[question.qid] = templates[question.qid]
+                    for (const question of data.questions) interviewSolutions[question.qid] = data.templates[question.qid]
                     userSolutions[props.interviewId] = interviewSolutions
                 } else {
                     for (const question of data.questions) {
-                        if (userSolutions[props.interviewId][question.qid] == null) userSolutions[props.interviewId][question.qid] = templates[question.qid]
+                        if (userSolutions[props.interviewId][question.qid] == null) userSolutions[props.interviewId][question.qid] = data.templates[question.qid]
                     }
                 }
                 setQuestionDetails(Object.assign({}, ...data.questions.map((dict) => {
