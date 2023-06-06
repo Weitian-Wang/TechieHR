@@ -2,7 +2,7 @@
 import java.util.*;
 
 class Solution {
-    public int[] solve(int[] nums, int target) {
+    public boolean solve(String s, String t) {
         // your code goes here
     }
 }
