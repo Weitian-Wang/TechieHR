@@ -10,14 +10,13 @@ import { URL } from "../../utils";
 
 const Interview_Main = (props) => {
     const [socket, setSocket] = useState()
-    // questionDetails
-    // {id: {description: markdown, code: {lang: code}}}
     const [language, set_language] = useState("python");
     const languageOptions = [{id: "python", title:'Python 3'}, 
                              {id: "cpp", title:'C++17'},
                              {id: "javascript", title: 'JavaScript'},
                              {id: "java", title: 'Java'}];
-    const codeTemplates = {"python": "class Solution:", "cpp": "class Solution {};", "javascript": "var solve = function() {};", "java": "class Solution {public int[] solve() {}"};
+    // {qid: {'python': 'xxx', 'cpp': 'xxx', ...}}
+    const [codeTemplates, setCodeTemplates] = useState({})
     const [questionDetails, setQuestionDetails] = useState({}); 
     const [questionOptions, setQuestionOptions] = useState([]);
     const [activeQuestionDescription, setActiveQuestionDescription] = useState("");
@@ -43,15 +42,24 @@ const Interview_Main = (props) => {
                 if(localStorage.getItem("userType") === "interviewee"){
                     data = await props.post('/api/interview/question/display/interviewee', {interview_id: props.interviewId});
                 }
+                var templates = {};
+                for(const question of data.questions){
+                    templates[question.qid] = {}
+                    for(const lang of languageOptions){
+                        const tmp = await props.post('/api/question/template/load', {qid: question.qid, lang: lang.id})
+                        templates[question.qid][lang.id] = tmp.template
+                    }
+                }
+                setCodeTemplates(templates);
                 var userSolutions = JSON.parse(localStorage.getItem("userSolutions"))
                 if (userSolutions === null) userSolutions = {}
                 if (!(props.interviewId in userSolutions)) {
                     var interviewSolutions = {}
-                    for (const question of data.questions) interviewSolutions[question.qid] = codeTemplates
+                    for (const question of data.questions) interviewSolutions[question.qid] = templates[question.qid]
                     userSolutions[props.interviewId] = interviewSolutions
                 } else {
                     for (const question of data.questions) {
-                        if (userSolutions[props.interviewId][question.qid] == null) userSolutions[props.interviewId][question.qid] = codeTemplates
+                        if (userSolutions[props.interviewId][question.qid] == null) userSolutions[props.interviewId][question.qid] = templates[question.qid]
                     }
                 }
                 setQuestionDetails(Object.assign({}, ...data.questions.map((dict) => {
@@ -129,6 +137,14 @@ const Interview_Main = (props) => {
         setCurrentCode(questionDetails[activeQuestionID].code[e[0].id]);
     }
 
+    const resetTemplate = () => {
+        setCurrentCode(codeTemplates[activeQuestionID][language])
+        setQuestionDetails(prev => {
+            prev[activeQuestionID].code[language] = codeTemplates[activeQuestionID][language]
+            return prev
+        })
+    }
+
     const submitCode = async() => {
         await props.post('/api/question/submit', { qid: activeQuestionID, interview_id: props.interviewId, solution: currentCode, lang: language });
     }
@@ -189,8 +205,8 @@ const Interview_Main = (props) => {
                     <Markdown content={activeQuestionDescription}/>
                 </div>
                 <div className={styles.code_button_cluster}>
-                    <div className={styles.round_btn} style={{backgroundColor:"var(--status-orange)", fontSize:"1em"}} onClick={submitCode}>RUN</div>
-                    <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)"}} onClick={()=>{}}>&#10004;</div>
+                    <div className={styles.round_btn} style={{backgroundColor:"var(--success-green)", fontSize:"1em"}} onClick={submitCode}>RUN</div>
+                    <div className={styles.round_btn} style={{backgroundColor:"var(--status-orange)"}} onClick={resetTemplate}>⇦</div>
                 </div>
             </div>
             <div className={styles.coding_interface}>

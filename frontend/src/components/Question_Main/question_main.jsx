@@ -16,6 +16,7 @@ const QuestionMain = (props) => {
     const [solution_code, set_solution_code] = useState("");
     const [input_content, set_input_content] = useState("");
     const [output_content, set_output_content] = useState("");
+    const [template_content, set_template_content] = useState("");
 
     const question_detail_request = async () => {
         try{
@@ -25,6 +26,7 @@ const QuestionMain = (props) => {
             set_solution_code(data.solution);
             set_input_content(data.input);
             set_output_content(data.output);
+            set_template_content(data.template);
         }
         catch(error){
             console.log(error.message)
@@ -41,6 +43,7 @@ const QuestionMain = (props) => {
     const solution_upload = useRef(null);
     const input_upload = useRef(null);
     const output_upload = useRef(null);
+    const template_upload = useRef(null);
 
     const onUploadFile = (e) => {
         var target = e.target.id;
@@ -53,6 +56,7 @@ const QuestionMain = (props) => {
                 case "solution_upload":     set_solution_code(event.target.result);break;
                 case "input_upload":        set_input_content(event.target.result);break;
                 case "output_upload":       set_output_content(event.target.result);break;
+                case "template_upload":     set_template_content(event.target.result);break;
             }
         };
         reader.readAsText(file);
@@ -69,6 +73,7 @@ const QuestionMain = (props) => {
                     case "solution_save":       await props.post('/api/question/solution/save', { qid: props.qid, content: solution_code       , lang: language});break;
                     case "input_save":          await props.post('/api/question/input/save', { qid: props.qid, content: input_content          , lang: language});break;
                     case "output_save":         await props.post('/api/question/output/save', { qid: props.qid, content: output_content        , lang: language});break;
+                    case "template_save":         await props.post('/api/question/template/save', { qid: props.qid, content: template_content        , lang: language});break;
                 }
             }
             catch(error){
@@ -112,6 +117,12 @@ const QuestionMain = (props) => {
                             set_output_content(data.output)
                             break;
                         }
+                    case "template_load":
+                        {
+                            const data = await props.post('/api/question/template/load', { qid: props.qid, lang: language });
+                            set_template_content(data.template)
+                            break;
+                        }
                 }
             }
             catch(error){
@@ -141,6 +152,9 @@ const QuestionMain = (props) => {
             case "output_upload":  output_upload.current.click();break;
             case "output_save":    onSaveFile(target);break;
             case "output_load":    onLoadFile(target);break;
+            case "template_upload":  output_upload.current.click();break;
+            case "template_save":    onSaveFile(target);break;
+            case "template_load":    onLoadFile(target);break;
         }
     };
 
@@ -150,6 +164,7 @@ const QuestionMain = (props) => {
         await props.post('/api/question/solution/save', { qid: props.qid, content: solution_code, lang: language }, false);
         await props.post('/api/question/input/save', { qid: props.qid, content: input_content   , lang: language }, false);
         await props.post('/api/question/output/save', { qid: props.qid, content: output_content , lang: language }, false);
+        await props.post('/api/question/template/save', { qid: props.qid, content: template_content , lang: language }, false);
 
         props.show_dashboard_detail();
     }
@@ -295,6 +310,22 @@ const QuestionMain = (props) => {
                         needHighlight={false}
                         code={output_content}
                         setCode={set_output_content}
+                        lang={language}
+                    />
+                </div>
+                <div className={styles.action_group}>
+                    <h3 style={{margin: '0.3em 0 0.3em 0'}}>Template</h3>
+                    <div className={styles.btn} id='template_upload' onClick={(e) => onButtonClick(e)}>📁</div>
+                    <input type='file' id='template_upload' ref={template_upload} style={{display: 'none'}} onChange={(e) => onUploadFile(e)}/>
+                    <div className={styles.btn} id='template_save'   onClick={(e) => onButtonClick(e)}>💾</div>
+                    <div className={styles.btn} id='template_load'   onClick={(e) => onButtonClick(e)}>↩️</div>
+                </div>
+                <div className={styles.test_case}>
+                    <Codepad 
+                        className={styles.test_case_input}
+                        needHighlight={true}
+                        code={template_content}
+                        setCode={set_template_content}
                         lang={language}
                     />
                 </div>

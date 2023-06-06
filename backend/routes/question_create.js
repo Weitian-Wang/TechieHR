@@ -31,24 +31,28 @@ router.post("/", async (req, res) => {
         await mkdir(python_dirpath, {recursive: true});
         await copyFile(template_python_dirpath+'/grader.py', python_dirpath+'/grader.py');
         await copyFile(template_python_dirpath+'/solution.py', python_dirpath+'/solution.py');
+        await copyFile(template_python_dirpath+'/template.py', python_dirpath+'/template.py');
         // cpp
         const template_cpp_dirpath = `${template_dirpath}/cpp`
         const cpp_dirpath = `${dirpath}/cpp`
         await mkdir(cpp_dirpath, {recursive: true});
         await copyFile(template_cpp_dirpath+'/grader.cpp', cpp_dirpath+'/grader.cpp');
         await copyFile(template_cpp_dirpath+'/solution.cpp', cpp_dirpath+'/solution.cpp');
+        await copyFile(template_cpp_dirpath+'/template.cpp', cpp_dirpath+'/template.cpp');
         // javascript
         const template_js_dirpath = `${template_dirpath}/javascript`
         const js_dirpath = `${dirpath}/javascript`
         await mkdir(js_dirpath, {recursive: true});
         await copyFile(template_js_dirpath+'/grader.js', js_dirpath+'/grader.js');
         await copyFile(template_js_dirpath+'/solution.js', js_dirpath+'/solution.js');
+        await copyFile(template_js_dirpath+'/template.js', js_dirpath+'/template.js');
         // java
         const template_java_dirpath = `${template_dirpath}/java`
         const java_dirpath = `${dirpath}/java`
         await mkdir(java_dirpath, {recursive: true});
         await copyFile(template_java_dirpath+'/Grader.java', java_dirpath+'/Grader.java');
         await copyFile(template_java_dirpath+'/Solution.java', java_dirpath+'/Solution.java');
+        await copyFile(template_java_dirpath+'/Template.java', java_dirpath+'/Template.java');
 
         res.status(201).send({ message: "Question created successfully", data: {qid: newQuestion.id, status: 201} });
 	} catch (error) {

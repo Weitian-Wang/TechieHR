@@ -25,6 +25,8 @@ const questionInputLoadRoutes = require("./routes/question_input_load")
 const questionInputSaveRoutes = require("./routes/question_input_save")
 const questionOutputLoadRoutes = require("./routes/question_output_load")
 const questionOutputSaveRoutes = require("./routes/question_output_save")
+const questionTemplateLoadRoutes = require("./routes/question_template_load")
+const questionTemplateSaveRoutes = require("./routes/question_template_save")
 const questionSubmit = require("./routes/question_submit")
 const questionSubmitTest = require("./routes/question_submit_test")
 
@@ -124,6 +126,8 @@ app.use("/api/question/input/load", questionInputLoadRoutes);
 app.use("/api/question/input/save", questionInputSaveRoutes);
 app.use("/api/question/output/load", questionOutputLoadRoutes);
 app.use("/api/question/output/save", questionOutputSaveRoutes);
+app.use("/api/question/template/load", questionTemplateLoadRoutes);
+app.use("/api/question/template/save", questionTemplateSaveRoutes);
 app.use("/api/question/submit", questionSubmit)
 app.use("/api/question/submit/test", questionSubmitTest)
 
